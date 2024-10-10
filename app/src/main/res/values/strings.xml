@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Grimoire</string>
+
+    <!-- -->
+    <string name="placeholder_text">Placeholder text</string>
+
+    <!-- descriptions -->
+    <string name="back_button">back</string>
+    <string name="class_image">class image</string>
+    <string name="open_nav">open</string>
+    <string name="close_nav">close</string>
+
+    <!-- for cards -->
+    <string name="casting_time">Casting Time: </string>
+    <string name="range">Range: </string>
+    <string name="components">Components: </string>
+    <string name="duration">Duration: </string>
+    <string name="at_higher_levels">At Higher Levels: </string>
+    <string name="v">\ V </string>
+    <string name="s"> S </string>
+    <string name="m"> M </string>
+
+    <!-- for character creation -->
+    <string name="name_placeholder">Enter name here</string>
+    <string name="save_button">Save</string>
+    <string name="primary_class">Primary class: </string>
+
+    <!-- informative -->
+    <string name="empty_browse">Your spells will be displayed here, \nadd some using "Add spell" button</string>
+
+    <!-- array of class names -->
+    <string-array name="class_names">
+        <item>Artificer</item>
+        <!-- <item>Barbarian</item> -->
+        <item>Bard</item>
+        <!-- <item>Blood Hunter</item> -->
+        <!-- <item>Blood Mage</item> -->
+        <item>Cleric</item>
+        <item>Druid</item>
+        <!-- <item>Fighter</item> -->
+        <!-- <item>Monk</item> -->
+        <item>Paladin</item>
+        <item>Ranger</item>
+        <!-- <item>Rogue</item> -->
+        <item>Sorcerer</item>
+        <item>Warlock</item>
+        <item>Wizard</item>
+    </string-array>
+
+    <!-- navigation bar -->
+    <string name="browse_spells_button">Browse prepared spells</string>
+    <string name="add_spell_button">Add spell to spellbook</string>
+    <string name="add_character_button">Create new character</string>
+    <string name="switch_character_button">Switch character</string>
+    <string name="add_nonclass_spell_button">Add non-class spell</string>
+    <string name="browse_all_spells_button">Browse all spells</string>
+</resources>

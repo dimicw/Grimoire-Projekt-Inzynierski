@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_browse_spells"
+            android:icon="@drawable/baseline_menu_book_24"
+            android:title="@string/browse_spells_button"/>
+
+        <item android:id="@+id/nav_add_spell"
+            android:icon="@drawable/baseline_draw_24"
+            android:title="@string/add_spell_button"/>
+
+        <item android:id="@+id/nav_add_character"
+            android:icon="@drawable/baseline_person_add_alt_1_24"
+            android:title="@string/add_character_button"/>
+
+        <item android:id="@+id/nav_switch_character"
+            android:icon="@drawable/baseline_supervisor_account_24"
+            android:title="@string/switch_character_button"/>
+
+        <item android:id="@+id/nav_add_nonclass_spell"
+            android:icon="@drawable/baseline_tips_and_updates_24"
+            android:title="@string/add_nonclass_spell_button"/>
+
+        <item android:id="@+id/nav_browse_all_spells"
+            android:icon="@drawable/baseline_storage_24"
+            android:title="@string/browse_all_spells_button"/>
+
+    </group>
+
+</menu>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- dark backgrounds -->
+    <color name="background">#FF111f28</color>
+    <color name="inactive_background">#FF2C414E</color>
+
+    <!-- shadowy tints -->
+    <color name="backgroundImage">#FF1A2F3C</color>
+
+    <!-- light texts -->
+    <color name="text">#FFE3CDB3</color>
+    <color name="inactive_text">#FFFFEBD4</color>
+    <color name="hint">#80E3CDB3</color>
+</resources>
