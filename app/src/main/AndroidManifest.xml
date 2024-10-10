@@ -10,13 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Grimuare"
+        android:theme="@style/Theme.Grimoire"
         tools:targetApi="31">
         <activity
-            android:name=".SpellCard_Activity"
+            android:name="com.example.grimoire.activities.SpellCard_Activity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.grimoire.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

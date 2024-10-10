@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.classes;
 
 public class ChosenSpell extends Spell{
     private int image;

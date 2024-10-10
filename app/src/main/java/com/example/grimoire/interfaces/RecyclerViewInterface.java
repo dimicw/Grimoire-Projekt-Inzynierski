@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.interfaces;
 
 public interface RecyclerViewInterface {
     void onItemClick(int position);

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.grimuare'
+    namespace 'com.example.grimoire'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.grimuare"
+        applicationId "com.example.grimoire"
         minSdk 24
         targetSdk 33
         versionCode 1

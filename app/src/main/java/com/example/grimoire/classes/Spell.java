@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.classes;
 
 import java.io.Serializable;
 

@@ -1,4 +1,6 @@
-package com.example.grimuare;
+package com.example.grimoire.classes;
+
+import com.example.grimoire.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;

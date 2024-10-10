@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire;
 
 import android.content.Context;
 

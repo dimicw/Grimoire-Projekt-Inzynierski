@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,53 +10,60 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grimoire.R;
+import com.example.grimoire.classes.Character;
+import com.example.grimoire.interfaces.RecyclerViewInterface;
+
 import java.util.ArrayList;
 
-public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_RecyclerViewAdapter.MyViewHolder> {
+public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Character_RecyclerViewAdapter.MyViewHolder> {
+
+
+
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<ChosenSpell> chosenSpells;
+    ArrayList<Character> allCharacters;
 
-    public Spell_RecyclerViewAdapter (Context context, ArrayList<ChosenSpell> chosenSpells,
+    public Character_RecyclerViewAdapter (Context context, ArrayList<Character> allCharacters,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
-        this.chosenSpells = chosenSpells;
+        this.allCharacters = allCharacters;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
     @Override
-    public Spell_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Character_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.spell_recycler_view_row, parent, false);
+        View view = inflater.inflate(R.layout.character_recycler_view_row, parent, false);
 
-        return new Spell_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        return new Character_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.tvName.setText(chosenSpells.get(position).getName());
-        holder.tvLevelAndSchool.setText(chosenSpells.get(position).getLevelAndSchool());
-        holder.imageView.setImageResource(chosenSpells.get(position).getImage());
+    public void onBindViewHolder(@NonNull Character_RecyclerViewAdapter.MyViewHolder holder, int position) {
+        holder.tvName.setText(allCharacters.get(position).getName());
+        holder.tvClass.setText(allCharacters.get(position).getMainClass());
+        holder.imageView.setImageResource(allCharacters.get(position).getImage());
     }
 
     @Override
     public int getItemCount() {
-        return chosenSpells.size();
+        return allCharacters.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        TextView tvName, tvLevelAndSchool;
+        TextView tvName, tvClass;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.classSymbol);
-            tvName = itemView.findViewById(R.id.spellName);
-            tvLevelAndSchool = itemView.findViewById(R.id.levelAndSchool);
+            imageView = itemView.findViewById(R.id.characterClassSymbol);
+            tvName = itemView.findViewById(R.id.characterName);
+            tvClass = itemView.findViewById(R.id.characterClass);
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {

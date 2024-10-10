@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.fragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.grimoire.R;
+import com.example.grimoire.classes.Character;
 
 
 public class AddCharacter_Fragment extends Fragment implements AdapterView.OnItemSelectedListener {

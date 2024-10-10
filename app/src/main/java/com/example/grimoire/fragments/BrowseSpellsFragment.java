@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.grimoire.R;
+import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.interfaces.RecyclerViewInterface;
+import com.example.grimoire.activities.SpellCard_Activity;
+import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
 
 import java.util.ArrayList;
 

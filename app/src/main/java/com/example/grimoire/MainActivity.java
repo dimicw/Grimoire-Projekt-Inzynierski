@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,6 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grimoire.classes.BoundSpell;
+import com.example.grimoire.classes.Character;
+import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.classes.Spell;
+import com.example.grimoire.fragments.AddCharacter_Fragment;
+import com.example.grimoire.fragments.AddSpell_Fragment;
+import com.example.grimoire.fragments.BrowseSpellsFragment;
+import com.example.grimoire.fragments.ChangeCharacter_Fragment;
 import com.google.android.material.navigation.NavigationView;
 
 import org.w3c.dom.Document;

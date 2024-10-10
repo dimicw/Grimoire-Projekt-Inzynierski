@@ -1,4 +1,4 @@
-package com.example.grimuare;
+package com.example.grimoire.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.grimoire.R;
+import com.example.grimoire.classes.ChosenSpell;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
