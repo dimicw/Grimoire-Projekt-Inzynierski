@@ -52,7 +52,7 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
 
         saveButton.setOnClickListener(view1 -> saveCharacterListener.onSaveButtonListener(
-                new Character(nameField.getText().toString(), className)));
+                new Character(nameField.getText().toString(), 0))); //className)));
 
         return view;
     }

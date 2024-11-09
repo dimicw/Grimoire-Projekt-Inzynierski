@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SpellCard_Activity">
+    tools:context=".activities.SpellCard_Activity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/topBarCardView"
@@ -115,7 +115,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/class_icon___blood_mage"
+                app:srcCompat="@drawable/class_icon___wizard"
                 android:contentDescription="@string/class_image"/>
 
             <TextView

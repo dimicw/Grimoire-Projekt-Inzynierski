@@ -1,21 +1,44 @@
 package com.example.grimoire.classes;
 
-public class ChosenSpell extends Spell{
-    private int image;
+import java.io.Serializable;
 
-    public ChosenSpell(Spell spell, int image) {
-        super(spell.getName(), spell.getSource(), spell.getLevel(), spell.getSchool(),
-                spell.getCastingTime(), spell.isRitual(), spell.getRange(), spell.getComponents(),
-                spell.isV(), spell.isS(), spell.isM(), spell.getDuration(), spell.isConcentration(),
-                spell.getDescription());
-        this.image = image;
+public class ChosenSpell implements Serializable {
+    private int id;
+    private int spellId;
+    private int characterId;
+
+
+    public ChosenSpell(int id, int spellId, int characterId) {
+        this.id = id;
+        this.spellId = spellId;
+        this.characterId = characterId;
     }
 
-    public int getImage() {
-        return image;
+    public ChosenSpell(int spellId, int characterId) {
+        this.spellId = spellId;
+        this.characterId = characterId;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public ChosenSpell() {}
+
+
+    public int getId() {
+        return id;
+    }
+    public int getSpellId() {
+        return spellId;
+    }
+    public int getCharacterId() {
+        return characterId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setSpellId(int spellId) {
+        this.spellId = spellId;
+    }
+    public void setCharacterId(int characterId) {
+        this.characterId = characterId;
     }
 }

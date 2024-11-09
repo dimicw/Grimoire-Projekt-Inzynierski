@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grimoire.R;
 import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<ChosenSpell> chosenSpells;
+    ArrayList<Spell> spells;
 
-    public Spell_RecyclerViewAdapter (Context context, ArrayList<ChosenSpell> chosenSpells,
+    public Spell_RecyclerViewAdapter (Context context, ArrayList<Spell> spells,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
-        this.chosenSpells = chosenSpells;
+        this.spells = spells;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
@@ -40,14 +41,14 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     @Override
     public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.tvName.setText(chosenSpells.get(position).getName());
-        holder.tvLevelAndSchool.setText(chosenSpells.get(position).getLevelAndSchool());
-        holder.imageView.setImageResource(chosenSpells.get(position).getImage());
+        holder.tvName.setText(spells.get(position).getName());
+        holder.tvLevelAndSchool.setText(spells.get(position).getLevelAndSchool());
+        holder.imageView.setImageResource(R.drawable.big_book); //spells.get(position).getImage());
     }
 
     @Override
     public int getItemCount() {
-        return chosenSpells.size();
+        return spells.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

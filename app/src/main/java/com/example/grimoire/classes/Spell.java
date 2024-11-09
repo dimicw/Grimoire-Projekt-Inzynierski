@@ -3,10 +3,10 @@ package com.example.grimoire.classes;
 import java.io.Serializable;
 
 public class Spell implements Serializable {
+    private int id;
     private String name;
-    private String source;
     private int level;
-    private String school;
+    private int schoolId;
     private String castingTime;
     private boolean ritual;
     private String range;
@@ -14,15 +14,14 @@ public class Spell implements Serializable {
     private boolean v, s, m;
     private String duration;
     private boolean concentration;
-    private String[] description;
+    private String description;
 
-    public Spell(String name, String source, int level, String school, String castingTime,
+    public Spell(String name, int level, int schoolId, String castingTime,
                  boolean ritual, String range, String components, boolean v, boolean s, boolean m,
-                 String duration, boolean concentration, String[] description) {
+                 String duration, boolean concentration, String description) {
         this.name = name;
-        this.source = source;
         this.level = level;
-        this.school = school;
+        this.schoolId = schoolId;
         this.castingTime = castingTime;
         this.ritual = ritual;
         this.range = range;
@@ -35,17 +34,21 @@ public class Spell implements Serializable {
         this.description = description;
     }
 
+    public Spell() {
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setName(String name) {
         this.name = name;
-    }
-    public void setSource(String source) {
-        this.source = source;
     }
     public void setLevel(int level) {
         this.level = level;
     }
-    public void setSchool(String school) {
-        this.school = school;
+    public void setSchool(int schoolId) {
+        this.schoolId = schoolId;
     }
     public void setCastingTime(String castingTime) {
         this.castingTime = castingTime;
@@ -74,21 +77,21 @@ public class Spell implements Serializable {
     public void setConcentration(boolean concentration) {
         this.concentration = concentration;
     }
-    public void setDescription(String[] description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
-    }
-    public String getSource() {
-        return source;
     }
     public int getLevel() {
         return level;
     }
-    public String getSchool() {
-        return school;
+    public int getSchoolId() {
+        return schoolId;
     }
     public String getCastingTime() {
         return castingTime;
@@ -117,14 +120,14 @@ public class Spell implements Serializable {
     public boolean isConcentration() {
         return concentration;
     }
-    public String[] getDescription() {
+    public String getDescription() {
         return description;
     }
     public String getLevelAndSchool() {
         String levelAndSchool;
 
         if (level == 0)
-            return school + " cantrip";
+            return schoolId + " cantrip";
 
         switch(level) {
             case 1:
@@ -141,7 +144,7 @@ public class Spell implements Serializable {
                 break;
         }
 
-        levelAndSchool += "-level " + school;
+        levelAndSchool += "-level " + schoolId;
 
         return levelAndSchool;
     }

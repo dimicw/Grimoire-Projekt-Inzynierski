@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.grimoire.classes.BoundSpell;
+import com.example.grimoire.Helpers.DatabaseHelper;
+import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.classes.ClassAvailability;
+import com.example.grimoire.classes.School;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.fragments.AddCharacter_Fragment;
 import com.example.grimoire.fragments.AddSpell_Fragment;
@@ -31,7 +33,6 @@ import org.w3c.dom.NodeList;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,12 +49,13 @@ public class MainActivity extends AppCompatActivity implements
         BrowseSpellsFragment.SpellClickListener,
         AddCharacter_Fragment.SaveCharacterListener {
 
-    private static final String FILE_NAME = "characters";
-
-    // arrays
+    // arrays from database
     private ArrayList<Spell> allSpells = new ArrayList<>();
-    private ArrayList<ChosenSpell> chosenSpells = new ArrayList<>();
     private ArrayList<Character> allCharacters = new ArrayList<>();
+    private ArrayList<CasterClass> allCasterClasses = new ArrayList<>();
+    private ArrayList<School> allSchools = new ArrayList<>();
+    private ArrayList<ClassAvailability> allClassAvailabilities = new ArrayList<>();
+    private ArrayList<ChosenSpell> chosenSpells = new ArrayList<>();
 
     private int currentCharacterId;
 
@@ -63,18 +65,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView headerName, headerClass;
     private ImageView headerImage;
 
-    private static final int[] classImages = {
-            R.drawable.class_icon___artificer,  //0
-            R.drawable.class_icon___bard,       //1
-            R.drawable.class_icon___blood_mage, //2
-            R.drawable.class_icon___cleric,     //3
-            R.drawable.class_icon___druid,      //4
-            R.drawable.class_icon___paladin,    //5
-            R.drawable.class_icon___ranger,     //6
-            R.drawable.class_icon___sorcerer,   //7
-            R.drawable.class_icon___warlock,    //8
-            R.drawable.class_icon___wizard      //9
-    };
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,22 +76,61 @@ public class MainActivity extends AppCompatActivity implements
         View headerView;
         ActionBarDrawerToggle toggle;
 
-        // Load XML for parsing
-        AssetManager assetManager = getAssets();
-        InputStream inputStream;
-        try {
-            inputStream = assetManager.open("all_spells.xml");
-            allSpells = parseSpellXML(inputStream);
-        } catch (IOException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        // initialize SQLite Database Helper
+        dbHelper = new DatabaseHelper(this);
 
-        loadCharactersFromFile();
-        if (allCharacters.size() <= 1)
-            allCharacters.add(new Character("New Character", 10, 10, 10,
-                   10, 10, 10, 1, "Wizard", classImages[8]));
+        // TODO: DELETE!!! --------------------------------------------
+        /*Character c1 = new Character("New Character", 7);
+        dbHelper.addCharacter(c1);
 
-        // setting up toolbar and navbar
+        Character c2 = new Character("New Character 2", 0);
+        dbHelper.addCharacter(c2);
+
+        Spell s1 = new Spell("name", 0, 0, "castingTime",
+                true, "range", "components", true, false, true, "duration", true, ":)");
+        s1.setId(0);
+        dbHelper.addSpell(s1);
+
+        Spell s2 = new Spell("name2", 3, 0, "castingTime2",
+                true, "range2", "components2", true, false, true, "duration2", true, "Opis testowy");
+        s2.setId(1);
+        dbHelper.addSpell(s2);
+
+        CasterClass cc1 = new CasterClass(0, "bard");
+        dbHelper.addClass(cc1);
+
+        CasterClass cc2 = new CasterClass(7, "wizard");
+        dbHelper.addClass(cc2);
+
+        School sc1 = new School("Evocation");
+        School sc2 = new School("Divination");
+
+        dbHelper.addSchool(sc1);
+        dbHelper.addSchool(sc2);
+
+        ChosenSpell cs1 = new ChosenSpell(0,0);
+        ChosenSpell cs2 = new ChosenSpell(1,0);
+
+        dbHelper.addChosenSpell(cs1);
+        dbHelper.addChosenSpell(cs2);*/
+        // todo: ------------------------------------------------------
+
+
+        allSpells = dbHelper.getAllSpells();
+        allCharacters = dbHelper.getAllCharacters();
+        allCasterClasses = dbHelper.getAllClasses();
+        allSchools = dbHelper.getAllSchools();
+        allClassAvailabilities = dbHelper.getAllClassAvailabilities();
+
+        // add starting character
+       /* if(allCharacters.size() <= 1) {
+            Character newCharacter = new Character("New Character", 7);
+            dbHelper.addCharacter(newCharacter);
+            allCharacters = dbHelper.getAllCharacters();
+        }*/
+
+
+        // set up toolbar and navbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -112,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // finding navbar header
+        // find navbar header
         headerView = navigationView.getHeaderView(0);
         headerName = headerView.findViewById(R.id.header_name);
         headerClass = headerView.findViewById(R.id.header_class);
@@ -125,17 +155,18 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.nav_browse_spells)
             openBrowseSpells();
         else if(item.getItemId() == R.id.nav_add_spell) {
-            ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
+            /*ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
             for (Spell spell : allSpells)
                 allAsChosen.add(new ChosenSpell(spell, R.drawable.big_book));
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    AddSpell_Fragment.newInstance(allAsChosen, this)).commit();
+                    AddSpell_Fragment.newInstance(allAsChosen, this)).commit();*/
         }
         else if(item.getItemId() == R.id.nav_switch_character)
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -147,16 +178,17 @@ public class MainActivity extends AppCompatActivity implements
             // TODO: add class restrictions
         }
         else if(item.getItemId() == R.id.nav_browse_all_spells) {
-            chosenSpells = new ArrayList<>();
+            /*chosenSpells = new ArrayList<>();
             for(Spell spell : allSpells)
                 chosenSpells.add(new ChosenSpell(spell, R.drawable.big_book));
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    BrowseSpellsFragment.newInstance(chosenSpells, classImages, false, this)).commit();
+                    BrowseSpellsFragment.newInstance(chosenSpells, classImages, false, this)).commit();*/
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -168,20 +200,22 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private void openBrowseSpells() {
-        chosenSpells = new ArrayList<>();
+        /*chosenSpells = new ArrayList<>();
         for (int i = 0; i < allSpells.size(); i++)
             for (BoundSpell boundSpell : allCharacters.get(currentCharacterId).getBoundSpells())
                 if (i == boundSpell.getSpellId())
                     chosenSpells.add(
                             new ChosenSpell(allSpells.get(i), boundSpell.getSpellImage())
-                    );
+                    );*/
+        //chosenSpells = dbHelper.getAllChosenSpells();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                BrowseSpellsFragment.newInstance(chosenSpells, classImages, true, this)).commit();
+                BrowseSpellsFragment.newInstance(//chosenSpells, //classImages,
+                        true, this)).commit();
         navigationView.setCheckedItem(R.id.nav_browse_spells);
     }
 
-    private static ArrayList<Spell> parseSpellXML(InputStream inputStream) {
+    /*private static ArrayList<Spell> parseSpellXML(InputStream inputStream) {
         ArrayList<Spell> spellsList = new ArrayList<>();
 
         try {
@@ -225,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         return spellsList;
-    }
+    }*/
 
     @Override
     public void onCharacterClick(int position) {
@@ -242,12 +276,12 @@ public class MainActivity extends AppCompatActivity implements
                 changeCharacter(1);
         }
         allCharacters.remove(position);
-        saveCharactersToFile();
+        //saveCharactersToFile();
     }
 
     @Override
     public void onAddSpellClick(int position) {
-        boolean hasSpell = false;
+        /*boolean hasSpell = false;
 
         for (BoundSpell boundSpell : allCharacters.get(currentCharacterId).getBoundSpells())
             if (position == boundSpell.getSpellId()) {
@@ -261,27 +295,27 @@ public class MainActivity extends AppCompatActivity implements
             allCharacters.get(currentCharacterId)
                     .addSpell(position, allCharacters.get(currentCharacterId).getImage()); //TODO: change image
             saveCharactersToFile();
-        }
+        }*/
 
         openBrowseSpells();
     }
 
     @Override
     public void onSpellLongClick(int position) {
-        ArrayList<BoundSpell> boundSpells = allCharacters.get(currentCharacterId).getBoundSpells();
+        /*ArrayList<BoundSpell> boundSpells = allCharacters.get(currentCharacterId).getBoundSpells();
         boundSpells.remove(position);
         allCharacters.get(currentCharacterId).setBoundSpells(boundSpells);
 
-        saveCharactersToFile();
+        saveCharactersToFile();*/
     }
 
     @Override
     public void onSaveButtonListener(Character character) {
-        allCharacters.add(character);
+        /*allCharacters.add(character);
         saveCharactersToFile();
 
         changeCharacter(allCharacters.size() - 1);
-        openBrowseSpells();
+        openBrowseSpells();*/
     }
 
     private void changeCharacter(int id) {
@@ -290,11 +324,11 @@ public class MainActivity extends AppCompatActivity implements
                 .setTitle(allCharacters.get(currentCharacterId).getName());
 
         headerName.setText(allCharacters.get(currentCharacterId).getName());
-        headerClass.setText(allCharacters.get(currentCharacterId).getMainClass());
-        headerImage.setImageResource(allCharacters.get(currentCharacterId).getImage());
+        headerClass.setText("123"); //allCharacters.get(currentCharacterId).getClassId());
+        headerImage.setImageResource(R.drawable.big_book); //allCharacters.get(currentCharacterId).getImage());
     }
 
-    private void saveCharactersToFile() {
+    /*private void saveCharactersToFile() {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
 
@@ -346,5 +380,9 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+    }*/
+    
+    private void loadCharactersFromDB() {
+
     }
 }

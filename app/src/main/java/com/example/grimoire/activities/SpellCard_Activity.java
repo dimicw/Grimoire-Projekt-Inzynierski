@@ -9,15 +9,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.classes.Spell;
+import com.example.grimoire.classes.Character;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
     Intent intent;
     Bundle bundle;
 
-    ChosenSpell spell;
+    DatabaseHelper dbHelper;
+
+    ChosenSpell chosenSpell;
+    Spell spell;
 
     ImageButton backButton;
     ImageView backgroundImage;
@@ -28,10 +35,15 @@ public class SpellCard_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_card);
 
+        dbHelper = new DatabaseHelper(this);
+
         intent = getIntent();
         bundle = intent.getExtras();
 
-        spell = (ChosenSpell)bundle.getSerializable("SPELL");
+        chosenSpell = (ChosenSpell) bundle.getSerializable("SPELL");
+        Spell spell = dbHelper.getSpellById(chosenSpell.getSpellId());
+        Character character = dbHelper.getCharacterById(chosenSpell.getCharacterId());
+        CasterClass casterClass = dbHelper.getClassById(character.getClassId());
 
         backButton = findViewById(R.id.backButton);
         backgroundImage = findViewById(R.id.backgroundImage);
@@ -47,14 +59,15 @@ public class SpellCard_Activity extends AppCompatActivity {
 
         backButton.setOnClickListener(view -> onBackPressed());
 
-        backgroundImage.setImageResource(spell.getImage());
+        backgroundImage.setImageResource(casterClass.getClassImage());
         tvName.setText(spell.getName());
         tvLevelAndSchool.setText(spell.getLevelAndSchool());
         tvCastingTime.append(" " + spell.getCastingTime());
         tvRange.append(" " + spell.getRange());
         tvDuration.append(" " + spell.getDuration());
-        for (int i = 0; i < spell.getDescription().length; i++)
-            tvDescription.setText(spell.getDescription()[i] + "\n\n");
+        /*for (int i = 0; i < spell.getDescription().length; i++)
+            tvDescription.setText(spell.getDescription()[i] + "\n\n");*/
+        tvDescription.append(spell.getDescription());
 
         if(spell.isV()) {
             tvComponents.append(" V");
