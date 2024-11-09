@@ -44,17 +44,17 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     boolean ableToDelete;
 
-    public static BrowseSpellsFragment newInstance(//ArrayList<ChosenSpell> chosenSpells,
-                                                   //int[] classImages,
-                                                   boolean ableToDelete,
-                                                   SpellClickListener listener) {
+    int currentCharacterId;
+
+    public static BrowseSpellsFragment newInstance( int currentCharacterId,
+                                                    boolean ableToDelete,
+                                                    SpellClickListener listener) {
         BrowseSpellsFragment fragment = new BrowseSpellsFragment();
         Bundle args = new Bundle();
-        //args.putSerializable("chosenSpells", chosenSpells);
-        //args.putIntArray("classImages", classImages);
         fragment.setArguments(args);
         fragment.spellClickListener = listener;
         fragment.ableToDelete = ableToDelete;
+        fragment.currentCharacterId = currentCharacterId;
         return fragment;
     }
 
@@ -66,10 +66,12 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         dbHelper = new DatabaseHelper(getContext());
 
         assert getArguments() != null;
-        //chosenSpells = (ArrayList<ChosenSpell>) getArguments().getSerializable("chosenSpells");
-        chosenSpells = dbHelper.getAllChosenSpells();
-        spells = dbHelper.getSpellsByCharacterId(0);
-        classImages = getArguments().getIntArray("classImages");
+
+        //spells = dbHelper.getSpellsByCharacterId(0);
+        if (currentCharacterId != 0)
+            spells = dbHelper.getSpellsByCharacterId(currentCharacterId);
+        else
+            spells = dbHelper.getAllSpells();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         cardView = view.findViewById(R.id.empty_browse_card);
@@ -93,7 +95,12 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        bundle.putSerializable("SPELL", spells.get(position));
+        System.out.println(position);
+        System.out.println(spells.get(position).toString());
+        System.out.println(spells.get(position).getId());
+
+        bundle.putInt("SPELL_ID", spells.get(position).getId());
+        bundle.putInt("CHARACTER_ID", currentCharacterId);
         intent.putExtras(bundle);
 
         startActivity(intent);
@@ -101,11 +108,11 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     @Override
     public void onItemLongClick(int position) {
-        if (spellClickListener != null && ableToDelete){
+        /*if (spellClickListener != null && ableToDelete){
             spells.remove(position);
             adapter.notifyItemRemoved(position);
             spellClickListener.onSpellLongClick(position);
             Toast.makeText(getContext(), "Spell removed", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

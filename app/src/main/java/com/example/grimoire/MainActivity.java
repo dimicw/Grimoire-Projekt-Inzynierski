@@ -39,9 +39,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ChangeCharacter_Fragment.CharacterInteractionListener,
@@ -49,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements
         BrowseSpellsFragment.SpellClickListener,
         AddCharacter_Fragment.SaveCharacterListener {
 
-    // arrays from database
+    // Arrays to store data from the database
     private ArrayList<Spell> allSpells = new ArrayList<>();
     private ArrayList<Character> allCharacters = new ArrayList<>();
     private ArrayList<CasterClass> allCasterClasses = new ArrayList<>();
@@ -76,45 +73,14 @@ public class MainActivity extends AppCompatActivity implements
         View headerView;
         ActionBarDrawerToggle toggle;
 
-        // initialize SQLite Database Helper
+        // Initialize SQLite Database Helper
         dbHelper = new DatabaseHelper(this);
 
-        // TODO: DELETE!!! --------------------------------------------
-        /*Character c1 = new Character("New Character", 7);
-        dbHelper.addCharacter(c1);
-
-        Character c2 = new Character("New Character 2", 0);
-        dbHelper.addCharacter(c2);
-
-        Spell s1 = new Spell("name", 0, 0, "castingTime",
-                true, "range", "components", true, false, true, "duration", true, ":)");
-        s1.setId(0);
-        dbHelper.addSpell(s1);
-
-        Spell s2 = new Spell("name2", 3, 0, "castingTime2",
-                true, "range2", "components2", true, false, true, "duration2", true, "Opis testowy");
-        s2.setId(1);
-        dbHelper.addSpell(s2);
-
-        CasterClass cc1 = new CasterClass(0, "bard");
-        dbHelper.addClass(cc1);
-
-        CasterClass cc2 = new CasterClass(7, "wizard");
-        dbHelper.addClass(cc2);
-
-        School sc1 = new School("Evocation");
-        School sc2 = new School("Divination");
-
-        dbHelper.addSchool(sc1);
-        dbHelper.addSchool(sc2);
-
-        ChosenSpell cs1 = new ChosenSpell(0,0);
-        ChosenSpell cs2 = new ChosenSpell(1,0);
-
-        dbHelper.addChosenSpell(cs1);
-        dbHelper.addChosenSpell(cs2);*/
-        // todo: ------------------------------------------------------
-
+        ChosenSpell cs2 = new ChosenSpell(1,1);
+        ChosenSpell cs3 = new ChosenSpell(2,1);
+        ChosenSpell cs1 = new ChosenSpell(3,1);
+        ChosenSpell cs4 = new ChosenSpell(4,1);
+        ChosenSpell cs5 = new ChosenSpell(5,1);
 
         allSpells = dbHelper.getAllSpells();
         allCharacters = dbHelper.getAllCharacters();
@@ -122,15 +88,7 @@ public class MainActivity extends AppCompatActivity implements
         allSchools = dbHelper.getAllSchools();
         allClassAvailabilities = dbHelper.getAllClassAvailabilities();
 
-        // add starting character
-       /* if(allCharacters.size() <= 1) {
-            Character newCharacter = new Character("New Character", 7);
-            dbHelper.addCharacter(newCharacter);
-            allCharacters = dbHelper.getAllCharacters();
-        }*/
-
-
-        // set up toolbar and navbar
+        // Set up toolbar and navbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -142,15 +100,15 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // find navbar header
+        // Find navigation bar header
         headerView = navigationView.getHeaderView(0);
         headerName = headerView.findViewById(R.id.header_name);
         headerClass = headerView.findViewById(R.id.header_class);
         headerImage = headerView.findViewById(R.id.header_image);
 
-        // open app on browsing spells
+        // Open app on browsing spells
         if(savedInstanceState == null) {
-            changeCharacter(0);
+            changeCharacter(1);
             openBrowseSpells();
         }
     }
@@ -183,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements
                 chosenSpells.add(new ChosenSpell(spell, R.drawable.big_book));
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     BrowseSpellsFragment.newInstance(chosenSpells, classImages, false, this)).commit();*/
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    BrowseSpellsFragment.newInstance(0, false, this)).commit();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -200,66 +161,18 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private void openBrowseSpells() {
-        /*chosenSpells = new ArrayList<>();
-        for (int i = 0; i < allSpells.size(); i++)
-            for (BoundSpell boundSpell : allCharacters.get(currentCharacterId).getBoundSpells())
-                if (i == boundSpell.getSpellId())
-                    chosenSpells.add(
-                            new ChosenSpell(allSpells.get(i), boundSpell.getSpellImage())
-                    );*/
-        //chosenSpells = dbHelper.getAllChosenSpells();
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                BrowseSpellsFragment.newInstance(//chosenSpells, //classImages,
+                BrowseSpellsFragment.newInstance(currentCharacterId,
                         true, this)).commit();
         navigationView.setCheckedItem(R.id.nav_browse_spells);
     }
 
-    /*private static ArrayList<Spell> parseSpellXML(InputStream inputStream) {
-        ArrayList<Spell> spellsList = new ArrayList<>();
-
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(inputStream);
-
-            NodeList spellNodes = document.getElementsByTagName("spell");
-            for (int i = 0; i < spellNodes.getLength(); i++) {
-                Element spellElement = (Element) spellNodes.item(i);
-
-                NodeList descriptionNodes = spellElement.getElementsByTagName("description");
-                String[] descriptionStrings = new String[descriptionNodes.getLength()];
-
-                for(int j = 0; j < descriptionNodes.getLength(); j++) {
-                    Element descriptionElement = (Element) descriptionNodes.item(j);
-                    descriptionStrings[j] = descriptionElement.getTextContent();
-                }
-
-                Spell spell = new Spell(
-                    spellElement.getElementsByTagName("name").item(0).getTextContent(),
-                    spellElement.getElementsByTagName("source").item(0).getTextContent(),
-                    Integer.parseInt(spellElement.getElementsByTagName("level").item(0).getTextContent()),
-                    spellElement.getElementsByTagName("school").item(0).getTextContent(),
-                    spellElement.getElementsByTagName("castingTime").item(0).getTextContent(),
-                    Boolean.parseBoolean(spellElement.getElementsByTagName("ritual").item(0).getTextContent()),
-                    spellElement.getElementsByTagName("range").item(0).getTextContent(),
-                    spellElement.getElementsByTagName("components").item(0).getTextContent(),
-                    Boolean.parseBoolean(spellElement.getElementsByTagName("v").item(0).getTextContent()),
-                    Boolean.parseBoolean(spellElement.getElementsByTagName("s").item(0).getTextContent()),
-                    Boolean.parseBoolean(spellElement.getElementsByTagName("m").item(0).getTextContent()),
-                    spellElement.getElementsByTagName("duration").item(0).getTextContent(),
-                    Boolean.parseBoolean(spellElement.getElementsByTagName("concentration").item(0).getTextContent()),
-                    descriptionStrings
-                );
-
-                spellsList.add(spell);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return spellsList;
-    }*/
+    private void openBrowseSpellsAll() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                BrowseSpellsFragment.newInstance(0,
+                        true, this)).commit();
+        navigationView.setCheckedItem(R.id.nav_browse_spells);
+    }
 
     @Override
     public void onCharacterClick(int position) {
@@ -326,63 +239,5 @@ public class MainActivity extends AppCompatActivity implements
         headerName.setText(allCharacters.get(currentCharacterId).getName());
         headerClass.setText("123"); //allCharacters.get(currentCharacterId).getClassId());
         headerImage.setImageResource(R.drawable.big_book); //allCharacters.get(currentCharacterId).getImage());
-    }
-
-    /*private void saveCharactersToFile() {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-
-        try {
-            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-            oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(allCharacters);
-
-            Toast.makeText(this, "Changes saved", Toast.LENGTH_LONG).show();
-
-            oos.close();
-            fos.close();
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            try {
-                if (fos != null)
-                    fos.close();
-                if (oos != null)
-                    oos.close();
-            } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void loadCharactersFromFile() {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-
-        try {
-            fis = openFileInput(FILE_NAME);
-            ois = new ObjectInputStream(fis);
-            allCharacters = (ArrayList<Character>) ois.readObject();
-
-            ois.close();
-            fis.close();
-
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            try {
-                if(fis != null)
-                    fis.close();
-                if(ois != null)
-                    ois.close();
-            } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
-    
-    private void loadCharactersFromDB() {
-
     }
 }

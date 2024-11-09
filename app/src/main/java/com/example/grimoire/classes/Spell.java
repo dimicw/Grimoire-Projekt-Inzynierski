@@ -148,4 +148,24 @@ public class Spell implements Serializable {
 
         return levelAndSchool;
     }
+
+    @Override
+    public String toString() {
+        return "Spell{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", level=" + level +
+                ", schoolId=" + schoolId +
+                ", castingTime='" + castingTime + '\'' +
+                ", ritual=" + ritual +
+                ", range='" + range + '\'' +
+                ", components='" + components + '\'' +
+                ", v=" + v +
+                ", s=" + s +
+                ", m=" + m +
+                ", duration='" + duration + '\'' +
+                ", concentration=" + concentration +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
