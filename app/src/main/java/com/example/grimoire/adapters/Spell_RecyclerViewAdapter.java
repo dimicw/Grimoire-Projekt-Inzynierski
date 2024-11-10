@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_RecyclerViewAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
 
-    Context context;
-    ArrayList<Spell> spells;
-    int classImage;
+    private final Context context;
+    private final ArrayList<Spell> spells;
+    private final int classImage;
 
     public Spell_RecyclerViewAdapter (Context context, ArrayList<Spell> spells, int classImage,
                                       RecyclerViewInterface recyclerViewInterface) {

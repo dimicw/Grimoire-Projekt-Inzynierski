@@ -17,23 +17,23 @@ import com.example.grimoire.classes.Spell;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
-    Intent intent;
-    Bundle bundle;
+    private Intent intent;
+    private Bundle bundle;
 
-    DatabaseHelper dbHelper;
+    private DatabaseHelper dbHelper;
 
-    int spellId;
-    int currentCharacterId;
-    Spell spell;
-
-    ImageButton backButton;
-    ImageView backgroundImage;
-    TextView tvName, tvLevelAndSchool, tvCastingTime, tvRange, tvComponents, tvDuration, tvDescription;
+    private ImageButton backButton;
+    private ImageView backgroundImage;
+    private TextView tvName, tvLevelAndSchool, tvCastingTime, tvRange, tvComponents, tvDuration, tvDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_card);
+
+        int spellId;
+        int currentCharacterId;
+        Spell spell;
 
         dbHelper = new DatabaseHelper(this);
 
@@ -62,13 +62,6 @@ public class SpellCard_Activity extends AppCompatActivity {
                 }
 
                 if (spell != null) {
-                    tvName = findViewById(R.id.nameCard);
-                    tvLevelAndSchool = findViewById(R.id.levelAndSchoolCard);
-                    tvCastingTime = findViewById(R.id.castingTimeCard);
-                    tvRange = findViewById(R.id.rangeCard);
-                    tvComponents = findViewById(R.id.componentsCard);
-                    tvDuration = findViewById(R.id.durationCard);
-                    tvDescription = findViewById(R.id.descriptionCard);
 
                     tvDescription.setMovementMethod(new ScrollingMovementMethod());
 

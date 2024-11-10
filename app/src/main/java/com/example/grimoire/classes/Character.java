@@ -1,5 +1,7 @@
 package com.example.grimoire.classes;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Character implements Serializable {
@@ -8,12 +10,6 @@ public class Character implements Serializable {
     private int classId;
 
     public Character() {}
-
-    public Character(int id, String name, int classId) {
-        this.id = id;
-        this.name = name;
-        this.classId = classId;
-    }
 
     public Character(String name, int classId) {
         this.name = name;
@@ -38,5 +34,16 @@ public class Character implements Serializable {
     }
     public void setClassId(int classId) {
         this.classId = classId;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Character{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", classId=" + classId +
+                '}';
     }
 }

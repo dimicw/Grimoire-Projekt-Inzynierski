@@ -18,12 +18,10 @@ import java.util.ArrayList;
 
 public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Character_RecyclerViewAdapter.MyViewHolder> {
 
-
-
     private final RecyclerViewInterface recyclerViewInterface;
 
-    Context context;
-    ArrayList<Character> allCharacters;
+    private final Context context;
+    private final ArrayList<Character> allCharacters;
 
     public Character_RecyclerViewAdapter (Context context, ArrayList<Character> allCharacters,
                                       RecyclerViewInterface recyclerViewInterface) {

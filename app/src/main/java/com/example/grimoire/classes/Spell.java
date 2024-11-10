@@ -1,5 +1,7 @@
 package com.example.grimoire.classes;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Spell implements Serializable {
@@ -47,7 +49,7 @@ public class Spell implements Serializable {
     public void setLevel(int level) {
         this.level = level;
     }
-    public void setSchool(int schoolId) {
+    public void setSchoolId(int schoolId) {
         this.schoolId = schoolId;
     }
     public void setCastingTime(String castingTime) {
@@ -150,6 +152,7 @@ public class Spell implements Serializable {
         return levelAndSchool;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Spell{" +

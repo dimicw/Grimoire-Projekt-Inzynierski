@@ -33,18 +33,18 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     private SpellClickListener spellClickListener;
 
-    DatabaseHelper dbHelper;
+    private DatabaseHelper dbHelper;
 
-    Spell_RecyclerViewAdapter adapter;
-    CasterClass casterClass;
-    ArrayList<Spell> spells;
+    private Spell_RecyclerViewAdapter adapter;
+    private CasterClass casterClass;
+    private ArrayList<Spell> spells;
 
-    RecyclerView recyclerView;
-    CardView cardView;
+    private RecyclerView recyclerView;
+    private CardView cardView;
 
-    boolean ableToDelete;
+    private boolean ableToDelete;
 
-    int currentCharacterId;
+    private int currentCharacterId;
 
     public static BrowseSpellsFragment newInstance( int currentCharacterId,
                                                     boolean ableToDelete,

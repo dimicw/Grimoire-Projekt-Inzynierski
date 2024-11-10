@@ -96,8 +96,7 @@ public class MainActivity extends AppCompatActivity implements
             openBrowseSpells();
 
         else if (item.getItemId() == R.id.nav_add_spell)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    AddSpell_Fragment.newInstance(this)).commit();
+            openAddSpell(false);
 
 
         else if (item.getItemId() == R.id.nav_switch_character)
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
                     AddCharacter_Fragment.newInstance(this)).commit();
 
         else if (item.getItemId() == R.id.nav_add_nonclass_spell) {
-            // TODO: add class restrictions
+            openAddSpell(true);
         }
 
         else if (item.getItemId() == R.id.nav_browse_all_spells) {
@@ -163,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements
             dbHelper.addChosenSpell(chosenSpell);
 
         openBrowseSpells();
+
+        System.out.println(dbHelper.getAllChosenSpells().toString());
     }
 
     @Override
@@ -195,5 +196,12 @@ public class MainActivity extends AppCompatActivity implements
     private void openChangeCharacter() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 ChangeCharacter_Fragment.newInstance(this)).commit();
+    }
+
+    private void openAddSpell(boolean showAll) {
+        int classId = showAll ? -1 : dbHelper.getCharacterById(currentCharacterId).getClassId();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                AddSpell_Fragment.newInstance(classId, this)).commit();
     }
 }

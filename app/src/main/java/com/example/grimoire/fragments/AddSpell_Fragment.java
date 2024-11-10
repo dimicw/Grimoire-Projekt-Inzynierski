@@ -29,13 +29,14 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
     }
     private SpellClickListener spellClickListener;
 
-    ArrayList<Spell> allSpells;
+    private ArrayList<Spell> spells;
 
-    RecyclerView recyclerView;
+    private int classId;
 
-    public static AddSpell_Fragment newInstance(SpellClickListener listener) {
+    public static AddSpell_Fragment newInstance(int classId, SpellClickListener listener) {
         AddSpell_Fragment fragment = new AddSpell_Fragment();
         fragment.spellClickListener = listener;
+        fragment.classId = classId;
         return fragment;
     }
 
@@ -45,13 +46,12 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         View view = inflater.inflate(R.layout.fragment_add_spell, container, false);
 
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-        allSpells = dbHelper.getAllSpells();
+        spells = (classId >= 0) ? dbHelper.getSpellsAvailableForClass(classId) : dbHelper.getAllSpells();
 
-
-        recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         Spell_RecyclerViewAdapter adapter = new Spell_RecyclerViewAdapter(
-                getContext(), allSpells, R.drawable.big_book, this);
+                getContext(), spells, R.drawable.big_book, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,12 +61,15 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
+        System.out.println(spells.get(position).toString());
         if (spellClickListener != null)
-            spellClickListener.onAddSpellClick(allSpells.get(position).getId());
+            spellClickListener.onAddSpellClick(spells.get(position).getId());
     }
 
     @Override
     public void onItemLongClick(int position) {
+
+        //todo:!--------------------------------------------------------------------------------------------------------
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 

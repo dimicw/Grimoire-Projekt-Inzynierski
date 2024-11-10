@@ -7,19 +7,12 @@ public class ChosenSpell implements Serializable {
     private int spellId;
     private int characterId;
 
-
-    public ChosenSpell(int id, int spellId, int characterId) {
-        this.id = id;
-        this.spellId = spellId;
-        this.characterId = characterId;
-    }
+    public ChosenSpell() {}
 
     public ChosenSpell(int spellId, int characterId) {
         this.spellId = spellId;
         this.characterId = characterId;
     }
-
-    public ChosenSpell() {}
 
 
     public int getId() {
