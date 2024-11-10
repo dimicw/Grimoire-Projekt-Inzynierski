@@ -44,7 +44,7 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
     @Override
     public void onBindViewHolder(@NonNull Character_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(allCharacters.get(position).getName());
-        holder.tvClass.setText(allCharacters.get(position).getClassId());
+        //holder.tvClass.setText(allCharacters.get(position).getClassId());
         holder.imageView.setImageResource(R.drawable.big_book); //allCharacters.get(position).getImage());
     }
 

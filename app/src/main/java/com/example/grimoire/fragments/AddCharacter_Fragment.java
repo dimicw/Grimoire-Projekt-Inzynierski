@@ -13,8 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
+
+import java.util.ArrayList;
 
 
 public class AddCharacter_Fragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -23,11 +27,13 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         void onSaveButtonListener(Character character);
     }
 
+    private DatabaseHelper dbHelper;
+
     private SaveCharacterListener saveCharacterListener;
 
     private EditText nameField;
 
-    private String className;
+    private int classId;
 
     public static AddCharacter_Fragment newInstance(SaveCharacterListener listener) {
         AddCharacter_Fragment fragment = new AddCharacter_Fragment();
@@ -42,8 +48,12 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         Spinner spinner = view.findViewById(R.id.class_spinner);
         Button saveButton = view.findViewById(R.id.save_button);
 
+        dbHelper = new DatabaseHelper(getContext());
+        ArrayList<String> class_names = dbHelper.getAllClassNames();
+
         ArrayAdapter<CharSequence> adapter =
-                ArrayAdapter.createFromResource(getContext(), R.array.class_names, R.layout.spinner_item);
+                new ArrayAdapter(getContext(), R.layout.spinner_item, class_names);
+
 
         nameField = view.findViewById(R.id.name_et);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -52,14 +62,15 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
 
         saveButton.setOnClickListener(view1 -> saveCharacterListener.onSaveButtonListener(
-                new Character(nameField.getText().toString(), 0))); //className)));
+                new Character(nameField.getText().toString(), classId))); //className)));
 
         return view;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        className = adapterView.getItemAtPosition(i).toString();
+        String className = adapterView.getItemAtPosition(i).toString();
+        classId = dbHelper.getClassIdByClassName(className);
     }
 
     @Override

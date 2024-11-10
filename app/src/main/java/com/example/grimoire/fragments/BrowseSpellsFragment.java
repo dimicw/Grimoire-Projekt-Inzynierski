@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.classes.CasterClass;
+import com.example.grimoire.classes.Character;
 import com.example.grimoire.classes.ChosenSpell;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
@@ -34,10 +36,8 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     DatabaseHelper dbHelper;
 
     Spell_RecyclerViewAdapter adapter;
-
-    ArrayList<ChosenSpell> chosenSpells;
+    CasterClass casterClass;
     ArrayList<Spell> spells;
-    int[] classImages;
 
     RecyclerView recyclerView;
     CardView cardView;
@@ -67,17 +67,21 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
         assert getArguments() != null;
 
-        //spells = dbHelper.getSpellsByCharacterId(0);
-        if (currentCharacterId != 0)
+        if (currentCharacterId >= 0) {
             spells = dbHelper.getSpellsByCharacterId(currentCharacterId);
+            int casterClassId = dbHelper.getCharacterById(currentCharacterId).getClassId();
+            casterClass = dbHelper.getClassById(casterClassId);
+        }
         else
             spells = dbHelper.getAllSpells();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         cardView = view.findViewById(R.id.empty_browse_card);
 
+        int classImage = (currentCharacterId >= 0) ? casterClass.getClassImage() : R.drawable.big_book;
+
         adapter = new Spell_RecyclerViewAdapter(
-                getContext(), spells, this);
+                getContext(), spells, classImage, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,10 +98,6 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     public void onItemClick(int position) {
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
-
-        System.out.println(position);
-        System.out.println(spells.get(position).toString());
-        System.out.println(spells.get(position).getId());
 
         bundle.putInt("SPELL_ID", spells.get(position).getId());
         bundle.putInt("CHARACTER_ID", currentCharacterId);

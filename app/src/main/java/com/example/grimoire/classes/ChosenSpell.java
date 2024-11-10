@@ -41,4 +41,14 @@ public class ChosenSpell implements Serializable {
     public void setCharacterId(int characterId) {
         this.characterId = characterId;
     }
+
+
+    @Override
+    public String toString() {
+        return "ChosenSpell{" +
+                "id=" + id +
+                ", spellId=" + spellId +
+                ", characterId=" + characterId +
+                '}';
+    }
 }

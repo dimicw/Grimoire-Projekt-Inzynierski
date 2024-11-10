@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.classes.ChosenSpell;
 import com.example.grimoire.classes.Spell;
@@ -22,12 +23,14 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     Context context;
     ArrayList<Spell> spells;
+    int classImage;
 
-    public Spell_RecyclerViewAdapter (Context context, ArrayList<Spell> spells,
+    public Spell_RecyclerViewAdapter (Context context, ArrayList<Spell> spells, int classImage,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.spells = spells;
         this.recyclerViewInterface = recyclerViewInterface;
+        this.classImage = classImage;
     }
 
     @NonNull
@@ -43,7 +46,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(spells.get(position).getName());
         holder.tvLevelAndSchool.setText(spells.get(position).getLevelAndSchool());
-        holder.imageView.setImageResource(R.drawable.big_book); //spells.get(position).getImage());
+        holder.imageView.setImageResource(classImage);
     }
 
     @Override

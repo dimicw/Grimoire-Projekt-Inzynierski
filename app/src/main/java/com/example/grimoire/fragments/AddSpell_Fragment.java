@@ -29,19 +29,9 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
     }
     private SpellClickListener spellClickListener;
 
-    ArrayList<ChosenSpell> allSpells;
+    ArrayList<Spell> allSpells;
 
     RecyclerView recyclerView;
-
-    /*public static AddSpell_Fragment newInstance(ArrayList<ChosenSpell> allSpells,
-                                                SpellClickListener listener) {
-        AddSpell_Fragment fragment = new AddSpell_Fragment();
-        Bundle args = new Bundle();
-        args.putSerializable("allSpells", allSpells);
-        fragment.setArguments(args);
-        fragment.spellClickListener = listener;
-        return fragment;
-    }*/
 
     public static AddSpell_Fragment newInstance(SpellClickListener listener) {
         AddSpell_Fragment fragment = new AddSpell_Fragment();
@@ -49,44 +39,19 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         return fragment;
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_spell, container, false);
-
-        assert getArguments() != null;
-        allSpells = (ArrayList<ChosenSpell>) getArguments().getSerializable("allSpells");
-
-        recyclerView = view.findViewById(R.id.recyclerView);
-
-        Spell_RecyclerViewAdapter adapter = new Spell_RecyclerViewAdapter(
-                getContext(), allSpells, this);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return view;
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_spell, container, false);
 
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-        ArrayList<Spell> allSpells = dbHelper.getAllSpells();
-
-
-        /*ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
-        for (Spell spell : allSpells)
-            allAsChosen.add(new ChosenSpell(spell, R.drawable.big_book));*/
-
+        allSpells = dbHelper.getAllSpells();
 
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
         Spell_RecyclerViewAdapter adapter = new Spell_RecyclerViewAdapter(
-                getContext(), allSpells, this);
+                getContext(), allSpells, R.drawable.big_book, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -97,7 +62,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
     @Override
     public void onItemClick(int position) {
         if (spellClickListener != null)
-            spellClickListener.onAddSpellClick(position);
+            spellClickListener.onAddSpellClick(allSpells.get(position).getId());
     }
 
     @Override

@@ -95,8 +95,6 @@ public class SpellCard_Activity extends AppCompatActivity {
                         tvComponents.append(" M: " + spell.getComponents());
                 } else {
                     Toast.makeText(this, "spell is null", Toast.LENGTH_SHORT).show();
-                    //System.out.println(dbHelper.getAllSpells().toString());
-                    System.out.println("" + spellId);
                 }
             } else {
                 Toast.makeText(this, "error bundle", Toast.LENGTH_SHORT).show();

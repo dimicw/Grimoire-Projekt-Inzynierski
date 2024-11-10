@@ -28,18 +28,6 @@
     <!-- informative -->
     <string name="empty_browse">Your spells will be displayed here, \nadd some using \"Add spell\" section</string>
 
-    <!-- array of class names -->
-    <string-array name="class_names">
-        <item>Bard</item>
-        <item>Cleric</item>
-        <item>Druid</item>
-        <item>Paladin</item>
-        <item>Ranger</item>
-        <item>Sorcerer</item>
-        <item>Warlock</item>
-        <item>Wizard</item>
-    </string-array>
-
     <!-- navigation bar -->
     <string name="browse_spells_button">Browse prepared spells</string>
     <string name="add_spell_button">Add spell to spellbook</string>

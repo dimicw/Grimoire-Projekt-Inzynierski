@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
@@ -32,13 +33,10 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
 
     private ArrayList<Character> allCharacters;
 
-    private RecyclerView recyclerView;
-
-    public static ChangeCharacter_Fragment newInstance(ArrayList<Character> allCharacters,
+    public static ChangeCharacter_Fragment newInstance(
                                                        CharacterInteractionListener listener) {
         ChangeCharacter_Fragment fragment = new ChangeCharacter_Fragment();
         Bundle args = new Bundle();
-        args.putSerializable("allCharacters", allCharacters);
         fragment.setArguments(args);
         fragment.characterInteractionListener = listener;
         return fragment;
@@ -50,9 +48,11 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
         View view = inflater.inflate(R.layout.fragment_change_character, container, false);
 
         assert getArguments() != null;
-        allCharacters = (ArrayList<Character>) getArguments().getSerializable("allCharacters");
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+        allCharacters = dbHelper.getAllCharacters();
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         adapter = new Character_RecyclerViewAdapter(
                 getContext(), allCharacters, this);
@@ -66,20 +66,22 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
     @Override
     public void onItemClick(int position) {
         if (characterInteractionListener != null)
-            characterInteractionListener.onCharacterClick(position);
+            characterInteractionListener.onCharacterClick(allCharacters.get(position).getId());
     }
-
 
     @Override
     public void onItemLongClick(int position) {
         if (characterInteractionListener != null) {
             if (position >= 0 && position < allCharacters.size() && allCharacters.size() > 1) {
+                int characterId = allCharacters.get(position).getId();
                 allCharacters.remove(position);
                 adapter.notifyItemRemoved(position);
-                characterInteractionListener.onCharacterLongClick(position);
+                characterInteractionListener.onCharacterLongClick(characterId);
                 Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
-            } else
-                Toast.makeText(getContext(), "Cannot delete your last character", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Cannot delete your only character", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 }

@@ -75,12 +75,22 @@ public class MainActivity extends AppCompatActivity implements
 
         // Initialize SQLite Database Helper
         dbHelper = new DatabaseHelper(this);
+        if ( dbHelper.getAllCharacters().size() == 0
+        || dbHelper.getAllSpells().size() == 0
+        || dbHelper.getAllSchools().size() == 0
+        || dbHelper.getAllClasses().size() == 0 ) {
 
-        ChosenSpell cs2 = new ChosenSpell(1,1);
-        ChosenSpell cs3 = new ChosenSpell(2,1);
-        ChosenSpell cs1 = new ChosenSpell(3,1);
-        ChosenSpell cs4 = new ChosenSpell(4,1);
-        ChosenSpell cs5 = new ChosenSpell(5,1);
+            dbHelper.copyDatabaseFromAssets();
+            dbHelper.copyDatabaseContent();
+
+            Character secondCharacter = new Character("Gandalf2", 1);
+            Character firstCharacter = new Character("Gandalf3", 1);
+            CasterClass cl1 = new CasterClass("Bard");
+
+            dbHelper.addClass(cl1);
+            dbHelper.addCharacter(firstCharacter);
+            dbHelper.addCharacter(secondCharacter);
+        }
 
         allSpells = dbHelper.getAllSpells();
         allCharacters = dbHelper.getAllCharacters();
@@ -108,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements
 
         // Open app on browsing spells
         if(savedInstanceState == null) {
-            changeCharacter(1);
+            //changeCharacter(0);
+            changeCharacter(dbHelper.getAllCharacters().get(0).getId());
             openBrowseSpells();
         }
     }
@@ -116,34 +127,36 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.nav_browse_spells)
+        if (item.getItemId() == R.id.nav_browse_spells)
             openBrowseSpells();
-        else if(item.getItemId() == R.id.nav_add_spell) {
-            /*ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
-            for (Spell spell : allSpells)
+
+        else if (item.getItemId() == R.id.nav_add_spell) {
+            ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
+            /*for (Spell spell : allSpells)
                 allAsChosen.add(new ChosenSpell(spell, R.drawable.big_book));
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     AddSpell_Fragment.newInstance(allAsChosen, this)).commit();*/
-        }
-        else if(item.getItemId() == R.id.nav_switch_character)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    ChangeCharacter_Fragment.newInstance(allCharacters, this)).commit();
-        else if(item.getItemId() == R.id.nav_add_character)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    AddCharacter_Fragment.newInstance(this)).commit();
-        else if(item.getItemId() == R.id.nav_add_nonclass_spell) {
-            // TODO: add class restrictions
-        }
-        else if(item.getItemId() == R.id.nav_browse_all_spells) {
-            /*chosenSpells = new ArrayList<>();
-            for(Spell spell : allSpells)
-                chosenSpells.add(new ChosenSpell(spell, R.drawable.big_book));
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    BrowseSpellsFragment.newInstance(chosenSpells, classImages, false, this)).commit();*/
+
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    BrowseSpellsFragment.newInstance(0, false, this)).commit();
+                    AddSpell_Fragment.newInstance(this)).commit();
+        }
+
+        else if (item.getItemId() == R.id.nav_switch_character)
+            openChangeCharacter();
+
+        else if (item.getItemId() == R.id.nav_add_character)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    AddCharacter_Fragment.newInstance(this)).commit();
+
+        else if (item.getItemId() == R.id.nav_add_nonclass_spell) {
+            // TODO: add class restrictions
+        }
+
+        else if (item.getItemId() == R.id.nav_browse_all_spells) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    BrowseSpellsFragment.newInstance(-1, false, this)).commit();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -167,48 +180,30 @@ public class MainActivity extends AppCompatActivity implements
         navigationView.setCheckedItem(R.id.nav_browse_spells);
     }
 
-    private void openBrowseSpellsAll() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                BrowseSpellsFragment.newInstance(0,
-                        true, this)).commit();
-        navigationView.setCheckedItem(R.id.nav_browse_spells);
-    }
-
     @Override
-    public void onCharacterClick(int position) {
-        changeCharacter(position);
+    public void onCharacterClick(int characterId) {
+        changeCharacter(characterId);
         openBrowseSpells();
     }
 
     @Override
-    public void onCharacterLongClick(int position) {
-        if (currentCharacterId == position) {
-            if (position != 0)
-                changeCharacter(0);
-            else
-                changeCharacter(1);
-        }
-        allCharacters.remove(position);
-        //saveCharactersToFile();
+    public void onCharacterLongClick(int characterId) {
+        dbHelper.removeCharacterById(characterId);
+
+        if(currentCharacterId == characterId)
+            changeCharacter(dbHelper.getAllCharacters().get(0).getId());
+
+        openChangeCharacter();
     }
 
     @Override
-    public void onAddSpellClick(int position) {
-        /*boolean hasSpell = false;
+    public void onAddSpellClick(int spellId) {
+        ChosenSpell chosenSpell = new ChosenSpell(spellId, currentCharacterId);
 
-        for (BoundSpell boundSpell : allCharacters.get(currentCharacterId).getBoundSpells())
-            if (position == boundSpell.getSpellId()) {
-                hasSpell = true;
-                break;
-            }
-
-        if (hasSpell)
+        if (dbHelper.checkChosenSpellDuplicates(chosenSpell))
             Toast.makeText(this, "You already have this spell", Toast.LENGTH_SHORT).show();
-        else {
-            allCharacters.get(currentCharacterId)
-                    .addSpell(position, allCharacters.get(currentCharacterId).getImage()); //TODO: change image
-            saveCharactersToFile();
-        }*/
+        else
+            dbHelper.addChosenSpell(chosenSpell);
 
         openBrowseSpells();
     }
@@ -224,20 +219,27 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onSaveButtonListener(Character character) {
-        /*allCharacters.add(character);
-        saveCharactersToFile();
-
-        changeCharacter(allCharacters.size() - 1);
-        openBrowseSpells();*/
+        int id = dbHelper.addCharacter(character);
+        changeCharacter(id);
+        openBrowseSpells();
     }
 
     private void changeCharacter(int id) {
-        currentCharacterId = id;
-        Objects.requireNonNull(getSupportActionBar())
-                .setTitle(allCharacters.get(currentCharacterId).getName());
+        Character character = dbHelper.getCharacterById(id);
+        CasterClass casterClass = dbHelper.getClassById(character.getClassId());
 
-        headerName.setText(allCharacters.get(currentCharacterId).getName());
-        headerClass.setText("123"); //allCharacters.get(currentCharacterId).getClassId());
-        headerImage.setImageResource(R.drawable.big_book); //allCharacters.get(currentCharacterId).getImage());
+        currentCharacterId = id;
+
+        Objects.requireNonNull(getSupportActionBar())
+                .setTitle(character.getName());
+
+        headerName.setText(character.getName());
+        headerClass.setText(casterClass.getName());
+        headerImage.setImageResource(casterClass.getClassImage());
+    }
+
+    private void openChangeCharacter() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                ChangeCharacter_Fragment.newInstance(this)).commit();
     }
 }
