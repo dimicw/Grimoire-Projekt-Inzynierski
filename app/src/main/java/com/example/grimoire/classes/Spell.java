@@ -1,9 +1,5 @@
 package com.example.grimoire.classes;
 
-import android.content.Context;
-
-import com.example.grimoire.Helpers.DatabaseHelper;
-
 import java.io.Serializable;
 
 public class Spell implements Serializable {

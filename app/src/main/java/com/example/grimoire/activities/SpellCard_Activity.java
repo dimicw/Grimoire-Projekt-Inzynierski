@@ -13,9 +13,7 @@ import android.widget.Toast;
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.ChosenSpell;
 import com.example.grimoire.classes.Spell;
-import com.example.grimoire.classes.Character;
 
 public class SpellCard_Activity extends AppCompatActivity {
 

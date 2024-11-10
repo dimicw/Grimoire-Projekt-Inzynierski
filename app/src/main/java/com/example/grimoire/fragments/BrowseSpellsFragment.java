@@ -108,11 +108,9 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     @Override
     public void onItemLongClick(int position) {
-        /*if (spellClickListener != null && ableToDelete){
-            spells.remove(position);
-            adapter.notifyItemRemoved(position);
-            spellClickListener.onSpellLongClick(position);
+        if (spellClickListener != null && ableToDelete) {
+            spellClickListener.onSpellLongClick(spells.get(position).getId());
             Toast.makeText(getContext(), "Spell removed", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 }

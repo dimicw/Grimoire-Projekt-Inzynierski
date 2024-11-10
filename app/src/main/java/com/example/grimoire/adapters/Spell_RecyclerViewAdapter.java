@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.ChosenSpell;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 

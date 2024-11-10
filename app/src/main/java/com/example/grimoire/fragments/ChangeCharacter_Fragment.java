@@ -74,8 +74,6 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
         if (characterInteractionListener != null) {
             if (position >= 0 && position < allCharacters.size() && allCharacters.size() > 1) {
                 int characterId = allCharacters.get(position).getId();
-                allCharacters.remove(position);
-                adapter.notifyItemRemoved(position);
                 characterInteractionListener.onCharacterLongClick(characterId);
                 Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
             } else {

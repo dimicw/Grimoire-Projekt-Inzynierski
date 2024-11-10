@@ -18,25 +18,12 @@ import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.classes.ChosenSpell;
-import com.example.grimoire.classes.ClassAvailability;
-import com.example.grimoire.classes.School;
-import com.example.grimoire.classes.Spell;
 import com.example.grimoire.fragments.AddCharacter_Fragment;
 import com.example.grimoire.fragments.AddSpell_Fragment;
 import com.example.grimoire.fragments.BrowseSpellsFragment;
 import com.example.grimoire.fragments.ChangeCharacter_Fragment;
 import com.google.android.material.navigation.NavigationView;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements
@@ -45,14 +32,6 @@ public class MainActivity extends AppCompatActivity implements
         AddSpell_Fragment.SpellClickListener,
         BrowseSpellsFragment.SpellClickListener,
         AddCharacter_Fragment.SaveCharacterListener {
-
-    // Arrays to store data from the database
-    private ArrayList<Spell> allSpells = new ArrayList<>();
-    private ArrayList<Character> allCharacters = new ArrayList<>();
-    private ArrayList<CasterClass> allCasterClasses = new ArrayList<>();
-    private ArrayList<School> allSchools = new ArrayList<>();
-    private ArrayList<ClassAvailability> allClassAvailabilities = new ArrayList<>();
-    private ArrayList<ChosenSpell> chosenSpells = new ArrayList<>();
 
     private int currentCharacterId;
 
@@ -66,37 +45,24 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize SQLite Database Helper
+        dbHelper = new DatabaseHelper(this);
+        if ( dbHelper.getAllCharacters().size() == 0
+                || dbHelper.getAllSpells().size() == 0
+                || dbHelper.getAllSchools().size() == 0
+                || dbHelper.getAllClasses().size() == 0 ) {
+
+            dbHelper.copyDatabaseFromAssets();
+            dbHelper.copyDatabaseContent();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar;
         View headerView;
         ActionBarDrawerToggle toggle;
-
-        // Initialize SQLite Database Helper
-        dbHelper = new DatabaseHelper(this);
-        if ( dbHelper.getAllCharacters().size() == 0
-        || dbHelper.getAllSpells().size() == 0
-        || dbHelper.getAllSchools().size() == 0
-        || dbHelper.getAllClasses().size() == 0 ) {
-
-            dbHelper.copyDatabaseFromAssets();
-            dbHelper.copyDatabaseContent();
-
-            Character secondCharacter = new Character("Gandalf2", 1);
-            Character firstCharacter = new Character("Gandalf3", 1);
-            CasterClass cl1 = new CasterClass("Bard");
-
-            dbHelper.addClass(cl1);
-            dbHelper.addCharacter(firstCharacter);
-            dbHelper.addCharacter(secondCharacter);
-        }
-
-        allSpells = dbHelper.getAllSpells();
-        allCharacters = dbHelper.getAllCharacters();
-        allCasterClasses = dbHelper.getAllClasses();
-        allSchools = dbHelper.getAllSchools();
-        allClassAvailabilities = dbHelper.getAllClassAvailabilities();
 
         // Set up toolbar and navbar
         toolbar = findViewById(R.id.toolbar);
@@ -118,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Open app on browsing spells
         if(savedInstanceState == null) {
-            //changeCharacter(0);
             changeCharacter(dbHelper.getAllCharacters().get(0).getId());
             openBrowseSpells();
         }
@@ -130,18 +95,10 @@ public class MainActivity extends AppCompatActivity implements
         if (item.getItemId() == R.id.nav_browse_spells)
             openBrowseSpells();
 
-        else if (item.getItemId() == R.id.nav_add_spell) {
-            ArrayList<ChosenSpell> allAsChosen = new ArrayList<>();
-            /*for (Spell spell : allSpells)
-                allAsChosen.add(new ChosenSpell(spell, R.drawable.big_book));
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    AddSpell_Fragment.newInstance(allAsChosen, this)).commit();*/
-
-
+        else if (item.getItemId() == R.id.nav_add_spell)
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     AddSpell_Fragment.newInstance(this)).commit();
-        }
+
 
         else if (item.getItemId() == R.id.nav_switch_character)
             openChangeCharacter();
@@ -209,12 +166,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSpellLongClick(int position) {
-        /*ArrayList<BoundSpell> boundSpells = allCharacters.get(currentCharacterId).getBoundSpells();
-        boundSpells.remove(position);
-        allCharacters.get(currentCharacterId).setBoundSpells(boundSpells);
-
-        saveCharactersToFile();*/
+    public void onSpellLongClick(int spellId) {
+        dbHelper.removeChosenSpell(currentCharacterId, spellId);
+        openBrowseSpells();
     }
 
     @Override
