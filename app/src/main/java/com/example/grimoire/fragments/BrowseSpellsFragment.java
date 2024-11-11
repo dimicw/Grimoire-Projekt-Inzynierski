@@ -18,6 +18,7 @@ import com.example.grimoire.R;
 import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.classes.School;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.activities.SpellCard_Activity;
@@ -81,7 +82,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         int classImage = (currentCharacterId >= 0) ? casterClass.getClassImage() : R.drawable.big_book;
 
         adapter = new Spell_RecyclerViewAdapter(
-                getContext(), spells, classImage, this);
+                getContext(), dbHelper, spells, classImage, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,8 +100,14 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        bundle.putInt("SPELL_ID", spells.get(position).getId());
-        bundle.putInt("CHARACTER_ID", currentCharacterId);
+        int classId = dbHelper.getCharacterById(currentCharacterId).getClassId();
+        int classImage = dbHelper.getClassById(classId).getClassImage();
+        ArrayList<School> allSchools = dbHelper.getAllSchools();
+
+        bundle.putInt("CLASS_IMAGE", classImage);
+        bundle.putSerializable("SPELL", spells.get(position));
+        bundle.putSerializable("ALL_SCHOOLS", allSchools);
+
         intent.putExtras(bundle);
 
         startActivity(intent);

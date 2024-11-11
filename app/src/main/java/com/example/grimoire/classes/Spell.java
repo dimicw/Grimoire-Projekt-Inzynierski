@@ -2,7 +2,10 @@ package com.example.grimoire.classes;
 
 import androidx.annotation.NonNull;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Spell implements Serializable {
     private int id;
@@ -126,11 +129,12 @@ public class Spell implements Serializable {
         return description;
     }
 
-    public String getLevelAndSchool() {
+    public String getLevelAndSchool(DatabaseHelper dbHelper) {
         String levelAndSchool;
+        String schoolName = dbHelper.getSchoolById(id).getName();
 
         if (level == 0)
-            return "school cantrip";
+            return schoolName + " cantrip";
 
         switch(level) {
             case 1:
@@ -147,7 +151,7 @@ public class Spell implements Serializable {
                 break;
         }
 
-        levelAndSchool += "-level school";
+        levelAndSchool += "-level " + schoolName;
 
         return levelAndSchool;
     }

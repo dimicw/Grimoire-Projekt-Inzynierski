@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
@@ -22,10 +23,13 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     private final Context context;
     private final ArrayList<Spell> spells;
     private final int classImage;
+    private DatabaseHelper dbHelper;
 
-    public Spell_RecyclerViewAdapter (Context context, ArrayList<Spell> spells, int classImage,
+    public Spell_RecyclerViewAdapter (Context context, DatabaseHelper dbHelper,
+                                      ArrayList<Spell> spells, int classImage,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
+        this.dbHelper = dbHelper;
         this.spells = spells;
         this.recyclerViewInterface = recyclerViewInterface;
         this.classImage = classImage;
@@ -43,7 +47,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     @Override
     public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(spells.get(position).getName());
-        holder.tvLevelAndSchool.setText(spells.get(position).getLevelAndSchool());
+        holder.tvLevelAndSchool.setText(spells.get(position).getLevelAndSchool(dbHelper));
         holder.imageView.setImageResource(classImage);
     }
 

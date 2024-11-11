@@ -51,7 +51,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         Spell_RecyclerViewAdapter adapter = new Spell_RecyclerViewAdapter(
-                getContext(), spells, R.drawable.big_book, this);
+                getContext(), dbHelper, spells, R.drawable.big_book, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,9 +73,9 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        ChosenSpell chosenSpell = new ChosenSpell(position, 0);
+        //ChosenSpell chosenSpell = new ChosenSpell(position, 0);
 
-        bundle.putSerializable("SPELL", chosenSpell);
+        bundle.putSerializable("SPELL", spells.get(position));
         intent.putExtras(bundle);
 
         startActivity(intent);

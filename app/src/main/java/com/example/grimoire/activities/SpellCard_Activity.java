@@ -13,7 +13,10 @@ import android.widget.Toast;
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.classes.CasterClass;
+import com.example.grimoire.classes.School;
 import com.example.grimoire.classes.Spell;
+
+import java.util.ArrayList;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
@@ -42,31 +45,31 @@ public class SpellCard_Activity extends AppCompatActivity {
             bundle = intent.getExtras();
 
             backButton = findViewById(R.id.backButton);
+            backgroundImage = findViewById(R.id.backgroundImage);
+            tvName = findViewById(R.id.nameCard);
+            tvLevelAndSchool = findViewById(R.id.levelAndSchoolCard);
+            tvCastingTime = findViewById(R.id.castingTimeCard);
+            tvRange = findViewById(R.id.rangeCard);
+            tvComponents = findViewById(R.id.componentsCard);
+            tvDuration = findViewById(R.id.durationCard);
+            tvDescription = findViewById(R.id.descriptionCard);
+
+            backButton = findViewById(R.id.backButton);
             backButton.setOnClickListener(view -> onBackPressed());
 
             if (bundle != null) {
-                spellId = bundle.getInt("SPELL_ID");
-                currentCharacterId = bundle.getInt("CHARACTER_ID");
 
-                spell = dbHelper.getSpellById(spellId);
-                backgroundImage = findViewById(R.id.backgroundImage);
-
-                if (currentCharacterId > 0) {
-                    int casterClassId = dbHelper.getCharacterById(currentCharacterId).getClassId();
-                    CasterClass casterClass = dbHelper.getClassById(casterClassId);
-
-                    backgroundImage.setImageResource(casterClass.getClassImage());
-                } else {
-
-                    backgroundImage.setImageResource(R.drawable.big_book);
-                }
+                ArrayList<School> allClasses = (ArrayList<School>) bundle.getSerializable("ALL_SCHOOLS");
+                spell = (Spell) bundle.getSerializable("SPELL");
+                int classImage = bundle.getInt("CLASS_IMAGE");
 
                 if (spell != null) {
 
                     tvDescription.setMovementMethod(new ScrollingMovementMethod());
+                    backgroundImage.setImageResource(R.drawable.big_book);
 
                     tvName.setText(spell.getName());
-                    tvLevelAndSchool.setText(spell.getLevelAndSchool());
+                    tvLevelAndSchool.setText(spell.getLevelAndSchool(dbHelper));
                     tvCastingTime.append(" " + spell.getCastingTime());
                     tvRange.append(" " + spell.getRange());
                     tvDuration.append(" " + spell.getDuration());
