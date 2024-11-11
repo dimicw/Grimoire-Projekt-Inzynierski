@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         if (item.getItemId() == R.id.nav_browse_spells)
             openBrowseSpells();
 
@@ -106,14 +107,12 @@ public class MainActivity extends AppCompatActivity implements
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     AddCharacter_Fragment.newInstance(this)).commit();
 
-        else if (item.getItemId() == R.id.nav_add_nonclass_spell) {
+        else if (item.getItemId() == R.id.nav_add_nonclass_spell)
             openAddSpell(true);
-        }
 
-        else if (item.getItemId() == R.id.nav_browse_all_spells) {
+        else if (item.getItemId() == R.id.nav_browse_all_spells)
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     BrowseSpellsFragment.newInstance(-1, false, this)).commit();
-        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

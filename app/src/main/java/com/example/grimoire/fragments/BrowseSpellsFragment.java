@@ -46,6 +46,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     private boolean ableToDelete;
 
     private int currentCharacterId;
+    private int classImage;
 
     public static BrowseSpellsFragment newInstance( int currentCharacterId,
                                                     boolean ableToDelete,
@@ -66,20 +67,17 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
         dbHelper = new DatabaseHelper(getContext());
 
-        assert getArguments() != null;
-
         if (currentCharacterId >= 0) {
-            spells = dbHelper.getSpellsByCharacterId(currentCharacterId);
             int casterClassId = dbHelper.getCharacterById(currentCharacterId).getClassId();
-            casterClass = dbHelper.getClassById(casterClassId);
-        }
-        else
+            classImage = dbHelper.getClassById(casterClassId).getClassImage();
+            spells = dbHelper.getSpellsByCharacterId(currentCharacterId);
+        } else {
             spells = dbHelper.getAllSpells();
+            classImage = R.drawable.big_book;
+        }
 
         recyclerView = view.findViewById(R.id.recyclerView);
         cardView = view.findViewById(R.id.empty_browse_card);
-
-        int classImage = (currentCharacterId >= 0) ? casterClass.getClassImage() : R.drawable.big_book;
 
         adapter = new Spell_RecyclerViewAdapter(
                 getContext(), dbHelper, spells, classImage, this);
@@ -99,9 +97,6 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     public void onItemClick(int position) {
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
-
-        int classId = dbHelper.getCharacterById(currentCharacterId).getClassId();
-        int classImage = dbHelper.getClassById(classId).getClassImage();
 
         bundle.putInt("CLASS_IMAGE", classImage);
         bundle.putSerializable("SPELL", spells.get(position));
