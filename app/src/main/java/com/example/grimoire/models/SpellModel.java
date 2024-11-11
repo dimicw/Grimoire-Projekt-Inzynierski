@@ -130,7 +130,7 @@ public class SpellModel implements Serializable {
 
     public String getLevelAndSchool(DatabaseHelper dbHelper) {
         String levelAndSchool, schoolName;
-        SchoolModel schoolModel = dbHelper.getSchoolById(id);
+        SchoolModel schoolModel = dbHelper.getSchoolById(schoolId);
         schoolName = (schoolModel != null) ? schoolModel.getName() : "school";
 
         if (level == 0)
