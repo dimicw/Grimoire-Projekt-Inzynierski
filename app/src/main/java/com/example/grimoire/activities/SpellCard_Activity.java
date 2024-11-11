@@ -59,14 +59,13 @@ public class SpellCard_Activity extends AppCompatActivity {
 
             if (bundle != null) {
 
-                ArrayList<School> allClasses = (ArrayList<School>) bundle.getSerializable("ALL_SCHOOLS");
                 spell = (Spell) bundle.getSerializable("SPELL");
                 int classImage = bundle.getInt("CLASS_IMAGE");
 
                 if (spell != null) {
 
                     tvDescription.setMovementMethod(new ScrollingMovementMethod());
-                    backgroundImage.setImageResource(R.drawable.big_book);
+                    backgroundImage.setImageResource(classImage);
 
                     tvName.setText(spell.getName());
                     tvLevelAndSchool.setText(spell.getLevelAndSchool(dbHelper));

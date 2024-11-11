@@ -23,7 +23,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     private final Context context;
     private final ArrayList<Spell> spells;
     private final int classImage;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public Spell_RecyclerViewAdapter (Context context, DatabaseHelper dbHelper,
                                       ArrayList<Spell> spells, int classImage,

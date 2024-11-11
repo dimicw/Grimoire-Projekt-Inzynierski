@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.ChosenSpell;
 import com.example.grimoire.classes.Spell;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.activities.SpellCard_Activity;
@@ -33,6 +32,8 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
 
     private int classId;
 
+    private DatabaseHelper dbHelper;
+
     public static AddSpell_Fragment newInstance(int classId, SpellClickListener listener) {
         AddSpell_Fragment fragment = new AddSpell_Fragment();
         fragment.spellClickListener = listener;
@@ -45,7 +46,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_spell, container, false);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
+        dbHelper = new DatabaseHelper(getContext());
         spells = (classId >= 0) ? dbHelper.getSpellsAvailableForClass(classId) : dbHelper.getAllSpells();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -69,12 +70,12 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
     @Override
     public void onItemLongClick(int position) {
 
-        //todo:!--------------------------------------------------------------------------------------------------------
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        //ChosenSpell chosenSpell = new ChosenSpell(position, 0);
+        int classImage = dbHelper.getClassById(classId).getClassImage();
 
+        bundle.putInt("CLASS_IMAGE", classImage);
         bundle.putSerializable("SPELL", spells.get(position));
         intent.putExtras(bundle);
 

@@ -102,11 +102,9 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
         int classId = dbHelper.getCharacterById(currentCharacterId).getClassId();
         int classImage = dbHelper.getClassById(classId).getClassImage();
-        ArrayList<School> allSchools = dbHelper.getAllSchools();
 
         bundle.putInt("CLASS_IMAGE", classImage);
         bundle.putSerializable("SPELL", spells.get(position));
-        bundle.putSerializable("ALL_SCHOOLS", allSchools);
 
         intent.putExtras(bundle);
 
