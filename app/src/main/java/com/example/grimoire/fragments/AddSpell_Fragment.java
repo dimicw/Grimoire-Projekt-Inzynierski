@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.Spell;
+import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.activities.SpellCard_Activity;
 import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
@@ -28,7 +28,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
     }
     private SpellClickListener spellClickListener;
 
-    private ArrayList<Spell> spells;
+    private ArrayList<SpellModel> spellModels;
 
     private int classId;
 
@@ -47,12 +47,12 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         View view = inflater.inflate(R.layout.fragment_add_spell, container, false);
 
         dbHelper = new DatabaseHelper(getContext());
-        spells = (classId >= 0) ? dbHelper.getSpellsAvailableForClass(classId) : dbHelper.getAllSpells();
+        spellModels = (classId >= 0) ? dbHelper.getSpellsAvailableForClass(classId) : dbHelper.getAllSpells();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         Spell_RecyclerViewAdapter adapter = new Spell_RecyclerViewAdapter(
-                getContext(), dbHelper, spells, R.drawable.big_book, this);
+                getContext(), dbHelper, spellModels, R.drawable.big_book, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -62,9 +62,9 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
-        System.out.println(spells.get(position).toString());
+        System.out.println(spellModels.get(position).toString());
         if (spellClickListener != null)
-            spellClickListener.onAddSpellClick(spells.get(position).getId());
+            spellClickListener.onAddSpellClick(spellModels.get(position).getId());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         int classImage = dbHelper.getClassById(classId).getClassImage();
 
         bundle.putInt("CLASS_IMAGE", classImage);
-        bundle.putSerializable("SPELL", spells.get(position));
+        bundle.putSerializable("SPELL", spellModels.get(position));
         intent.putExtras(bundle);
 
         startActivity(intent);

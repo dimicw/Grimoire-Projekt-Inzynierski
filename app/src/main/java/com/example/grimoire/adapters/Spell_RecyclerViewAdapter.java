@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.Spell;
+import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 
 import java.util.ArrayList;
@@ -21,16 +21,16 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     private final RecyclerViewInterface recyclerViewInterface;
 
     private final Context context;
-    private final ArrayList<Spell> spells;
+    private final ArrayList<SpellModel> spellModels;
     private final int classImage;
     private final DatabaseHelper dbHelper;
 
     public Spell_RecyclerViewAdapter (Context context, DatabaseHelper dbHelper,
-                                      ArrayList<Spell> spells, int classImage,
+                                      ArrayList<SpellModel> spellModels, int classImage,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.dbHelper = dbHelper;
-        this.spells = spells;
+        this.spellModels = spellModels;
         this.recyclerViewInterface = recyclerViewInterface;
         this.classImage = classImage;
     }
@@ -46,14 +46,14 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     @Override
     public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.tvName.setText(spells.get(position).getName());
-        holder.tvLevelAndSchool.setText(spells.get(position).getLevelAndSchool(dbHelper));
+        holder.tvName.setText(spellModels.get(position).getName());
+        holder.tvLevelAndSchool.setText(spellModels.get(position).getLevelAndSchool(dbHelper));
         holder.imageView.setImageResource(classImage);
     }
 
     @Override
     public int getItemCount() {
-        return spells.size();
+        return spellModels.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

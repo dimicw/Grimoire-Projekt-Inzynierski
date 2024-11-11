@@ -10,12 +10,12 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
-import com.example.grimoire.classes.ChosenSpell;
-import com.example.grimoire.classes.ClassAvailability;
-import com.example.grimoire.classes.School;
-import com.example.grimoire.classes.Spell;
+import com.example.grimoire.models.CasterClassModel;
+import com.example.grimoire.models.CharacterModel;
+import com.example.grimoire.models.ChosenSpellModel;
+import com.example.grimoire.models.ClassAvailabilityModel;
+import com.example.grimoire.models.SchoolModel;
+import com.example.grimoire.models.SpellModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -221,128 +221,128 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
 
-    public void addSpell(Spell spell) {
+    public void addSpell(SpellModel spellModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SPELLS_NAME, spell.getName());
-        values.put(COLUMN_SPELLS_LEVEL, spell.getLevel());
-        values.put(COLUMN_SPELLS_SCHOOL_ID, spell.getSchoolId());
-        values.put(COLUMN_SPELLS_CASTING_TIME, spell.getCastingTime());
-        values.put(COLUMN_SPELLS_RITUAL, spell.isRitual() ? 1 : 0);
-        values.put(COLUMN_SPELLS_RANGE, spell.getRange());
-        values.put(COLUMN_SPELLS_COMPONENTS, spell.getComponents());
-        values.put(COLUMN_SPELLS_V, spell.isV() ? 1 : 0);
-        values.put(COLUMN_SPELLS_S, spell.isS() ? 1 : 0);
-        values.put(COLUMN_SPELLS_M, spell.isM() ? 1 : 0);
-        values.put(COLUMN_SPELLS_DURATION, spell.getDuration());
-        values.put(COLUMN_SPELLS_CONCENTRATION, spell.isConcentration() ? 1 : 0);
-        values.put(COLUMN_SPELLS_DESCRIPTION, spell.getDescription());
+        values.put(COLUMN_SPELLS_NAME, spellModel.getName());
+        values.put(COLUMN_SPELLS_LEVEL, spellModel.getLevel());
+        values.put(COLUMN_SPELLS_SCHOOL_ID, spellModel.getSchoolId());
+        values.put(COLUMN_SPELLS_CASTING_TIME, spellModel.getCastingTime());
+        values.put(COLUMN_SPELLS_RITUAL, spellModel.isRitual() ? 1 : 0);
+        values.put(COLUMN_SPELLS_RANGE, spellModel.getRange());
+        values.put(COLUMN_SPELLS_COMPONENTS, spellModel.getComponents());
+        values.put(COLUMN_SPELLS_V, spellModel.isV() ? 1 : 0);
+        values.put(COLUMN_SPELLS_S, spellModel.isS() ? 1 : 0);
+        values.put(COLUMN_SPELLS_M, spellModel.isM() ? 1 : 0);
+        values.put(COLUMN_SPELLS_DURATION, spellModel.getDuration());
+        values.put(COLUMN_SPELLS_CONCENTRATION, spellModel.isConcentration() ? 1 : 0);
+        values.put(COLUMN_SPELLS_DESCRIPTION, spellModel.getDescription());
         db.insert(TABLE_SPELLS, null, values);
         db.close();
     }
 
-    public void addSchool(School school) {
+    public void addSchool(SchoolModel schoolModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SCHOOLS_NAME, school.getName());
+        values.put(COLUMN_SCHOOLS_NAME, schoolModel.getName());
         db.insert(TABLE_SCHOOLS, null, values);
         db.close();
     }
 
-    public void addClass(CasterClass casterClass) {
+    public void addClass(CasterClassModel casterClassModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CLASSES_NAME, casterClass.getName());
+        values.put(COLUMN_CLASSES_NAME, casterClassModel.getName());
         db.insert(TABLE_CLASSES, null, values);
         db.close();
     }
 
-    public int addCharacter(Character character) {
+    public int addCharacter(CharacterModel characterModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CHARACTERS_NAME, character.getName());
-        values.put(COLUMN_CHARACTERS_CLASS_ID, character.getClassId());
+        values.put(COLUMN_CHARACTERS_NAME, characterModel.getName());
+        values.put(COLUMN_CHARACTERS_CLASS_ID, characterModel.getClassId());
         int id = (int) db.insert(TABLE_CHARACTERS, null, values);
         db.close();
         return id;
     }
 
-    public void addChosenSpell(ChosenSpell chosenSpell) {
+    public void addChosenSpell(ChosenSpellModel chosenSpellModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CHOSEN_SPELL_ID, chosenSpell.getSpellId());
-        values.put(COLUMN_CHOSEN_CHARACTER_ID, chosenSpell.getCharacterId());
+        values.put(COLUMN_CHOSEN_SPELL_ID, chosenSpellModel.getSpellId());
+        values.put(COLUMN_CHOSEN_CHARACTER_ID, chosenSpellModel.getCharacterId());
         db.insert(TABLE_CHOSEN_SPELLS, null, values);
         db.close();
     }
 
-    public void addClassAvailability(ClassAvailability classAvailability) {
+    public void addClassAvailability(ClassAvailabilityModel classAvailabilityModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailability.getSpellId());
-        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailability.getClassId());
+        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailabilityModel.getSpellId());
+        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailabilityModel.getClassId());
         db.insert(TABLE_CLASS_AVAILABILITIES, null, values);
         db.close();
     }
 
 
     @SuppressLint("Range")
-    public ArrayList<Spell> getAllSpells() {
-        ArrayList<Spell> spellList = new ArrayList<>();
+    public ArrayList<SpellModel> getAllSpells() {
+        ArrayList<SpellModel> spellModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_SPELLS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Spell spell = new Spell();
-                spell.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
-                spell.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
-                spell.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-                spell.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
-                spell.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
-                spell.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
-                spell.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
-                spell.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
-                spell.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
-                spell.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
-                spell.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
-                spell.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
-                spell.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
-                spell.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
-                spellList.add(spell);
+                SpellModel spellModel = new SpellModel();
+                spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
+                spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
+                spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
+                spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
+                spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
+                spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
+                spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
+                spellModel.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
+                spellModel.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
+                spellModel.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
+                spellModel.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
+                spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
+                spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
+                spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                spellModelList.add(spellModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return spellList;
+        return spellModelList;
     }
 
     @SuppressLint("Range")
-    public Spell getSpellById(int id) {
+    public SpellModel getSpellById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_SPELLS + " WHERE " + COLUMN_SPELLS_ID + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            Spell spell = new Spell();
-            spell.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
-            spell.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
-            spell.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-            spell.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
-            spell.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
-            spell.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
-            spell.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
-            spell.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
-            spell.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
-            spell.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
-            spell.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
-            spell.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
-            spell.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
-            spell.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+            SpellModel spellModel = new SpellModel();
+            spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
+            spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
+            spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
+            spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
+            spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
+            spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
+            spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
+            spellModel.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
+            spellModel.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
+            spellModel.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
+            spellModel.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
+            spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
+            spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
+            spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
             cursor.close();
             db.close();
-            return spell;
+            return spellModel;
         } else {
             db.close();
             return null;
@@ -350,8 +350,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
-    public ArrayList<Spell> getSpellsByCharacterId(int characterId) {
-        ArrayList<Spell> spellList = new ArrayList<>();
+    public ArrayList<SpellModel> getSpellsByCharacterId(int characterId) {
+        ArrayList<SpellModel> spellModelList = new ArrayList<>();
         String selectQuery = "SELECT s.* FROM " + TABLE_SPELLS + " s " +
                 "INNER JOIN " + TABLE_CHOSEN_SPELLS + " cs " +
                 "ON s." + COLUMN_SPELLS_ID +" = cs." + COLUMN_CHOSEN_SPELL_ID +
@@ -361,33 +361,33 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
         if (cursor.moveToFirst()) {
             do {
-                Spell spell = new Spell();
-                spell.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
-                spell.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
-                spell.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-                spell.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
-                spell.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
-                spell.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
-                spell.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
-                spell.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
-                spell.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
-                spell.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
-                spell.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
-                spell.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
-                spell.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
-                spell.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                SpellModel spellModel = new SpellModel();
+                spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
+                spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
+                spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
+                spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
+                spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
+                spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
+                spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
+                spellModel.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
+                spellModel.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
+                spellModel.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
+                spellModel.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
+                spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
+                spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
+                spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
 
-                spellList.add(spell);
+                spellModelList.add(spellModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return spellList;
+        return spellModelList;
     }
 
     @SuppressLint("Range")
-    public ArrayList<Spell> getSpellsAvailableForClass(int classId) {
-        ArrayList<Spell> spells = new ArrayList<>();
+    public ArrayList<SpellModel> getSpellsAvailableForClass(int classId) {
+        ArrayList<SpellModel> spellModels = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT s.*" +
                 " FROM " + TABLE_SPELLS + " s" +
@@ -397,62 +397,62 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(classId)});
         if (cursor.moveToFirst()) {
             do {
-                Spell spell = new Spell();
-                spell.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
-                spell.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
-                spell.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-                spell.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
-                spell.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
-                spell.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
-                spell.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
-                spell.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
-                spell.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
-                spell.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
-                spell.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
-                spell.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
-                spell.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
-                spell.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
-                spells.add(spell);
+                SpellModel spellModel = new SpellModel();
+                spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
+                spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
+                spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
+                spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
+                spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
+                spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
+                spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
+                spellModel.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
+                spellModel.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
+                spellModel.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
+                spellModel.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
+                spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
+                spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
+                spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                spellModels.add(spellModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return spells;
+        return spellModels;
     }
 
     @SuppressLint("Range")
-    public ArrayList<School> getAllSchools() {
-        ArrayList<School> schoolList = new ArrayList<>();
+    public ArrayList<SchoolModel> getAllSchools() {
+        ArrayList<SchoolModel> schoolModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_SCHOOLS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                School school = new School();
-                school.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
-                school.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOLS_NAME)));
-                schoolList.add(school);
+                SchoolModel schoolModel = new SchoolModel();
+                schoolModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
+                schoolModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOLS_NAME)));
+                schoolModelList.add(schoolModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return schoolList;
+        return schoolModelList;
     }
 
     @SuppressLint("Range")
-    public School getSchoolById(int id) {
+    public SchoolModel getSchoolById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_SCHOOLS + " WHERE " + COLUMN_SCHOOLS_ID + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            School school = new School();
-            school.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
-            school.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOLS_NAME)));
+            SchoolModel schoolModel = new SchoolModel();
+            schoolModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
+            schoolModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOLS_NAME)));
             cursor.close();
             db.close();
-            return school;
+            return schoolModel;
         } else {
             db.close();
             return null;
@@ -460,38 +460,38 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
-    public ArrayList<CasterClass> getAllClasses() {
-        ArrayList<CasterClass> casterClassList = new ArrayList<>();
+    public ArrayList<CasterClassModel> getAllClasses() {
+        ArrayList<CasterClassModel> casterClassModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_CLASSES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                CasterClass casterClass = new CasterClass();
-                casterClass.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CLASSES_ID)));
-                casterClass.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CLASSES_NAME)));
-                casterClassList.add(casterClass);
+                CasterClassModel casterClassModel = new CasterClassModel();
+                casterClassModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CLASSES_ID)));
+                casterClassModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CLASSES_NAME)));
+                casterClassModelList.add(casterClassModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return casterClassList;
+        return casterClassModelList;
     }
 
     @SuppressLint("Range")
-    public CasterClass getClassById(int id) {
+    public CasterClassModel getClassById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_CLASSES + " WHERE " + COLUMN_CLASSES_ID + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            CasterClass casterClass = new CasterClass();
-            casterClass.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CLASSES_ID)));
-            casterClass.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CLASSES_NAME)));
+            CasterClassModel casterClassModel = new CasterClassModel();
+            casterClassModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CLASSES_ID)));
+            casterClassModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CLASSES_NAME)));
             cursor.close();
             db.close();
-            return casterClass;
+            return casterClassModel;
         } else {
             db.close();
             return null;
@@ -535,40 +535,40 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
-    public ArrayList<Character> getAllCharacters() {
-        ArrayList<Character> characterList = new ArrayList<>();
+    public ArrayList<CharacterModel> getAllCharacters() {
+        ArrayList<CharacterModel> characterModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_CHARACTERS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Character character = new Character();
-                character.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_ID)));
-                character.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_NAME)));
-                character.setClassId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_CLASS_ID))));
-                characterList.add(character);
+                CharacterModel characterModel = new CharacterModel();
+                characterModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_ID)));
+                characterModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_NAME)));
+                characterModel.setClassId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_CLASS_ID))));
+                characterModelList.add(characterModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return characterList;
+        return characterModelList;
     }
 
     @SuppressLint("Range")
-    public Character getCharacterById(int id) {
+    public CharacterModel getCharacterById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_CHARACTERS + " WHERE " + COLUMN_CHARACTERS_ID + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            Character character = new Character();
-            character.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_ID)));
-            character.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_NAME)));
-            character.setClassId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_CLASS_ID)));
+            CharacterModel characterModel = new CharacterModel();
+            characterModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_ID)));
+            characterModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTERS_NAME)));
+            characterModel.setClassId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHARACTERS_CLASS_ID)));
             cursor.close();
             db.close();
-            return character;
+            return characterModel;
         } else {
             db.close();
             return null;
@@ -598,32 +598,32 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
-    public ArrayList<ChosenSpell> getAllChosenSpells() {
-        ArrayList<ChosenSpell> chosenSpellList = new ArrayList<>();
+    public ArrayList<ChosenSpellModel> getAllChosenSpells() {
+        ArrayList<ChosenSpellModel> chosenSpellModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_CHOSEN_SPELLS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                ChosenSpell chosenSpell = new ChosenSpell();
-                chosenSpell.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
-                chosenSpell.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
-                chosenSpell.setCharacterId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_CHARACTER_ID))));
-                chosenSpellList.add(chosenSpell);
+                ChosenSpellModel chosenSpellModel = new ChosenSpellModel();
+                chosenSpellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
+                chosenSpellModel.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
+                chosenSpellModel.setCharacterId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_CHARACTER_ID))));
+                chosenSpellModelList.add(chosenSpellModel);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return chosenSpellList;
+        return chosenSpellModelList;
     }
 
-    public boolean checkChosenSpellDuplicates(ChosenSpell chosenSpell) {
+    public boolean checkChosenSpellDuplicates(ChosenSpellModel chosenSpellModel) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_CHOSEN_SPELLS +
                 " WHERE " + COLUMN_CHOSEN_SPELL_ID + " = ?" +
                 " AND " + COLUMN_CHOSEN_CHARACTER_ID + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(chosenSpell.getSpellId()), String.valueOf(chosenSpell.getCharacterId())});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(chosenSpellModel.getSpellId()), String.valueOf(chosenSpellModel.getCharacterId())});
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         db.close();
@@ -647,18 +647,18 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
-    public ArrayList<ClassAvailability> getAllClassAvailabilities() {
-        ArrayList<ClassAvailability> classAvailabilitiesList = new ArrayList<>();
+    public ArrayList<ClassAvailabilityModel> getAllClassAvailabilities() {
+        ArrayList<ClassAvailabilityModel> classAvailabilitiesList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_CLASS_AVAILABILITIES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                ClassAvailability classAvailability = new ClassAvailability();
-                classAvailability.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
-                classAvailability.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
-                classAvailabilitiesList.add(classAvailability);
+                ClassAvailabilityModel classAvailabilityModel = new ClassAvailabilityModel();
+                classAvailabilityModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
+                classAvailabilityModel.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
+                classAvailabilitiesList.add(classAvailabilityModel);
             } while (cursor.moveToNext());
         }
         cursor.close();

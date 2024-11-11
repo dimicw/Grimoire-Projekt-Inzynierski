@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grimoire.R;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
+import com.example.grimoire.models.CasterClassModel;
+import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 
 import java.util.ArrayList;
@@ -24,14 +24,14 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<Character> allCharacters;
-    ArrayList<CasterClass> allClasses;
+    ArrayList<CharacterModel> allCharacterModels;
+    ArrayList<CasterClassModel> allClasses;
 
-    public Character_RecyclerViewAdapter (Context context, ArrayList<Character> allCharacters,
-                                      ArrayList<CasterClass> allClasses,
+    public Character_RecyclerViewAdapter (Context context, ArrayList<CharacterModel> allCharacterModels,
+                                      ArrayList<CasterClassModel> allClasses,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
-        this.allCharacters = allCharacters;
+        this.allCharacterModels = allCharacterModels;
         this.allClasses = allClasses;
         this.recyclerViewInterface = recyclerViewInterface;
     }
@@ -47,23 +47,23 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
 
     @Override
     public void onBindViewHolder(@NonNull Character_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        CasterClass casterClass = new CasterClass();
-        int classId = allCharacters.get(position).getClassId();
+        CasterClassModel casterClassModel = new CasterClassModel();
+        int classId = allCharacterModels.get(position).getClassId();
 
-        for (CasterClass c : allClasses)
+        for (CasterClassModel c : allClasses)
             if (c.getId() == classId) {
-                casterClass = c;
+                casterClassModel = c;
                 break;
             }
 
-        holder.tvClass.setText(casterClass.getName());
-        holder.imageView.setImageResource(casterClass.getClassImage());
-        holder.tvName.setText(allCharacters.get(position).getName());
+        holder.tvClass.setText(casterClassModel.getName());
+        holder.imageView.setImageResource(casterClassModel.getClassImage());
+        holder.tvName.setText(allCharacterModels.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return allCharacters.size();
+        return allCharacterModels.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

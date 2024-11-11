@@ -20,19 +20,19 @@
     <string name="s"> S </string>
     <string name="m"> M </string>
 
-    <!-- for character creation -->
+    <!-- for characterModel creation -->
     <string name="name_placeholder">Enter name here</string>
     <string name="save_button">Save</string>
     <string name="primary_class">Primary class: </string>
 
     <!-- informative -->
-    <string name="empty_browse">Your spells will be displayed here, \nadd some using \"Add spell\" section</string>
+    <string name="empty_browse">Your spellModels will be displayed here, \nadd some using \"Add spellModel\" section</string>
 
     <!-- navigation bar -->
-    <string name="browse_spells_button">Browse prepared spells</string>
-    <string name="add_spell_button">Add spell to spellbook</string>
-    <string name="add_character_button">Create new character</string>
-    <string name="switch_character_button">Switch character</string>
-    <string name="add_nonclass_spell_button">Add non-class spell</string>
-    <string name="browse_all_spells_button">Browse all spells</string>
+    <string name="browse_spells_button">Browse prepared spellModels</string>
+    <string name="add_spell_button">Add spellModel to spellbook</string>
+    <string name="add_character_button">Create new characterModel</string>
+    <string name="switch_character_button">Switch characterModel</string>
+    <string name="add_nonclass_spell_button">Add non-class spellModel</string>
+    <string name="browse_all_spells_button">Browse all spellModels</string>
 </resources>

@@ -1,13 +1,12 @@
-package com.example.grimoire.classes;
+package com.example.grimoire.models;
 
 import androidx.annotation.NonNull;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public class Spell implements Serializable {
+public class SpellModel implements Serializable {
     private int id;
     private String name;
     private int level;
@@ -21,9 +20,9 @@ public class Spell implements Serializable {
     private boolean concentration;
     private String description;
 
-    public Spell(String name, int level, int schoolId, String castingTime,
-                 boolean ritual, String range, String components, boolean v, boolean s, boolean m,
-                 String duration, boolean concentration, String description) {
+    public SpellModel(String name, int level, int schoolId, String castingTime,
+                      boolean ritual, String range, String components, boolean v, boolean s, boolean m,
+                      String duration, boolean concentration, String description) {
         this.name = name;
         this.level = level;
         this.schoolId = schoolId;
@@ -39,7 +38,7 @@ public class Spell implements Serializable {
         this.description = description;
     }
 
-    public Spell() {
+    public SpellModel() {
 
     }
 

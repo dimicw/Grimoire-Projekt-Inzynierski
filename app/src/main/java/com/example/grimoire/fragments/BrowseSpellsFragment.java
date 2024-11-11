@@ -15,11 +15,8 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
-import com.example.grimoire.classes.ChosenSpell;
-import com.example.grimoire.classes.School;
-import com.example.grimoire.classes.Spell;
+import com.example.grimoire.models.CasterClassModel;
+import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.activities.SpellCard_Activity;
 import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
@@ -37,8 +34,8 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     private DatabaseHelper dbHelper;
 
     private Spell_RecyclerViewAdapter adapter;
-    private CasterClass casterClass;
-    private ArrayList<Spell> spells;
+    private CasterClassModel casterClassModel;
+    private ArrayList<SpellModel> spellModels;
 
     private RecyclerView recyclerView;
     private CardView cardView;
@@ -70,9 +67,9 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         if (currentCharacterId >= 0) {
             int casterClassId = dbHelper.getCharacterById(currentCharacterId).getClassId();
             classImage = dbHelper.getClassById(casterClassId).getClassImage();
-            spells = dbHelper.getSpellsByCharacterId(currentCharacterId);
+            spellModels = dbHelper.getSpellsByCharacterId(currentCharacterId);
         } else {
-            spells = dbHelper.getAllSpells();
+            spellModels = dbHelper.getAllSpells();
             classImage = R.drawable.big_book;
         }
 
@@ -80,12 +77,12 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         cardView = view.findViewById(R.id.empty_browse_card);
 
         adapter = new Spell_RecyclerViewAdapter(
-                getContext(), dbHelper, spells, classImage, this);
+                getContext(), dbHelper, spellModels, classImage, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        if(spells.isEmpty())
+        if(spellModels.isEmpty())
             cardView.setVisibility(View.VISIBLE);
         else
             cardView.setVisibility((View.GONE));
@@ -99,7 +96,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         Bundle bundle = new Bundle();
 
         bundle.putInt("CLASS_IMAGE", classImage);
-        bundle.putSerializable("SPELL", spells.get(position));
+        bundle.putSerializable("SPELL", spellModels.get(position));
 
         intent.putExtras(bundle);
 
@@ -109,7 +106,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     @Override
     public void onItemLongClick(int position) {
         if (spellClickListener != null && ableToDelete) {
-            spellClickListener.onSpellLongClick(spells.get(position).getId());
+            spellClickListener.onSpellLongClick(spellModels.get(position).getId());
             Toast.makeText(getContext(), "Spell removed", Toast.LENGTH_SHORT).show();
         }
     }

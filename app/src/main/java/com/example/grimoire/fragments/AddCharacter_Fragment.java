@@ -15,8 +15,7 @@ import android.widget.Spinner;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
+import com.example.grimoire.models.CharacterModel;
 
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 public class AddCharacter_Fragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public interface SaveCharacterListener {
-        void onSaveButtonListener(Character character);
+        void onSaveButtonListener(CharacterModel characterModel);
     }
 
     private DatabaseHelper dbHelper;
@@ -62,7 +61,7 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
 
         saveButton.setOnClickListener(view1 -> saveCharacterListener.onSaveButtonListener(
-                new Character(nameField.getText().toString(), classId))); //className)));
+                new CharacterModel(nameField.getText().toString(), classId))); //className)));
 
         return view;
     }

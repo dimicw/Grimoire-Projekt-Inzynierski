@@ -1,16 +1,16 @@
-package com.example.grimoire.classes;
+package com.example.grimoire.models;
 
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class School implements Serializable {
+public class SchoolModel implements Serializable {
     private int id;
     private String name;
 
-    public School () {}
+    public SchoolModel() {}
 
-    public School (String name) {
+    public SchoolModel(String name) {
         this.name = name;
     }
 

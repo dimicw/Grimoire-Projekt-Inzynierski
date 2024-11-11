@@ -1,17 +1,19 @@
-package com.example.grimoire.classes;
+package com.example.grimoire.models;
+
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class ChosenSpell implements Serializable {
+public class ClassAvailabilityModel implements Serializable {
     private int id;
     private int spellId;
-    private int characterId;
+    private int classId;
 
-    public ChosenSpell() {}
+    public ClassAvailabilityModel() {}
 
-    public ChosenSpell(int spellId, int characterId) {
+    public ClassAvailabilityModel(int spellId, int classId) {
         this.spellId = spellId;
-        this.characterId = characterId;
+        this.classId = classId;
     }
 
 
@@ -21,8 +23,8 @@ public class ChosenSpell implements Serializable {
     public int getSpellId() {
         return spellId;
     }
-    public int getCharacterId() {
-        return characterId;
+    public int getClassId() {
+        return classId;
     }
 
     public void setId(int id) {
@@ -31,17 +33,17 @@ public class ChosenSpell implements Serializable {
     public void setSpellId(int spellId) {
         this.spellId = spellId;
     }
-    public void setCharacterId(int characterId) {
-        this.characterId = characterId;
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
-
+    @NonNull
     @Override
     public String toString() {
-        return "ChosenSpell{" +
+        return "ClassAvailability{" +
                 "id=" + id +
                 ", spellId=" + spellId +
-                ", characterId=" + characterId +
+                ", classId=" + classId +
                 '}';
     }
 }

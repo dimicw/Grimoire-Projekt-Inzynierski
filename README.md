@@ -1,2 +1,2 @@
 # Grimoire
- Android app to store and browse D&D spells
+ Android app to store and browse D&D spellModels

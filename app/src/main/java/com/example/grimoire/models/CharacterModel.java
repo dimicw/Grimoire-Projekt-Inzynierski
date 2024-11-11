@@ -1,17 +1,17 @@
-package com.example.grimoire.classes;
+package com.example.grimoire.models;
 
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Character implements Serializable {
+public class CharacterModel implements Serializable {
     private int id;
     private String name;
     private int classId;
 
-    public Character() {}
+    public CharacterModel() {}
 
-    public Character(String name, int classId) {
+    public CharacterModel(String name, int classId) {
         this.name = name;
         this.classId = classId;
     }

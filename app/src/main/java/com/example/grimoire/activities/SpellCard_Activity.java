@@ -12,11 +12,7 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.School;
-import com.example.grimoire.classes.Spell;
-
-import java.util.ArrayList;
+import com.example.grimoire.models.SpellModel;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
@@ -36,7 +32,7 @@ public class SpellCard_Activity extends AppCompatActivity {
 
         int spellId;
         int currentCharacterId;
-        Spell spell;
+        SpellModel spellModel;
 
         dbHelper = new DatabaseHelper(this);
 
@@ -59,33 +55,33 @@ public class SpellCard_Activity extends AppCompatActivity {
 
             if (bundle != null) {
 
-                spell = (Spell) bundle.getSerializable("SPELL");
+                spellModel = (SpellModel) bundle.getSerializable("SPELL");
                 int classImage = bundle.getInt("CLASS_IMAGE");
 
-                if (spell != null) {
+                if (spellModel != null) {
 
                     tvDescription.setMovementMethod(new ScrollingMovementMethod());
                     backgroundImage.setImageResource(classImage);
 
-                    tvName.setText(spell.getName());
-                    tvLevelAndSchool.setText(spell.getLevelAndSchool(dbHelper));
-                    tvCastingTime.append(" " + spell.getCastingTime());
-                    tvRange.append(" " + spell.getRange());
-                    tvDuration.append(" " + spell.getDuration());
-                    tvDescription.append(spell.getDescription());
+                    tvName.setText(spellModel.getName());
+                    tvLevelAndSchool.setText(spellModel.getLevelAndSchool(dbHelper));
+                    tvCastingTime.append(" " + spellModel.getCastingTime());
+                    tvRange.append(" " + spellModel.getRange());
+                    tvDuration.append(" " + spellModel.getDuration());
+                    tvDescription.append(spellModel.getDescription());
 
-                    if (spell.isV()) {
+                    if (spellModel.isV()) {
                         tvComponents.append(" V");
-                        if (spell.isS() || spell.isM())
+                        if (spellModel.isS() || spellModel.isM())
                             tvComponents.append(",");
                     }
-                    if (spell.isS()) {
+                    if (spellModel.isS()) {
                         tvComponents.append(" S");
-                        if (spell.isM())
+                        if (spellModel.isM())
                             tvComponents.append(",");
                     }
-                    if (spell.isM())
-                        tvComponents.append(" M: " + spell.getComponents());
+                    if (spellModel.isM())
+                        tvComponents.append(" M: " + spellModel.getComponents());
                 } else {
                     Toast.makeText(this, "spell is null", Toast.LENGTH_SHORT).show();
                 }

@@ -15,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
-import com.example.grimoire.classes.ChosenSpell;
+import com.example.grimoire.models.CasterClassModel;
+import com.example.grimoire.models.CharacterModel;
+import com.example.grimoire.models.ChosenSpellModel;
 import com.example.grimoire.fragments.AddCharacter_Fragment;
 import com.example.grimoire.fragments.AddSpell_Fragment;
 import com.example.grimoire.fragments.BrowseSpellsFragment;
@@ -153,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onAddSpellClick(int spellId) {
-        ChosenSpell chosenSpell = new ChosenSpell(spellId, currentCharacterId);
+        ChosenSpellModel chosenSpellModel = new ChosenSpellModel(spellId, currentCharacterId);
 
-        if (dbHelper.checkChosenSpellDuplicates(chosenSpell))
+        if (dbHelper.checkChosenSpellDuplicates(chosenSpellModel))
             Toast.makeText(this, "You already have this spell", Toast.LENGTH_SHORT).show();
         else
-            dbHelper.addChosenSpell(chosenSpell);
+            dbHelper.addChosenSpell(chosenSpellModel);
 
         openBrowseSpells();
 
@@ -172,24 +172,24 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSaveButtonListener(Character character) {
-        int id = dbHelper.addCharacter(character);
+    public void onSaveButtonListener(CharacterModel characterModel) {
+        int id = dbHelper.addCharacter(characterModel);
         changeCharacter(id);
         openBrowseSpells();
     }
 
     private void changeCharacter(int id) {
-        Character character = dbHelper.getCharacterById(id);
-        CasterClass casterClass = dbHelper.getClassById(character.getClassId());
+        CharacterModel characterModel = dbHelper.getCharacterById(id);
+        CasterClassModel casterClassModel = dbHelper.getClassById(characterModel.getClassId());
 
         currentCharacterId = id;
 
         Objects.requireNonNull(getSupportActionBar())
-                .setTitle(character.getName());
+                .setTitle(characterModel.getName());
 
-        headerName.setText(character.getName());
-        headerClass.setText(casterClass.getName());
-        headerImage.setImageResource(casterClass.getClassImage());
+        headerName.setText(characterModel.getName());
+        headerClass.setText(casterClassModel.getName());
+        headerImage.setImageResource(casterClassModel.getClassImage());
     }
 
     private void openChangeCharacter() {

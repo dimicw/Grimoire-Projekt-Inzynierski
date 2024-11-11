@@ -1,4 +1,4 @@
-package com.example.grimoire.classes;
+package com.example.grimoire.models;
 
 import androidx.annotation.NonNull;
 
@@ -6,13 +6,13 @@ import com.example.grimoire.R;
 
 import java.io.Serializable;
 
-public class CasterClass implements Serializable {
+public class CasterClassModel implements Serializable {
     private int id;
     private String name;
 
-    public CasterClass() {}
+    public CasterClassModel() {}
 
-    public CasterClass(String name) {
+    public CasterClassModel(String name) {
         this.name = name;
     }
 

@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
-import com.example.grimoire.classes.CasterClass;
-import com.example.grimoire.classes.Character;
+import com.example.grimoire.models.CasterClassModel;
+import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.adapters.Character_RecyclerViewAdapter;
 
@@ -32,8 +32,8 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
 
     private CharacterInteractionListener characterInteractionListener;
 
-    private ArrayList<Character> allCharacters;
-    private ArrayList<CasterClass> allClasses;
+    private ArrayList<CharacterModel> allCharacterModels;
+    private ArrayList<CasterClassModel> allClasses;
 
     public static ChangeCharacter_Fragment newInstance(
                                                        CharacterInteractionListener listener) {
@@ -52,13 +52,13 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
         assert getArguments() != null;
 
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-        allCharacters = dbHelper.getAllCharacters();
+        allCharacterModels = dbHelper.getAllCharacters();
         allClasses = dbHelper.getAllClasses();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         adapter = new Character_RecyclerViewAdapter(
-                getContext(), allCharacters, allClasses, this);
+                getContext(), allCharacterModels, allClasses, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,14 +69,14 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
     @Override
     public void onItemClick(int position) {
         if (characterInteractionListener != null)
-            characterInteractionListener.onCharacterClick(allCharacters.get(position).getId());
+            characterInteractionListener.onCharacterClick(allCharacterModels.get(position).getId());
     }
 
     @Override
     public void onItemLongClick(int position) {
         if (characterInteractionListener != null) {
-            if (position >= 0 && position < allCharacters.size() && allCharacters.size() > 1) {
-                int characterId = allCharacters.get(position).getId();
+            if (position >= 0 && position < allCharacterModels.size() && allCharacterModels.size() > 1) {
+                int characterId = allCharacterModels.get(position).getId();
                 characterInteractionListener.onCharacterLongClick(characterId);
                 Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
             } else {
