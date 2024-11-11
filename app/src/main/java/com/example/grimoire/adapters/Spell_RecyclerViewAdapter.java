@@ -22,6 +22,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     private final Context context;
     private final ArrayList<SpellModel> spellModels;
+    private final ArrayList<SpellModel> spellModelsFull;
     private final int classImage;
     private final DatabaseHelper dbHelper;
 
@@ -31,6 +32,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
         this.context = context;
         this.dbHelper = dbHelper;
         this.spellModels = spellModels;
+        this.spellModelsFull = new ArrayList<>(spellModels);
         this.recyclerViewInterface = recyclerViewInterface;
         this.classImage = classImage;
     }
@@ -88,4 +90,26 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
             });
         }
     }
+
+    public void filter(String text) {
+        spellModels.clear();
+        if (text.isEmpty()) {
+            spellModels.addAll(spellModelsFull);
+        } else {
+            text = text.toLowerCase();
+            for (SpellModel item : spellModelsFull) {
+                if (item.getName().toLowerCase().contains(text)) {
+                    spellModels.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void updateList(ArrayList<SpellModel> newList) {
+        spellModels.clear();
+        spellModels.addAll(newList);
+        notifyDataSetChanged();
+    }
+
 }

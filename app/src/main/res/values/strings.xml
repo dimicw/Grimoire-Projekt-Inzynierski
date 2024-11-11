@@ -35,4 +35,7 @@
     <string name="switch_character_button">Switch character</string>
     <string name="add_nonclass_spell_button">Add non-class spell</string>
     <string name="browse_all_spells_button">Browse all spell</string>
+
+    <!-- filtering -->
+    <string name="filter_description">Filter</string>
 </resources>

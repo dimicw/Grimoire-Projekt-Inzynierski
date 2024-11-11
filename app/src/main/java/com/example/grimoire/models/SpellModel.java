@@ -129,8 +129,9 @@ public class SpellModel implements Serializable {
     }
 
     public String getLevelAndSchool(DatabaseHelper dbHelper) {
-        String levelAndSchool;
-        String schoolName = dbHelper.getSchoolById(id).getName();
+        String levelAndSchool, schoolName;
+        SchoolModel schoolModel = dbHelper.getSchoolById(id);
+        schoolName = (schoolModel != null) ? schoolModel.getName() : "school";
 
         if (level == 0)
             return schoolName + " cantrip";

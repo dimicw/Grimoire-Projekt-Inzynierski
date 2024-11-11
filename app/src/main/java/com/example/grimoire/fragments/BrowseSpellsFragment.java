@@ -3,6 +3,7 @@ package com.example.grimoire.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
@@ -20,6 +23,7 @@ import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.activities.SpellCard_Activity;
 import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -39,6 +43,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     private RecyclerView recyclerView;
     private CardView cardView;
+    private AlertDialog dialog;
 
     private boolean ableToDelete;
 
@@ -87,7 +92,44 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         else
             cardView.setVisibility((View.GONE));
 
+        FloatingActionButton fabFilter = view.findViewById(R.id.fabFilter);
+        fabFilter.setOnClickListener(v -> showFilterDialog());
+
         return view;
+    }
+
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter, null);
+        builder.setView(dialogView);
+
+        SearchView searchViewDialog = dialogView.findViewById(R.id.searchViewDialog);
+        Button buttonApplyFilter = dialogView.findViewById(R.id.buttonApplyFilter);
+
+        searchViewDialog.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText == null || newText.isEmpty())
+                    adapter.filter("");
+                else
+                    adapter.filter(newText);
+                return false;
+            }
+        });
+
+        buttonApplyFilter.setOnClickListener(v -> {
+            // Apply any additional filters if needed
+            // For now, just dismiss the dialog
+            dialog.dismiss();
+        });
+
+        dialog = builder.create();
+        dialog.show();
     }
 
     @Override
