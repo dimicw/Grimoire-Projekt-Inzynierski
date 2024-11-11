@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grimoire.R;
+import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 
@@ -18,15 +19,20 @@ import java.util.ArrayList;
 
 public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Character_RecyclerViewAdapter.MyViewHolder> {
 
+
+
     private final RecyclerViewInterface recyclerViewInterface;
 
-    private final Context context;
-    private final ArrayList<Character> allCharacters;
+    Context context;
+    ArrayList<Character> allCharacters;
+    ArrayList<CasterClass> allClasses;
 
     public Character_RecyclerViewAdapter (Context context, ArrayList<Character> allCharacters,
+                                      ArrayList<CasterClass> allClasses,
                                       RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.allCharacters = allCharacters;
+        this.allClasses = allClasses;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
@@ -41,8 +47,18 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
 
     @Override
     public void onBindViewHolder(@NonNull Character_RecyclerViewAdapter.MyViewHolder holder, int position) {
+        CasterClass casterClass = new CasterClass();
+        int classId = allCharacters.get(position).getClassId();
+
+        for (CasterClass c : allClasses)
+            if (c.getId() == classId) {
+                casterClass = c;
+                break;
+            }
+
+        holder.tvClass.setText(casterClass.getName());
+        holder.imageView.setImageResource(casterClass.getClassImage());
         holder.tvName.setText(allCharacters.get(position).getName());
-        holder.imageView.setImageResource(R.drawable.big_book);
     }
 
     @Override

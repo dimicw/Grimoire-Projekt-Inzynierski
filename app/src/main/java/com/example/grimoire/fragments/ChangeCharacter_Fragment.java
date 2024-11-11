@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.classes.CasterClass;
 import com.example.grimoire.classes.Character;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.adapters.Character_RecyclerViewAdapter;
@@ -32,6 +33,7 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
     private CharacterInteractionListener characterInteractionListener;
 
     private ArrayList<Character> allCharacters;
+    private ArrayList<CasterClass> allClasses;
 
     public static ChangeCharacter_Fragment newInstance(
                                                        CharacterInteractionListener listener) {
@@ -51,11 +53,12 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
 
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
         allCharacters = dbHelper.getAllCharacters();
+        allClasses = dbHelper.getAllClasses();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         adapter = new Character_RecyclerViewAdapter(
-                getContext(), allCharacters, this);
+                getContext(), allCharacters, allClasses, this);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
