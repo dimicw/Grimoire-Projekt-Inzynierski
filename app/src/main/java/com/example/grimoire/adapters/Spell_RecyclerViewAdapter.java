@@ -127,6 +127,14 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
                     || (vFilter == R.id.radioYesV && item.isV())
                     || (vFilter == R.id.radioNoV && !item.isV());
 
+            boolean matchesS = (sFilter == R.id.radioAnyS)
+                    || (sFilter == R.id.radioYesS && item.isS())
+                    || (sFilter == R.id.radioNoS && !item.isS());
+
+            boolean matchesM = (mFilter == R.id.radioAnyM)
+                    || (mFilter == R.id.radioYesM && item.isM())
+                    || (mFilter == R.id.radioNoM && !item.isM());
+
             boolean matchesLevel = levels[item.getLevel()];
 
             boolean matchesSchool = false;
@@ -137,7 +145,8 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
                     break;
                 }
 
-            if (matchesRitual && matchesConcentration && matchesLevel && matchesSchool) {
+            if (matchesRitual && matchesConcentration && matchesLevel && matchesSchool
+                    && matchesV && matchesS && matchesM) {
                 filteredList.add(item);
             }
         }
