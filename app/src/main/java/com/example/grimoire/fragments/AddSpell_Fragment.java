@@ -184,7 +184,7 @@ public class AddSpell_Fragment extends Fragment implements RecyclerViewInterface
         Intent intent = new Intent(getContext(), SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        int classImage = dbHelper.getClassById(classId).getClassImage();
+        int classImage = (classId >= 0) ? dbHelper.getClassById(classId).getClassImage() : R.drawable.big_book;
 
         bundle.putInt("CLASS_IMAGE", classImage);
         bundle.putSerializable("SPELL", spellModels.get(position));
