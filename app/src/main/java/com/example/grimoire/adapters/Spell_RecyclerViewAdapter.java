@@ -1,5 +1,6 @@
 package com.example.grimoire.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     private final Context context;
     private final ArrayList<SpellModel> spellModels;
+    private final ArrayList<SpellModel> spellModelsFiltered;
     private final ArrayList<SpellModel> spellModelsFull;
     private final int classImage;
     private final DatabaseHelper dbHelper;
@@ -32,6 +34,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
         this.context = context;
         this.dbHelper = dbHelper;
         this.spellModels = spellModels;
+        this.spellModelsFiltered = new ArrayList<>(spellModels);
         this.spellModelsFull = new ArrayList<>(spellModels);
         this.recyclerViewInterface = recyclerViewInterface;
         this.classImage = classImage;
@@ -91,14 +94,15 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
         }
     }
 
-    public void filter(String text) {
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String searchedText) {
         spellModels.clear();
-        if (text.isEmpty()) {
-            spellModels.addAll(spellModelsFull);
+        if (searchedText.isEmpty()) {
+            spellModels.addAll(spellModelsFiltered);
         } else {
-            text = text.toLowerCase();
-            for (SpellModel item : spellModelsFull) {
-                if (item.getName().toLowerCase().contains(text)) {
+            searchedText = searchedText.toLowerCase();
+            for (SpellModel item : spellModelsFiltered) {
+                if (item.getName().toLowerCase().contains(searchedText)) {
                     spellModels.add(item);
                 }
             }
@@ -106,9 +110,46 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
         notifyDataSetChanged();
     }
 
+    public void applyFilters(int ritualFilter, int concentrationFilter, boolean[] levels,
+                             int vFilter, int sFilter, int mFilter, int[] schoolIds) {
+        ArrayList<SpellModel> filteredList = new ArrayList<>();
+        for (SpellModel item : spellModelsFull) {
+
+            boolean matchesRitual = (ritualFilter == R.id.radioAnyRitual)
+                    || (ritualFilter == R.id.radioYesRitual && item.isRitual())
+                    || (ritualFilter == R.id.radioNoRitual && !item.isRitual());
+
+            boolean matchesConcentration = (concentrationFilter == R.id.radioAnyConcentration)
+                    || (concentrationFilter == R.id.radioYesConcentration && item.isConcentration())
+                    || (concentrationFilter == R.id.radioNoConcentration && !item.isConcentration());
+
+            boolean matchesV = (vFilter == R.id.radioAnyV)
+                    || (vFilter == R.id.radioYesV && item.isV())
+                    || (vFilter == R.id.radioNoV && !item.isV());
+
+            boolean matchesLevel = levels[item.getLevel()];
+
+            boolean matchesSchool = false;
+
+            for (int id : schoolIds)
+                if (item.getSchoolId() == id) {
+                    matchesSchool = true;
+                    break;
+                }
+
+            if (matchesRitual && matchesConcentration && matchesLevel && matchesSchool) {
+                filteredList.add(item);
+            }
+        }
+        updateList(filteredList);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(ArrayList<SpellModel> newList) {
         spellModels.clear();
         spellModels.addAll(newList);
+        spellModelsFiltered.clear();
+        spellModelsFiltered.addAll(newList);
         notifyDataSetChanged();
     }
 

@@ -38,4 +38,31 @@
 
     <!-- filtering -->
     <string name="filter_description">Filter</string>
+    <string name="search_description">Search</string>
+
+    <string name="ritual_tag">Ritual</string>
+    <string name="concentration_tag">Concentration</string>
+    <string name="components_tag">Components</string>
+    <string name="spell_level_tag">Spell Level</string>
+    <string name="schools_tag">Schools</string>
+    <string name="verbal_tag">Verbal</string>
+    <string name="somatic_tag">Somatic</string>
+    <string name="material_tag">Material</string>
+
+    <string name="yes_radio">Yes</string>
+    <string name="no_radio">No</string>
+    <string name="any_radio">Any</string>
+
+    <string name="level_0_tag">Cantrip</string>
+    <string name="level_1_tag">1st-level</string>
+    <string name="level_2_tag">2nd-level</string>
+    <string name="level_3_tag">3rd-level</string>
+    <string name="level_4_tag">4th-level</string>
+    <string name="level_5_tag">5-th-level</string>
+    <string name="level_6_tag">6th-level</string>
+    <string name="level_7_tag">7th-level</string>
+    <string name="level_8_tag">8th-level</string>
+    <string name="level_9_tag">9th-level</string>
+
+    <string name="apply_filters_button">Apply</string>
 </resources>

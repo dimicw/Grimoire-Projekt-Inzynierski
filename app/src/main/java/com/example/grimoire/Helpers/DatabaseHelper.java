@@ -460,6 +460,25 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     }
 
     @SuppressLint("Range")
+    public SchoolModel getSchoolByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_SCHOOLS + " WHERE " + COLUMN_SCHOOLS_NAME + " = ?";
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{name});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            SchoolModel schoolModel = new SchoolModel();
+            schoolModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
+            schoolModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOLS_NAME)));
+            cursor.close();
+            db.close();
+            return schoolModel;
+        } else {
+            db.close();
+            return null;
+        }
+    }
+
+    @SuppressLint("Range")
     public ArrayList<CasterClassModel> getAllClasses() {
         ArrayList<CasterClassModel> casterClassModelList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_CLASSES;
