@@ -42,7 +42,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
-        android:src="@drawable/big_book"
+        android:src="@drawable/baseline_manage_search_24"
         android:contentDescription="@string/filter_description"
         android:visibility="gone"/>
 
@@ -53,7 +53,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:layout_marginBottom="80dp"
-        android:src="@drawable/class_icon___wizard"
+        android:src="@drawable/baseline_search_24"
         android:contentDescription="@string/search_description" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
