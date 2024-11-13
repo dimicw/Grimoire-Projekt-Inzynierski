@@ -71,8 +71,8 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         dbHelper = new DatabaseHelper(getContext());
 
 
-        int classImage = (addSpell || characterId < 0) ? R.drawable.big_book : dbHelper.getClassById(casterClassId).getClassImage();
         casterClassId = (characterId >= 0) ? dbHelper.getCharacterById(characterId).getClassId() : -1;
+        int classImage = (addSpell || characterId < 0) ? R.drawable.big_book : dbHelper.getClassById(casterClassId).getClassImage();
 
         if (characterId <= 0)
             spellModels = dbHelper.getAllSpells();
