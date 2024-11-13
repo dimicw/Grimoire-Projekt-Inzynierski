@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,13 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
+import com.example.grimoire.activities.SpellCard_Activity;
+import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.models.ChosenSpellModel;
 import com.example.grimoire.fragments.AddCharacter_Fragment;
-import com.example.grimoire.fragments.AddSpell_Fragment;
 import com.example.grimoire.fragments.BrowseSpellsFragment;
 import com.example.grimoire.fragments.ChangeCharacter_Fragment;
+import com.example.grimoire.models.SpellModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -29,8 +32,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ChangeCharacter_Fragment.CharacterInteractionListener,
-        AddSpell_Fragment.SpellClickListener,
-        BrowseSpellsFragment.SpellClickListener,
+        SpellClickListener,
         AddCharacter_Fragment.SaveCharacterListener {
 
     private int currentCharacterId;
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements
         // Open app on browsing spells
         if(savedInstanceState == null) {
             changeCharacter(dbHelper.getAllCharacters().get(0).getId());
-            openBrowseSpells();
+            openBrowseSpells(false , false);
         }
     }
 
@@ -94,25 +96,22 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.nav_browse_spells)
-            openBrowseSpells();
+            openBrowseSpells(false, false);
 
         else if (item.getItemId() == R.id.nav_add_spell)
-            openAddSpell(false);
-
+            openBrowseSpells(false, true);
 
         else if (item.getItemId() == R.id.nav_switch_character)
             openChangeCharacter();
 
         else if (item.getItemId() == R.id.nav_add_character)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    AddCharacter_Fragment.newInstance(this)).commit();
+            openAddCharacter();
 
         else if (item.getItemId() == R.id.nav_add_nonclass_spell)
-            openAddSpell(true);
+            openBrowseSpells(true, true);
 
         else if (item.getItemId() == R.id.nav_browse_all_spells)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    BrowseSpellsFragment.newInstance(-1, false, this)).commit();
+            openBrowseSpells(true, false);
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -128,17 +127,31 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void openBrowseSpells() {
+    private void openBrowseSpells(boolean allSpells, boolean addSpell) {
+        int characterId = allSpells ? -1 : currentCharacterId;
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                BrowseSpellsFragment.newInstance(currentCharacterId,
-                        true, this)).commit();
+                BrowseSpellsFragment.newInstance(characterId,
+                        addSpell,this)).commit();
+
         navigationView.setCheckedItem(R.id.nav_browse_spells);
     }
+
+    private void openAddCharacter() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                AddCharacter_Fragment.newInstance(this)).commit();
+    }
+
+    private void openChangeCharacter() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                ChangeCharacter_Fragment.newInstance(this)).commit();
+    }
+
 
     @Override
     public void onCharacterClick(int characterId) {
         changeCharacter(characterId);
-        openBrowseSpells();
+        openBrowseSpells(false, false);
     }
 
     @Override
@@ -151,31 +164,41 @@ public class MainActivity extends AppCompatActivity implements
         openChangeCharacter();
     }
 
+
     @Override
-    public void onAddSpellClick(int spellId) {
-        ChosenSpellModel chosenSpellModel = new ChosenSpellModel(spellId, currentCharacterId);
+    public void onAddSpellClick(SpellModel spellModel) {
+        ChosenSpellModel chosenSpellModel = new ChosenSpellModel(spellModel.getId(), currentCharacterId);
 
         if (dbHelper.checkChosenSpellDuplicates(chosenSpellModel))
             Toast.makeText(this, "You already have this spell", Toast.LENGTH_SHORT).show();
-        else
+        else {
             dbHelper.addChosenSpell(chosenSpellModel);
+            Toast.makeText(this, "Spell '" + spellModel.getName() + "' added", Toast.LENGTH_SHORT).show();
+        }
 
-        openBrowseSpells();
+        openBrowseSpells(false, false);
 
-        System.out.println(dbHelper.getAllChosenSpells().toString());
     }
 
     @Override
-    public void onSpellLongClick(int spellId) {
-        dbHelper.removeChosenSpell(currentCharacterId, spellId);
-        openBrowseSpells();
+    public void onOpenSpellCardClick(int casterClassId, SpellModel spellModel) {
+        Intent intent = new Intent(this, SpellCard_Activity.class);
+        Bundle bundle = new Bundle();
+
+        int classImage = (casterClassId >= 0) ? dbHelper.getClassById(casterClassId).getClassImage() : R.drawable.big_book;
+
+        bundle.putInt("CLASS_IMAGE", classImage);
+        bundle.putSerializable("SPELL", spellModel);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 
     @Override
-    public void onSaveButtonListener(CharacterModel characterModel) {
-        int id = dbHelper.addCharacter(characterModel);
-        changeCharacter(id);
-        openBrowseSpells();
+    public void onSpellLongClick(SpellModel spellModel) {
+        dbHelper.removeChosenSpell(currentCharacterId, spellModel.getId());
+        openBrowseSpells(false, false);
+        Toast.makeText(this, "Spell '" + spellModel.getName() + "' removed", Toast.LENGTH_SHORT).show();
     }
 
     private void changeCharacter(int id) {
@@ -192,15 +215,11 @@ public class MainActivity extends AppCompatActivity implements
         headerImage.setImageResource(casterClassModel.getClassImage());
     }
 
-    private void openChangeCharacter() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                ChangeCharacter_Fragment.newInstance(this)).commit();
-    }
 
-    private void openAddSpell(boolean showAll) {
-        int classId = showAll ? -1 : dbHelper.getCharacterById(currentCharacterId).getClassId();
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                AddSpell_Fragment.newInstance(classId, this)).commit();
+    @Override
+    public void onSaveButtonListener(CharacterModel characterModel) {
+        int id = dbHelper.addCharacter(characterModel);
+        changeCharacter(id);
+        openBrowseSpells(false, false);
     }
 }

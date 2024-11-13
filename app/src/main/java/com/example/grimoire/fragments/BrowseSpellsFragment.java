@@ -1,7 +1,6 @@
 package com.example.grimoire.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,14 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.SchoolModel;
 import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
-import com.example.grimoire.activities.SpellCard_Activity;
 import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,9 +33,7 @@ import java.util.ArrayList;
 
 
 public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterface {
-    public interface SpellClickListener {
-        void onSpellLongClick(int position);
-    }
+
 
     private SpellClickListener spellClickListener;
 
@@ -48,20 +44,19 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     private AlertDialog dialog;
     private SearchView searchView;
 
-    private boolean ableToDelete;
-
-    private int currentCharacterId;
-    private int classImage;
+    private boolean addSpell;
+    private int characterId;
+    private int casterClassId;
 
     public static BrowseSpellsFragment newInstance( int currentCharacterId,
-                                                    boolean ableToDelete,
+                                                    boolean addSpell,
                                                     SpellClickListener listener) {
         BrowseSpellsFragment fragment = new BrowseSpellsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.spellClickListener = listener;
-        fragment.ableToDelete = ableToDelete;
-        fragment.currentCharacterId = currentCharacterId;
+        fragment.addSpell = addSpell;
+        fragment.characterId = currentCharacterId;
         return fragment;
     }
 
@@ -75,14 +70,17 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
         dbHelper = new DatabaseHelper(getContext());
 
-        if (currentCharacterId >= 0) {
-            int casterClassId = dbHelper.getCharacterById(currentCharacterId).getClassId();
-            classImage = dbHelper.getClassById(casterClassId).getClassImage();
-            spellModels = dbHelper.getSpellsByCharacterId(currentCharacterId);
-        } else {
+
+        int classImage = (addSpell || characterId < 0) ? R.drawable.big_book : dbHelper.getClassById(casterClassId).getClassImage();
+        casterClassId = (characterId >= 0) ? dbHelper.getCharacterById(characterId).getClassId() : -1;
+
+        if (characterId <= 0)
             spellModels = dbHelper.getAllSpells();
-            classImage = R.drawable.big_book;
-        }
+        else if (addSpell)
+            spellModels = dbHelper.getSpellsAvailableForClass(casterClassId);
+        else
+            spellModels = dbHelper.getSpellsByCharacterId(characterId);
+
 
         adapter = new Spell_RecyclerViewAdapter(
                 getContext(), dbHelper, spellModels, classImage, this);
@@ -197,22 +195,19 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(getContext(), SpellCard_Activity.class);
-        Bundle bundle = new Bundle();
-
-        bundle.putInt("CLASS_IMAGE", classImage);
-        bundle.putSerializable("SPELL", spellModels.get(position));
-
-        intent.putExtras(bundle);
-
-        startActivity(intent);
+        if (spellClickListener != null) {
+            if (addSpell)
+                spellClickListener.onAddSpellClick(spellModels.get(position));
+            else
+                spellClickListener.onOpenSpellCardClick(casterClassId, spellModels.get(position));
+        }
     }
 
     @Override
     public void onItemLongClick(int position) {
-        if (spellClickListener != null && ableToDelete) {
-            spellClickListener.onSpellLongClick(spellModels.get(position).getId());
-            Toast.makeText(getContext(), "Spell removed", Toast.LENGTH_SHORT).show();
-        }
+        if (addSpell)
+            spellClickListener.onOpenSpellCardClick(casterClassId, spellModels.get(position));
+        else if (characterId >= 0 && spellClickListener != null)
+            spellClickListener.onSpellLongClick(spellModels.get(position));
     }
 }
