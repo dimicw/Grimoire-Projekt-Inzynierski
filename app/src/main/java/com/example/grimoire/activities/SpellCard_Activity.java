@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.widget.ImageButton;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,20 +17,21 @@ import com.example.grimoire.models.SpellModel;
 
 public class SpellCard_Activity extends AppCompatActivity {
 
-    private Intent intent;
-    private Bundle bundle;
 
-    private DatabaseHelper dbHelper;
-
-    private ImageButton backButton;
-    private Toolbar toolbar;
-    private ImageView backgroundImage;
-    private TextView tvName, tvLevelAndSchool, tvCastingTime, tvRange, tvComponents, tvDuration, tvDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_card);
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+        Intent intent;
+        Bundle bundle;
+
+        Toolbar toolbar;
+        ImageView backgroundImage;
+        TextView tvName, tvLevelAndSchool, tvCastingTime, tvRange, tvComponents, tvDuration, tvDescription;
 
         SpellModel spellModel;
 
@@ -41,7 +42,6 @@ public class SpellCard_Activity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        dbHelper = new DatabaseHelper(this);
 
         try {
             intent = getIntent();
@@ -96,7 +96,7 @@ public class SpellCard_Activity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+            Log.e("DatabaseHelper", "Error creating Directory ", e);
         }
     }
 

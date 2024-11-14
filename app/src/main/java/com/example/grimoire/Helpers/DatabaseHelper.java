@@ -13,22 +13,22 @@ import androidx.annotation.Nullable;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.models.ChosenSpellModel;
-import com.example.grimoire.models.ClassAvailabilityModel;
 import com.example.grimoire.models.SchoolModel;
 import com.example.grimoire.models.SpellModel;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private final Context context;
     private static final String DATABASE_NAME = "grimoire.db";
-    private static final int DATABASE_VERSION = 78;
+    private static final int DATABASE_VERSION = 81;
     private static final String SOURCE_DATABASE = "sqlite4.db";
 
 
@@ -151,23 +151,25 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     public void copyDatabaseFromAssets() {
         try {
-            System.out.println("get asset");
             assert context != null;
             InputStream input = context.getAssets().open("databases/" + SOURCE_DATABASE);
-            System.out.println("getDBPath");
             String outFileName = context.getDatabasePath(SOURCE_DATABASE).getPath();
-            System.out.println("get parent folder");
             File databaseFolder = new File(outFileName).getParentFile();
+
             assert databaseFolder != null;
             if (!databaseFolder.exists()) {
-                databaseFolder.mkdirs();
+                if (databaseFolder.mkdirs())
+                    Log.d("DatabaseHelper", "Directory  created successfully");
+                else
+                    Log.e("DatabaseHelper", "Error creating Directory ");
             }
-            OutputStream output = new FileOutputStream(outFileName);
+
+            OutputStream output = Files.newOutputStream(Paths.get(outFileName));
             byte[] buffer = new byte[1024];
             int length;
-            while ((length = input.read(buffer)) > 0) {
+            while ((length = input.read(buffer)) > 0)
                 output.write(buffer, 0, length);
-            }
+
             output.flush();
             output.close();
             input.close();
@@ -184,7 +186,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             // Open the source database
             assert context != null;
             String sourceDBPath = context.getDatabasePath(SOURCE_DATABASE).getPath();
-            System.out.println(sourceDBPath);
             sourceDatabase = SQLiteDatabase.openDatabase(sourceDBPath, null, SQLiteDatabase.OPEN_READONLY);
 
             // Open the destination database
@@ -205,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             grimoireDb.endTransaction();
 
             // Detach the source database
-            //grimoireDb.execSQL("DETACH DATABASE sourceDb");
+            grimoireDb.execSQL("DETACH DATABASE sourceDb");
 
             Log.d("DatabaseHelper", "Database content copied successfully");
         } catch (Exception e) {
@@ -220,42 +221,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         }
     }
 
-
-    public void addSpell(SpellModel spellModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_SPELLS_NAME, spellModel.getName());
-        values.put(COLUMN_SPELLS_LEVEL, spellModel.getLevel());
-        values.put(COLUMN_SPELLS_SCHOOL_ID, spellModel.getSchoolId());
-        values.put(COLUMN_SPELLS_CASTING_TIME, spellModel.getCastingTime());
-        values.put(COLUMN_SPELLS_RITUAL, spellModel.isRitual() ? 1 : 0);
-        values.put(COLUMN_SPELLS_RANGE, spellModel.getRange());
-        values.put(COLUMN_SPELLS_COMPONENTS, spellModel.getComponents());
-        values.put(COLUMN_SPELLS_V, spellModel.isV() ? 1 : 0);
-        values.put(COLUMN_SPELLS_S, spellModel.isS() ? 1 : 0);
-        values.put(COLUMN_SPELLS_M, spellModel.isM() ? 1 : 0);
-        values.put(COLUMN_SPELLS_DURATION, spellModel.getDuration());
-        values.put(COLUMN_SPELLS_CONCENTRATION, spellModel.isConcentration() ? 1 : 0);
-        values.put(COLUMN_SPELLS_DESCRIPTION, spellModel.getDescription());
-        db.insert(TABLE_SPELLS, null, values);
-        db.close();
-    }
-
-    public void addSchool(SchoolModel schoolModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_SCHOOLS_NAME, schoolModel.getName());
-        db.insert(TABLE_SCHOOLS, null, values);
-        db.close();
-    }
-
-    public void addClass(CasterClassModel casterClassModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_CLASSES_NAME, casterClassModel.getName());
-        db.insert(TABLE_CLASSES, null, values);
-        db.close();
-    }
 
     public int addCharacter(CharacterModel characterModel) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -273,15 +238,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         values.put(COLUMN_CHOSEN_SPELL_ID, chosenSpellModel.getSpellId());
         values.put(COLUMN_CHOSEN_CHARACTER_ID, chosenSpellModel.getCharacterId());
         db.insert(TABLE_CHOSEN_SPELLS, null, values);
-        db.close();
-    }
-
-    public void addClassAvailability(ClassAvailabilityModel classAvailabilityModel) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailabilityModel.getSpellId());
-        values.put(COLUMN_AVAILABILITIES_CLASS_ID, classAvailabilityModel.getClassId());
-        db.insert(TABLE_CLASS_AVAILABILITIES, null, values);
         db.close();
     }
 
@@ -316,37 +272,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         cursor.close();
         db.close();
         return spellModelList;
-    }
-
-    @SuppressLint("Range")
-    public SpellModel getSpellById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + TABLE_SPELLS + " WHERE " + COLUMN_SPELLS_ID + " = ?";
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
-
-        if (cursor != null && cursor.moveToFirst()) {
-            SpellModel spellModel = new SpellModel();
-            spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
-            spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
-            spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-            spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
-            spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
-            spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
-            spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
-            spellModel.setComponents(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_COMPONENTS)));
-            spellModel.setV(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_V)) == 1);
-            spellModel.setS(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_S)) == 1);
-            spellModel.setM(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_M)) == 1);
-            spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
-            spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
-            spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
-            cursor.close();
-            db.close();
-            return spellModel;
-        } else {
-            db.close();
-            return null;
-        }
     }
 
     @SuppressLint("Range")
@@ -616,27 +541,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         }
     }
 
-    @SuppressLint("Range")
-    public ArrayList<ChosenSpellModel> getAllChosenSpells() {
-        ArrayList<ChosenSpellModel> chosenSpellModelList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_CHOSEN_SPELLS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                ChosenSpellModel chosenSpellModel = new ChosenSpellModel();
-                chosenSpellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
-                chosenSpellModel.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
-                chosenSpellModel.setCharacterId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_CHARACTER_ID))));
-                chosenSpellModelList.add(chosenSpellModel);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return chosenSpellModelList;
-    }
-
     public boolean checkChosenSpellDuplicates(ChosenSpellModel chosenSpellModel) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_CHOSEN_SPELLS +
@@ -664,26 +568,5 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             db.close();
         }
     }
-
-    @SuppressLint("Range")
-    public ArrayList<ClassAvailabilityModel> getAllClassAvailabilities() {
-        ArrayList<ClassAvailabilityModel> classAvailabilitiesList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_CLASS_AVAILABILITIES;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                ClassAvailabilityModel classAvailabilityModel = new ClassAvailabilityModel();
-                classAvailabilityModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_CHOSEN_ID)));
-                classAvailabilityModel.setSpellId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CHOSEN_SPELL_ID))));
-                classAvailabilitiesList.add(classAvailabilityModel);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return classAvailabilitiesList;
-    }
-
 }
 

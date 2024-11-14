@@ -50,8 +50,8 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         dbHelper = new DatabaseHelper(getContext());
         ArrayList<String> class_names = dbHelper.getAllClassNames();
 
-        ArrayAdapter<CharSequence> adapter =
-                new ArrayAdapter(getContext(), R.layout.spinner_item, class_names);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(getContext(), R.layout.spinner_item, class_names);
 
 
         nameField = view.findViewById(R.id.name_et);

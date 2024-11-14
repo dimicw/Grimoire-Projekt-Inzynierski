@@ -1,12 +1,8 @@
 package com.example.grimoire.fragments;
 
-import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,18 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.RadioGroup;
 import android.widget.SearchView;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.dialogs.FilterDialog;
 import com.example.grimoire.interfaces.SpellClickListener;
-import com.example.grimoire.models.SchoolModel;
 import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
 import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
@@ -43,7 +34,6 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     private Spell_RecyclerViewAdapter adapter;
     private ArrayList<SpellModel> spellModels;
-    private AlertDialog dialog;
     private SearchView searchView;
 
     private boolean addSpell;
@@ -131,71 +121,8 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
     }
 
     private void showFilterDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter, null);
-        builder.setView(dialogView);
-
-        RadioGroup radioGroupRitual = dialogView.findViewById(R.id.radioGroupRitual);
-        RadioGroup radioGroupConcentration = dialogView.findViewById(R.id.radioGroupConcentration);
-        RadioGroup radioGroupV = dialogView.findViewById(R.id.radioGroupV);
-        RadioGroup radioGroupS = dialogView.findViewById(R.id.radioGroupS);
-        RadioGroup radioGroupM = dialogView.findViewById(R.id.radioGroupM);
-        LinearLayout schoolCheckboxContainer = dialogView.findViewById(R.id.schoolCheckboxContainer);
-        CheckBox[] checkBoxes = new CheckBox[10];
-        for (int i = 0; i <= 9; i++) {
-            @SuppressLint("DiscouragedApi") int resId = getResources().getIdentifier("checkBoxLevel" + i, "id", requireContext().getPackageName());
-            checkBoxes[i] = dialogView.findViewById(resId);
-        }
-
-        ArrayList<SchoolModel> schoolModels = dbHelper.getAllSchools();
-        for (SchoolModel school : schoolModels) {
-            LayoutParams params = new LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT );
-
-            CheckBox checkBox = new CheckBox(getContext());
-            checkBox.setText(school.getName());
-            checkBox.setChecked(true);
-            checkBox.setPadding(16, 16, 16, 16);
-            params.setMargins(0, 8, 0, 8);
-            checkBox.setLayoutParams(params);
-
-            int primaryColor = ContextCompat.getColor(requireContext(), R.color.colorAccent);
-            checkBox.setButtonTintList(ColorStateList.valueOf(primaryColor));
-
-            schoolCheckboxContainer.addView(checkBox);
-        }
-
-        Button buttonApplyFilter = dialogView.findViewById(R.id.buttonApplyFilter);
-
-        buttonApplyFilter.setOnClickListener(v -> {
-            int ritualFilter = radioGroupRitual.getCheckedRadioButtonId();
-            int concentrationFilter = radioGroupConcentration.getCheckedRadioButtonId();
-            int VFilter = radioGroupV.getCheckedRadioButtonId();
-            int sFilter = radioGroupS.getCheckedRadioButtonId();
-            int mFilter = radioGroupM.getCheckedRadioButtonId();
-            boolean[] levelFilters = new boolean[10];
-            for (int i = 0; i <= 9; i++)
-                levelFilters[i] = checkBoxes[i].isChecked();
-
-            int[] selectedSchools = new int[schoolModels.size()];
-            for (int i = 0; i < schoolCheckboxContainer.getChildCount(); i++) {
-                CheckBox checkBox = (CheckBox) schoolCheckboxContainer.getChildAt(i);
-                if (checkBox.isChecked()) {
-                    String schoolName = checkBox.getText().toString();
-                    selectedSchools[i] = dbHelper.getSchoolByName(schoolName).getId();
-                }
-            }
-
-            adapter.applyFilters(ritualFilter, concentrationFilter, levelFilters,
-                    VFilter, sFilter, mFilter, selectedSchools);
-            adapter.filter(searchView.getQuery().toString());
-
-            dialog.dismiss();
-        });
-
-        dialog = builder.create();
-        dialog.show();
+        FilterDialog filterDialog = new FilterDialog(requireContext(), dbHelper, adapter, searchView);
+        filterDialog.show();
     }
 
     @Override

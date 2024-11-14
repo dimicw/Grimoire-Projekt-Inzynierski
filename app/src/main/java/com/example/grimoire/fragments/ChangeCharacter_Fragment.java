@@ -28,12 +28,9 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
         void onCharacterLongClick(int position);
     }
 
-    private Character_RecyclerViewAdapter adapter;
-
     private CharacterInteractionListener characterInteractionListener;
 
     private ArrayList<CharacterModel> allCharacterModels;
-    private ArrayList<CasterClassModel> allClasses;
 
     public static ChangeCharacter_Fragment newInstance(
                                                        CharacterInteractionListener listener) {
@@ -48,16 +45,17 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_character, container, false);
+        ArrayList<CasterClassModel> allClasses;
 
-        assert getArguments() != null;
+        try (DatabaseHelper dbHelper = new DatabaseHelper(getContext())) {
 
-        DatabaseHelper dbHelper = new DatabaseHelper(getContext());
-        allCharacterModels = dbHelper.getAllCharacters();
-        allClasses = dbHelper.getAllClasses();
+            allCharacterModels = dbHelper.getAllCharacters();
+            allClasses = dbHelper.getAllClasses();
+        }
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
-        adapter = new Character_RecyclerViewAdapter(
+        Character_RecyclerViewAdapter adapter = new Character_RecyclerViewAdapter(
                 getContext(), allCharacterModels, allClasses, this);
 
         recyclerView.setAdapter(adapter);
