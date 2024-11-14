@@ -17,7 +17,6 @@
 
         <item name="cardViewStyle">@style/Grimoire.CardView</item>
 
-        <item name="android:background">@color/backgroundColor</item>
     </style>
 
     <style name="Theme.Grimoire" parent="Base.Theme.Grimoire">
@@ -71,9 +70,9 @@
     </style>
 
     <style name="Grimoire.NavigationView" parent="Theme.Grimoire">
-        <item name="android:background">@color/textMenuColor</item>
-        <item name="itemTextColor">@color/textColorSecondary</item>
-        <item name="itemIconTint">@color/textColorSecondary</item>
+        <item name="android:background">@color/nav_item_background_color</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+        <item name="itemIconTint">@color/nav_item_color</item>
     </style>
 
 </resources>
