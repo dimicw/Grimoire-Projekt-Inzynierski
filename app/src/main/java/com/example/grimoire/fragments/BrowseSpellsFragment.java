@@ -1,10 +1,12 @@
 package com.example.grimoire.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,7 +74,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
 
         casterClassId = (characterId >= 0) ? dbHelper.getCharacterById(characterId).getClassId() : -1;
-        int classImage = (addSpell || characterId < 0) ? R.drawable.big_book : dbHelper.getClassById(casterClassId).getClassImage();
+        int classImage = (addSpell || characterId < 0) ? R.drawable.spell_book : dbHelper.getClassById(casterClassId).getClassImage();
 
         if (characterId <= 0)
             spellModels = dbHelper.getAllSpells();
@@ -157,6 +159,9 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
             checkBox.setPadding(16, 16, 16, 16);
             params.setMargins(0, 8, 0, 8);
             checkBox.setLayoutParams(params);
+
+            int primaryColor = ContextCompat.getColor(requireContext(), R.color.colorAccent);
+            checkBox.setButtonTintList(ColorStateList.valueOf(primaryColor));
 
             schoolCheckboxContainer.addView(checkBox);
         }

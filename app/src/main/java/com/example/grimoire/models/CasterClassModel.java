@@ -51,7 +51,7 @@ public class CasterClassModel implements Serializable {
             case "wizard":
                 return R.drawable.class_icon___wizard;
             default:
-                return R.drawable.big_book;
+                return R.drawable.spell_book;
         }
     }
 

@@ -1,9 +1,48 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
-    <style name="Base.Theme.Grimoire" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Grimoire" parent="Theme.AppCompat.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="backgroundColor">@color/backgroundColor</item>
+
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <item name="cardViewStyle">@style/Grimoire.CardView</item>
+
     </style>
 
-    <style name="Theme.Grimoire" parent="Base.Theme.Grimoire" />
+    <style name="Theme.Grimoire" parent="Base.Theme.Grimoire">
+        <item name="cardViewStyle">@style/Grimoire.CardView</item>
+    </style>
+
+
+
+    <!-- Card views -->
+    <style name="Theme.Grimoire.CharacterCardView" parent="Theme.Grimoire">
+        <item name="cardViewStyle">@style/Grimoire.CardView.Character</item>
+    </style>
+
+    <style name="Grimoire.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/backgroundColorCard</item>
+    </style>
+
+    <style name="Grimoire.CardView.Character" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/secondaryColor</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="Grimoire.Toolbar" parent="Theme.Grimoire">
+        <item name="android:textColorPrimary">@color/textMenuColor</item>
+        <item name="android:textColorSecondary">@color/textMenuColor</item>
+        <item name="android:background">@color/primaryColor</item>
+    </style>
+
 </resources>

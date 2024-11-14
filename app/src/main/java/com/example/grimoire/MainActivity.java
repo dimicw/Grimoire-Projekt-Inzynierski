@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements
         // Set up toolbar and navbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, SpellCard_Activity.class);
         Bundle bundle = new Bundle();
 
-        int classImage = (casterClassId >= 0) ? dbHelper.getClassById(casterClassId).getClassImage() : R.drawable.big_book;
+        int classImage = (casterClassId >= 0) ? dbHelper.getClassById(casterClassId).getClassImage() : R.drawable.spell_book;
 
         bundle.putInt("CLASS_IMAGE", classImage);
         bundle.putSerializable("SPELL", spellModel);

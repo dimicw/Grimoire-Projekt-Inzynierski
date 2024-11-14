@@ -1,6 +1,7 @@
 package com.example.grimoire.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class SpellCard_Activity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
 
     private ImageButton backButton;
+    private Toolbar toolbar;
     private ImageView backgroundImage;
     private TextView tvName, tvLevelAndSchool, tvCastingTime, tvRange, tvComponents, tvDuration, tvDescription;
 
@@ -30,9 +32,14 @@ public class SpellCard_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_card);
 
-        int spellId;
-        int currentCharacterId;
         SpellModel spellModel;
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         dbHelper = new DatabaseHelper(this);
 
@@ -40,7 +47,6 @@ public class SpellCard_Activity extends AppCompatActivity {
             intent = getIntent();
             bundle = intent.getExtras();
 
-            backButton = findViewById(R.id.backButton);
             backgroundImage = findViewById(R.id.backgroundImage);
             tvName = findViewById(R.id.nameCard);
             tvLevelAndSchool = findViewById(R.id.levelAndSchoolCard);
@@ -50,20 +56,20 @@ public class SpellCard_Activity extends AppCompatActivity {
             tvDuration = findViewById(R.id.durationCard);
             tvDescription = findViewById(R.id.descriptionCard);
 
-            backButton = findViewById(R.id.backButton);
-            backButton.setOnClickListener(view -> onBackPressed());
-
             if (bundle != null) {
 
                 spellModel = (SpellModel) bundle.getSerializable("SPELL");
                 int classImage = bundle.getInt("CLASS_IMAGE");
 
                 if (spellModel != null) {
+                    String name = spellModel.getName();
+
+                    getSupportActionBar().setTitle(name);
 
                     tvDescription.setMovementMethod(new ScrollingMovementMethod());
                     backgroundImage.setImageResource(classImage);
 
-                    tvName.setText(spellModel.getName());
+                    tvName.setText(name);
                     tvLevelAndSchool.setText(spellModel.getLevelAndSchool(dbHelper));
                     tvCastingTime.append(" " + spellModel.getCastingTime());
                     tvRange.append(" " + spellModel.getRange());
@@ -92,6 +98,12 @@ public class SpellCard_Activity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

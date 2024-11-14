@@ -13,7 +13,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp">
 
@@ -30,8 +29,6 @@
                 android:layout_marginEnd="32dp"
                 android:hint="@string/name_placeholder"
                 android:textAlignment="center"
-                android:textColor="@color/text"
-                android:textColorHint="@color/hint"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +47,6 @@
                 android:gravity="center"
                 android:minHeight="48dp"
                 android:text="@string/primary_class"
-                android:textColor="@color/text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name_et" />
@@ -72,9 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/text"
                 android:text="@string/save_button"
-                android:textColor="@color/background"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
