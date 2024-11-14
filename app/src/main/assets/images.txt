@@ -1,0 +1,15 @@
+book: https://game-icons.net/1x1/delapouite/spell-book.html
+bard: https://game-icons.net/1x1/lorc/lyre.html
+cleric: https://game-icons.net/1x1/lorc/holy-grail.html
+druid: https://game-icons.net/1x1/delapouite/oak-leaf.html
+paladin: https://game-icons.net/1x1/delapouite/gauntlet.html
+ranger: https://game-icons.net/1x1/delapouite/quiver.html
+sorcerer: https://game-icons.net/1x1/lorc/rolling-energy.html
+warlock: https://game-icons.net/1x1/lorc/moon-claws.html
+wizard: https://game-icons.net/1x1/lorc/pointy-hat.html
+app: https://game-icons.net/1x1/delapouite/secret-book.html
+
+
+staff: https://game-icons.net/1x1/lorc/wizard-staff.html
+scroll: https://game-icons.net/1x1/lorc/scroll-unfurled.html
+crystal-ball: https://game-icons.net/1x1/lorc/crystal-ball.html
