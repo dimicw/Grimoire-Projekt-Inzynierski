@@ -22,8 +22,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fragment_container"
-            android:background="@color/backgroundColor"/>
+            android:id="@+id/fragment_container"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,7 +32,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu">
+        app:menu="@menu/nav_menu"
+        android:theme="@style/Grimoire.NavigationView">
 
     </com.google.android.material.navigation.NavigationView>
 

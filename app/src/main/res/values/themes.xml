@@ -17,6 +17,7 @@
 
         <item name="cardViewStyle">@style/Grimoire.CardView</item>
 
+        <item name="android:background">@color/backgroundColor</item>
     </style>
 
     <style name="Theme.Grimoire" parent="Base.Theme.Grimoire">
@@ -38,12 +39,14 @@
         <item name="cardBackgroundColor">@color/secondaryColor</item>
     </style>
 
+
     <!-- Toolbar -->
     <style name="Grimoire.Toolbar" parent="Theme.Grimoire">
         <item name="android:textColorPrimary">@color/textMenuColor</item>
         <item name="android:textColorSecondary">@color/textMenuColor</item>
         <item name="android:background">@color/primaryColor</item>
     </style>
+
 
     <!-- Dialog -->
     <style name="Grimoire.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
@@ -57,6 +60,20 @@
     <style name="Grimoire.Dialog.Button" parent="Widget.AppCompat.Button">
         <item name="android:backgroundTint">@color/colorAccent</item>
         <item name="android:textColor">@color/textColor</item>
+    </style>
+
+
+    <!-- Side menu -->
+    <style name="Grimoire.NavigationView.Top" parent="Theme.Grimoire">
+        <item name="android:background">@color/primaryColorDark</item>
+        <item name="android:textColor">@color/textMenuColor</item>
+        <item name="android:tint">@color/textMenuColor</item>
+    </style>
+
+    <style name="Grimoire.NavigationView" parent="Theme.Grimoire">
+        <item name="android:background">@color/textMenuColor</item>
+        <item name="itemTextColor">@color/textColorSecondary</item>
+        <item name="itemIconTint">@color/textColorSecondary</item>
     </style>
 
 </resources>
