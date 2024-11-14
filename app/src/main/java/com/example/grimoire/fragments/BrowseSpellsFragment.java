@@ -140,6 +140,6 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
         if (addSpell)
             spellClickListener.onOpenSpellCardClick(casterClassId, spellModels.get(position));
         else if (characterId >= 0 && spellClickListener != null)
-            spellClickListener.onSpellLongClick(spellModels.get(position));
+            spellClickListener.onDeleteSpellClick(spellModels.get(position));
     }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.activities.SpellCard_Activity;
+import com.example.grimoire.dialogs.DeleteSpellConfirmDialog;
 import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
@@ -196,10 +197,23 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSpellLongClick(SpellModel spellModel) {
-        dbHelper.removeChosenSpell(currentCharacterId, spellModel.getId());
-        openBrowseSpells(false, false);
-        Toast.makeText(this, "Spell '" + spellModel.getName() + "' removed", Toast.LENGTH_SHORT).show();
+    public void onDeleteSpellClick(SpellModel spellModel) {
+        String name = spellModel.getName();
+        /*if (new DeleteSpellConfirmDialog(name).show()) {
+            dbHelper.removeChosenSpell(currentCharacterId, spellModel.getId());
+            openBrowseSpells(false, false);
+            Toast.makeText(this, "Spell '" + name + "' removed", Toast.LENGTH_SHORT).show();
+        }*/
+
+        DeleteSpellConfirmDialog dialog = new DeleteSpellConfirmDialog(this, name, confirmed -> {
+            if (confirmed) {
+                dbHelper.removeChosenSpell(currentCharacterId, spellModel.getId());
+                openBrowseSpells(false, false);
+                Toast.makeText(this, "Spell '" + name + "' removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
     private void changeCharacter(int id) {
