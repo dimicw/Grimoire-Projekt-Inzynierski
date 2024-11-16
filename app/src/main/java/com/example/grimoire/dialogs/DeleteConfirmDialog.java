@@ -3,22 +3,26 @@ package com.example.grimoire.dialogs;
 import android.app.AlertDialog;
 import android.content.Context;
 
-public class DeleteSpellConfirmDialog {
+public class DeleteConfirmDialog {
 
-    private final String spellName;
+    private final String question;
+    private final String title;
     private final Context context;
     private final OnDeleteConfirmListener listener;
 
-    public DeleteSpellConfirmDialog(Context context, String spellName, OnDeleteConfirmListener listener) {
+    public DeleteConfirmDialog(Context context, String name, boolean isSpell, OnDeleteConfirmListener listener) {
         this.context = context;
-        this.spellName = spellName;
+        this.title = "Delete " + ((isSpell) ? "Spell" : "Character");
+        this.question = "Are you sure you want to delete the " +
+                ((isSpell) ? "spell \"" + name + "\" from your chosen spells?"
+                : "character \"" + name + "\"?");
         this.listener = listener;
     }
 
     public void show() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Delete Spell")
-                .setMessage("Are you sure you want to delete the spell \"" + spellName + "\"?")
+        builder.setTitle(title)
+                .setMessage(question)
                 .setPositiveButton("Yes", (dialog, which) -> listener.onConfirm(true))
                 .setNegativeButton("No", (dialog, which) -> listener.onConfirm(false));
         AlertDialog dialog = builder.create();

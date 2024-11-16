@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
+import com.example.grimoire.dialogs.DeleteConfirmDialog;
+import com.example.grimoire.interfaces.CharacterInteractionListener;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
@@ -23,17 +25,11 @@ import java.util.ArrayList;
 
 public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewInterface {
 
-    public interface CharacterInteractionListener {
-        void onCharacterClick(int position);
-        void onCharacterLongClick(int position);
-    }
-
     private CharacterInteractionListener characterInteractionListener;
 
     private ArrayList<CharacterModel> allCharacterModels;
 
-    public static ChangeCharacter_Fragment newInstance(
-                                                       CharacterInteractionListener listener) {
+    public static ChangeCharacter_Fragment newInstance(CharacterInteractionListener listener) {
         ChangeCharacter_Fragment fragment = new ChangeCharacter_Fragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -48,7 +44,6 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
         ArrayList<CasterClassModel> allClasses;
 
         try (DatabaseHelper dbHelper = new DatabaseHelper(getContext())) {
-
             allCharacterModels = dbHelper.getAllCharacters();
             allClasses = dbHelper.getAllClasses();
         }
@@ -73,11 +68,26 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
     @Override
     public void onItemLongClick(int position) {
         if (characterInteractionListener != null) {
-            if (position >= 0 && position < allCharacterModels.size() && allCharacterModels.size() > 1) {
-                int characterId = allCharacterModels.get(position).getId();
-                characterInteractionListener.onCharacterLongClick(characterId);
-                Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
-            } else {
+            if (position >= 0 && position < allCharacterModels.size() && allCharacterModels.size() > 1){
+                CharacterModel characterModel = allCharacterModels.get(position);
+
+
+                DeleteConfirmDialog dialog = new DeleteConfirmDialog(getContext(), characterModel.getName(), false, confirmed -> {
+                    if (confirmed) {
+                        int characterId = allCharacterModels.get(position).getId();
+                        characterInteractionListener.onCharacterLongClick(characterId);
+                        Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.show();
+            }
+                /*if () {
+                    int characterId = allCharacterModels.get(position).getId();
+                    characterInteractionListener.onCharacterLongClick(characterId);
+                    Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
+                }*/
+            else {
                 Toast.makeText(getContext(), "Cannot delete your only character", Toast.LENGTH_SHORT).show();
             }
         }
