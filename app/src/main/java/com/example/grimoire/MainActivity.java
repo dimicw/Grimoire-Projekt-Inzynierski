@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private int currentCharacterId;
 
-    // views and layouts
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TextView headerName, headerClass;
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Initialize SQLite Database Helper
         dbHelper = new DatabaseHelper(this);
         if ( dbHelper.getAllCharacters().size() == 0
                 || dbHelper.getAllSpells().size() == 0
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements
         View headerView;
         ActionBarDrawerToggle toggle;
 
-        // Set up toolbar and navbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -81,13 +79,11 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Find navigation bar header
         headerView = navigationView.getHeaderView(0);
         headerName = headerView.findViewById(R.id.header_name);
         headerClass = headerView.findViewById(R.id.header_class);
         headerImage = headerView.findViewById(R.id.header_image);
 
-        // Open app on browsing spells
         if(savedInstanceState == null) {
             changeCharacter(dbHelper.getAllCharacters().get(0).getId());
             openBrowseSpells(false , false);

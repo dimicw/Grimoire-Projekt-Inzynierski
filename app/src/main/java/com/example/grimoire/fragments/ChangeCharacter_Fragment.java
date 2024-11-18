@@ -71,7 +71,6 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
             if (position >= 0 && position < allCharacterModels.size() && allCharacterModels.size() > 1){
                 CharacterModel characterModel = allCharacterModels.get(position);
 
-
                 DeleteConfirmDialog dialog = new DeleteConfirmDialog(getContext(), characterModel.getName(), false, confirmed -> {
                     if (confirmed) {
                         int characterId = allCharacterModels.get(position).getId();
@@ -81,15 +80,8 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
                 });
 
                 dialog.show();
-            }
-                /*if () {
-                    int characterId = allCharacterModels.get(position).getId();
-                    characterInteractionListener.onCharacterLongClick(characterId);
-                    Toast.makeText(getContext(), "Character removed", Toast.LENGTH_SHORT).show();
-                }*/
-            else {
+            } else
                 Toast.makeText(getContext(), "Cannot delete your only character", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

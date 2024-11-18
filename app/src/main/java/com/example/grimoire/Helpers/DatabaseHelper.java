@@ -185,18 +185,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         SQLiteDatabase grimoireDb = null;
         SQLiteDatabase sourceDatabase = null;
         try {
-            // Open the source database
             assert context != null;
             String sourceDBPath = context.getDatabasePath(SOURCE_DATABASE).getPath();
             sourceDatabase = SQLiteDatabase.openDatabase(sourceDBPath, null, SQLiteDatabase.OPEN_READONLY);
 
-            // Open the destination database
             grimoireDb = this.getWritableDatabase();
 
-            // Attach the source database to the destination database
             grimoireDb.execSQL("ATTACH DATABASE '" + sourceDBPath + "' AS sourceDb");
 
-            // Copy data from sourceDb to the destination database
             grimoireDb.beginTransaction();
             grimoireDb.execSQL("INSERT INTO spells SELECT * FROM sourceDb.spells");
             grimoireDb.execSQL("INSERT INTO schools SELECT * FROM sourceDb.schools");
@@ -207,7 +203,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             grimoireDb.setTransactionSuccessful();
             grimoireDb.endTransaction();
 
-            // Detach the source database
             grimoireDb.execSQL("DETACH DATABASE sourceDb");
 
             Log.d("DatabaseHelper", "Database content copied successfully");
@@ -247,7 +242,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     @SuppressLint("Range")
     public ArrayList<SpellModel> getAllSpells() {
         ArrayList<SpellModel> spellModelList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_SPELLS;
+        String selectQuery = "SELECT * FROM " + TABLE_SPELLS +
+                " ORDER BY " + COLUMN_SPELLS_LEVEL + ", " + COLUMN_SPELLS_NAME + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -283,7 +279,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         String selectQuery = "SELECT s.* FROM " + TABLE_SPELLS + " s " +
                 "INNER JOIN " + TABLE_CHOSEN_SPELLS + " cs " +
                 "ON s." + COLUMN_SPELLS_ID +" = cs." + COLUMN_CHOSEN_SPELL_ID +
-                " WHERE cs." + COLUMN_CHOSEN_CHARACTER_ID + " = ?";
+                " WHERE cs." + COLUMN_CHOSEN_CHARACTER_ID + " = ?" +
+                " ORDER BY " + COLUMN_SPELLS_LEVEL + ", " + COLUMN_SPELLS_NAME + " ASC";;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(characterId)});
 
@@ -322,7 +319,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 " FROM " + TABLE_SPELLS + " s" +
                 " JOIN " + TABLE_CLASS_AVAILABILITIES + " ca" +
                 " ON s." + COLUMN_SPELLS_ID + " = ca." + COLUMN_AVAILABILITIES_SPELL_ID +
-                " WHERE ca." + COLUMN_AVAILABILITIES_CLASS_ID + " = ?";
+                " WHERE ca." + COLUMN_AVAILABILITIES_CLASS_ID + " = ?" +
+                " ORDER BY " + COLUMN_SPELLS_LEVEL + ", " + COLUMN_SPELLS_NAME + " ASC";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(classId)});
         if (cursor.moveToFirst()) {
             do {
@@ -529,11 +527,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         try {
             db.beginTransaction();
 
-            // Delete character's spellbook from chosen_spells table
             db.delete(TABLE_CHOSEN_SPELLS, COLUMN_CHOSEN_CHARACTER_ID + " = ?",
                     new String[]{String.valueOf(characterId)});
 
-            // Delete character from characters table
             db.delete(TABLE_CHARACTERS, COLUMN_CHARACTERS_ID + " = ?",
                     new String[]{String.valueOf(characterId)});
 
