@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.activities.SpellCard_Activity;
 import com.example.grimoire.dialogs.DeleteConfirmDialog;
+import com.example.grimoire.dialogs.HelpDialog;
 import com.example.grimoire.interfaces.CharacterInteractionListener;
 import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.CasterClassModel;
@@ -88,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements
             changeCharacter(dbHelper.getAllCharacters().get(0).getId());
             openBrowseSpells(false , false);
         }
+
+        ImageButton buttonHelp = navigationView.findViewById(R.id.fabHelp);
+
+        buttonHelp.setOnClickListener(v -> {
+            HelpDialog helpDialog = new HelpDialog(this);
+            helpDialog.show();
+        });
     }
 
 

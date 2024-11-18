@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.License_Activity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/legal_information"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wotc_name"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/wotc_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wotc_license"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icons_source"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/cc3_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cc3_license"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="24dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

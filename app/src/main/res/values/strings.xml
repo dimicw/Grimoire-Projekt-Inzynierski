@@ -28,6 +28,45 @@
     <!-- informative -->
     <string name="empty_browse">Your spells will be displayed here, \nadd some using \"Add spell\" section</string>
 
+    <string name="guide_label">Quick Guide:</string>
+    <string name="info_label_adding_spells">How to add spells to spellbook:</string>
+    <string name="info_description_adding_spells">Go to the \"Add spell\" tab and choose a spell available for your current character\'s class or go to the \"Add non-class spell\" tab to add any spell available in the app.</string>
+    <string name="info_label_deleting_spells">How to delete spells from spellbook:</string>
+    <string name="info_description_deleting_spells">Go to \"Browse prepared spells\" and long press on a spell you want to delete.</string>
+    <string name="info_label_filtering_spells">How to filter spells:</string>
+    <string name="info_description_filtering_spells">Click on a search button at the bottom right corner of any browsing tab, then type in the search bar at the top what spell are you looking for.\nFor advanced filtering click the second button that appears above the previous search button, then choose your preferences and click apply.</string>
+    <string name="info_label_creating_new_character">How to create a new character:</string>
+    <string name="info_description_creating_new_character">Go to the \"Create new character\" tab, then enter your desired name and choose their class from the list, then press \"Save\" to accept.</string>
+    <string name="info_label_switch_character">How to switch active character:</string>
+    <string name="info_description_switch_character">To change active character go to the \"Switch character\" tab, then choose the desired character from the list.</string>
+    <string name="info_label_deleting_character">How to delete a character:</string>
+    <string name="info_description_deleting_character">To delete a character just long press a character you\'d like to delete in the \"Switch character\" tab.</string>
+    <string name="info_label_preview_spell">How to preview a spell before adding:</string>
+    <string name="info_description_preview_spell">To preview a spell during adding just long press on a spell you\'d like to see all the details of.</string>
+
+    <string name="legal_information">Legal Information:</string>
+    <string name="license_link"><u>To see license information click here.</u></string>
+
+    <string name="wotc_name">Wizards of the Coast LLC:</string>
+    <string name="icons_source">Icons:</string>
+    <string name="wotc_license"><![CDATA[This work includes material taken from the System Reference Document 5.1 (“SRD 5.1”) by Wizards of the Coast LLC and available at <a href="https://dnd.wizards.com/resources/systems-reference-document">https://dnd.wizards.com/resources/systems-reference-document</a>. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License available at <a href="https://creativecommons.org/licenses/by/4.0/legalcode">https://creativecommons.org/licenses/by/4.0/legalcode</a>.]]></string>
+    <string name="cc3_license"><![CDATA[This work contains images licensed under a Creative Commons Attribution 3.0 Unported License. To view a copy of this license, visit <a href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a> or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA. <br/><br/>
+        The list of images is as following: <br/>
+        - "Spell book icon" by Delapouite: <a href="https://game-icons.net/1x1/delapouite/spell-book.html">https://game-icons.net/1x1/delapouite/spell-book.html</a><br/>
+        - "Lyre icon" by Lorc: <a href="https://game-icons.net/1x1/lorc/lyre.html">https://game-icons.net/1x1/lorc/lyre.html</a><br/>
+        - "Holy Grail icon" by Lorc: <a href="https://game-icons.net/1x1/lorc/holy-grail.html">https://game-icons.net/1x1/lorc/holy-grail.html</a><br/>
+        - "Oak leaf icon" by Delapouite: <a href="https://game-icons.net/1x1/delapouite/oak-leaf.html">https://game-icons.net/1x1/delapouite/oak-leaf.html</a><br/>
+        - "Gauntlet icon" by Delapouite: <a href="https://game-icons.net/1x1/delapouite/gauntlet.html">https://game-icons.net/1x1/delapouite/gauntlet.html</a><br/>
+        - "Quiver icon" by Delapouite: <a href="https://game-icons.net/1x1/delapouite/quiver.html">https://game-icons.net/1x1/delapouite/quiver.html</a><br/>
+        - "Rolling energy icon" by Lorc: <a href="https://game-icons.net/1x1/lorc/rolling-energy.html">https://game-icons.net/1x1/lorc/rolling-energy.html</a><br/>
+        - "Moon Claws icon" by Lorc: <a href="https://game-icons.net/1x1/lorc/moon-claws.html">https://game-icons.net/1x1/lorc/moon-claws.html</a><br/>
+        - "Pointy hat icon" by Lorc: <a href="https://game-icons.net/1x1/lorc/pointy-hat.html">https://game-icons.net/1x1/lorc/pointy-hat.html</a><br/>
+        - "Secret book icon" by Delapouite: <a href="https://game-icons.net/1x1/delapouite/secret-book.html">https://game-icons.net/1x1/delapouite/secret-book.html</a>
+        ]]></string>
+
+    <string name="ok_button">OK</string>
+
+
     <!-- navigation bar -->
     <string name="browse_spells_button">Browse prepared spells</string>
     <string name="add_spell_button">Add spell to spellbook</string>
@@ -66,4 +105,4 @@
     <string name="level_9_tag">9th-level</string>
 
     <string name="apply_filters_button">Apply</string>
-</resources>
+    </resources>

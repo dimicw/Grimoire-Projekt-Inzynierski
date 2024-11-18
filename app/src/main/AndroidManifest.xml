@@ -16,6 +16,9 @@
             android:name="com.example.grimoire.activities.SpellCard_Activity"
             android:exported="false" />
         <activity
+            android:name="com.example.grimoire.activities.License_Activity"
+            android:exported="false" />
+        <activity
             android:name="com.example.grimoire.MainActivity"
             android:exported="true">
             <intent-filter>
