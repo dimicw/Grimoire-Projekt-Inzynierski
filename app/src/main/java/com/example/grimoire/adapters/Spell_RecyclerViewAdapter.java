@@ -44,7 +44,7 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     @Override
     public Spell_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.spell_recycler_view_row, parent, false);
+        View view = inflater.inflate(R.layout.recycler_view_row_spell, parent, false);
 
         return new Spell_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }

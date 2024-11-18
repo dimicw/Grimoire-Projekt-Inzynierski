@@ -99,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/class_icon___wizard"
+                app:srcCompat="@drawable/class_icon_wizard"
                 android:contentDescription="@string/class_image"/>
 
             <TextView

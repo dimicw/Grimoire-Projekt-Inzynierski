@@ -40,7 +40,7 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
     @Override
     public Character_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.character_recycler_view_row, parent, false);
+        View view = inflater.inflate(R.layout.recycler_view_row_character, parent, false);
 
         return new Character_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }

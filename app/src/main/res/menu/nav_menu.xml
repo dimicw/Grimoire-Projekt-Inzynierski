@@ -7,27 +7,27 @@
         android:checkableBehavior="single">
 
         <item android:id="@+id/nav_browse_spells"
-            android:icon="@drawable/baseline_menu_book_24"
+            android:icon="@drawable/menu_icon_browse_prepared_spells"
             android:title="@string/browse_spells_button"/>
 
         <item android:id="@+id/nav_add_spell"
-            android:icon="@drawable/baseline_draw_24"
+            android:icon="@drawable/menu_icon_add_spell_to_spellbook"
             android:title="@string/add_spell_button"/>
 
         <item android:id="@+id/nav_add_character"
-            android:icon="@drawable/baseline_person_add_alt_1_24"
+            android:icon="@drawable/menu_icon_create_new_character"
             android:title="@string/add_character_button"/>
 
         <item android:id="@+id/nav_switch_character"
-            android:icon="@drawable/baseline_supervisor_account_24"
+            android:icon="@drawable/menu_icon_switch_character"
             android:title="@string/switch_character_button"/>
 
         <item android:id="@+id/nav_add_nonclass_spell"
-            android:icon="@drawable/baseline_tips_and_updates_24"
+            android:icon="@drawable/menu_icon_add_nonclass_spell"
             android:title="@string/add_nonclass_spell_button"/>
 
         <item android:id="@+id/nav_browse_all_spells"
-            android:icon="@drawable/baseline_storage_24"
+            android:icon="@drawable/menu_icon_browse_all_spells"
             android:title="@string/browse_all_spells_button"/>
 
     </group>

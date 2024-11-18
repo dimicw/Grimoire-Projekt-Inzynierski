@@ -35,21 +35,21 @@ public class CasterClassModel implements Serializable {
     public int getClassImage () {
         switch (name.toLowerCase()) {
             case "bard":
-                return R.drawable.class_icon___bard;
+                return R.drawable.class_icon_bard;
             case "cleric":
-                return R.drawable.class_icon___cleric;
+                return R.drawable.class_icon_cleric;
             case "druid":
-                return R.drawable.class_icon___druid;
+                return R.drawable.class_icon_druid;
             case "paladin":
-                return R.drawable.class_icon___paladin;
+                return R.drawable.class_icon_paladin;
             case "ranger":
-                return R.drawable.class_icon___ranger;
+                return R.drawable.class_icon_ranger;
             case "sorcerer":
-                return R.drawable.class_icon___sorcerer;
+                return R.drawable.class_icon_sorcerer;
             case "warlock":
-                return R.drawable.class_icon___warlock;
+                return R.drawable.class_icon_warlock;
             case "wizard":
-                return R.drawable.class_icon___wizard;
+                return R.drawable.class_icon_wizard;
             default:
                 return R.drawable.spell_book;
         }
