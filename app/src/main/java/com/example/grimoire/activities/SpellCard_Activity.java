@@ -76,6 +76,12 @@ public class SpellCard_Activity extends AppCompatActivity {
                     tvDuration.append(" " + spellModel.getDuration());
                     tvDescription.append(spellModel.getDescription());
 
+                    String atHigherLevels = spellModel.getAtHigherLevels();
+                    if (atHigherLevels != null) {
+                        String higherLevelsLabel = (spellModel.getLevel() == 0) ? "\n\n" : "\n\nAt Higher Levels: ";
+                        tvDescription.append(higherLevelsLabel + atHigherLevels);
+                    }
+
                     if (spellModel.isV()) {
                         tvComponents.append(" V");
                         if (spellModel.isS() || spellModel.isM())

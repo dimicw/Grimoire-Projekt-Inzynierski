@@ -19,10 +19,11 @@ public class SpellModel implements Serializable {
     private String duration;
     private boolean concentration;
     private String description;
+    private String atHigherLevels;
 
     public SpellModel(String name, int level, int schoolId, String castingTime,
                       boolean ritual, String range, String components, boolean v, boolean s, boolean m,
-                      String duration, boolean concentration, String description) {
+                      String duration, boolean concentration, String description, String atHigherLevels) {
         this.name = name;
         this.level = level;
         this.schoolId = schoolId;
@@ -36,6 +37,7 @@ public class SpellModel implements Serializable {
         this.duration = duration;
         this.concentration = concentration;
         this.description = description;
+        this.atHigherLevels = atHigherLevels;
     }
 
     public SpellModel() {
@@ -84,6 +86,9 @@ public class SpellModel implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    public void setAtHigherLevels(String atHigherLevels) {
+        this.atHigherLevels = atHigherLevels;
+    }
 
     public int getId() {
         return id;
@@ -126,6 +131,9 @@ public class SpellModel implements Serializable {
     }
     public String getDescription() {
         return description;
+    }
+    public String getAtHigherLevels() {
+        return atHigherLevels;
     }
 
     public String getLevelAndSchool(DatabaseHelper dbHelper) {
@@ -174,6 +182,7 @@ public class SpellModel implements Serializable {
                 ", duration='" + duration + '\'' +
                 ", concentration=" + concentration +
                 ", description='" + description + '\'' +
+                ", atHigherLevels='" + atHigherLevels + '\'' +
                 '}';
     }
 }

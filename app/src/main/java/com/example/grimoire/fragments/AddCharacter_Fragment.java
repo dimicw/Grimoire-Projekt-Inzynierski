@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
@@ -60,8 +61,15 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        saveButton.setOnClickListener(view1 -> saveCharacterListener.onSaveButtonListener(
-                new CharacterModel(nameField.getText().toString(), classId))); //className)));
+        saveButton.setOnClickListener(view1 -> {
+            String name = nameField.getText().toString().trim();
+            if (!name.isEmpty())
+                saveCharacterListener.onSaveButtonListener(
+                    new CharacterModel(name, classId));
+            else
+                Toast.makeText(getContext(), "Character's name cannot be empty", Toast.LENGTH_SHORT).show();
+
+        });
 
         return view;
     }

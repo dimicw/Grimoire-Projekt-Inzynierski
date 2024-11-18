@@ -28,8 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private final Context context;
     private static final String DATABASE_NAME = "grimoire.db";
-    private static final int DATABASE_VERSION = 81;
-    private static final String SOURCE_DATABASE = "sqlite4.db";
+    private static final int DATABASE_VERSION = 82;
+    private static final String SOURCE_DATABASE = "sqlite5.db";
 
 
     // table spells
@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     private static final String COLUMN_SPELLS_DURATION = "duration";
     private static final String COLUMN_SPELLS_CONCENTRATION = "concentration";
     private static final String COLUMN_SPELLS_DESCRIPTION = "description";
+    private static final String COLUMN_SPELLS_AT_HIGHER_LEVELS = "at_higher_levels";
 
 
     // table schools
@@ -105,7 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                         COLUMN_SPELLS_M + " INTEGER DEFAULT 0, " +
                         COLUMN_SPELLS_DURATION + " TEXT, " +
                         COLUMN_SPELLS_CONCENTRATION + " INTEGER DEFAULT 0, " +
-                        COLUMN_SPELLS_DESCRIPTION + " TEXT);";
+                        COLUMN_SPELLS_DESCRIPTION + " TEXT, " +
+                        COLUMN_SPELLS_AT_HIGHER_LEVELS + " TEXT);";
         db.execSQL(createSpellsTable);
 
         String createSchoolsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SCHOOLS + " (" +
@@ -266,6 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
                 spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
                 spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                spellModel.setAtHigherLevels(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_AT_HIGHER_LEVELS)));
                 spellModelList.add(spellModel);
             } while (cursor.moveToNext());
         }
@@ -301,6 +304,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
                 spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
                 spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                spellModel.setAtHigherLevels(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_AT_HIGHER_LEVELS)));
 
                 spellModelList.add(spellModel);
             } while (cursor.moveToNext());
@@ -337,6 +341,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 spellModel.setDuration(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DURATION)));
                 spellModel.setConcentration(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_CONCENTRATION)) == 1);
                 spellModel.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_DESCRIPTION)));
+                spellModel.setAtHigherLevels(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_AT_HIGHER_LEVELS)));
                 spellModels.add(spellModel);
             } while (cursor.moveToNext());
         }
