@@ -3,12 +3,12 @@
 
     <color name="primaryColor">#795548</color>
     <color name="primaryColorDark">#5D4037</color>
-    <color name="primaryColorLight">#D7CCC8</color>
+    <color name="primaryColorLight">#B69286</color>
 
-    <color name="secondaryColor">#E0FFBC</color>
-    <color name="colorAccent">#FF9800</color>
+    <color name="secondaryColor">#5D4037</color>
+    <color name="colorAccent">#f6a127</color>
 
-    <color name="backgroundColor">#DBDBDB</color>
+    <color name="backgroundColor">#FDFDF3</color>
     <color name="backgroundColorCard">#FFFCE6</color>
 
     <color name="textColorPrimary">#919191</color>
@@ -16,6 +16,8 @@
     <color name="textColor">#212121</color>
     <color name="textMenuColor">#FFFFFF</color>
 
+    <color name="textColorChosenMenu">#5D4037</color>
+    <color name="backgroundColorChosenMenu">#FDFDF3</color>
     <color name="backgroundImage">#48AE936E</color>
 
 </resources>

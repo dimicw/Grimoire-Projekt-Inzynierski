@@ -35,10 +35,11 @@
     <string name="switch_character_button">Switch character</string>
     <string name="add_nonclass_spell_button">Add non-class spell</string>
     <string name="browse_all_spells_button">Browse all spell</string>
+    <string name="help_fab">Help</string>
 
     <!-- filtering -->
-    <string name="filter_description">Filter</string>
-    <string name="search_description">Search</string>
+    <string name="filter_fab">Filter</string>
+    <string name="search_fab">Search</string>
 
     <string name="ritual_tag">Ritual</string>
     <string name="concentration_tag">Concentration</string>

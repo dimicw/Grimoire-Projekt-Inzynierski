@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primaryColor">#3F51B5</color>
-    <color name="primaryColorDark">#303F9F</color>
-    <color name="primaryColorLight">#303F9F</color>
+    <color name="primaryColor">#432F28</color>
+    <color name="primaryColorDark">#2E1F1B</color>
+    <color name="primaryColorLight">#59473F</color>
 
-    <color name="secondaryColor">#E0FFBC</color>
-    <color name="colorAccent">#00BCD4</color>
+    <color name="secondaryColor">#4E342E</color>
+    <color name="colorAccent">#f6a127</color>
 
-    <color name="backgroundColor">#323232</color>
-    <color name="backgroundColorCard">#FFFCE6</color>
+    <color name="backgroundColor">#151515</color>
+    <color name="backgroundColorCard">#333333</color>
 
-    <color name="textColorPrimary">#919191</color>
-    <color name="textColorSecondary">#313131</color>
-    <color name="textColor">#212121</color>
-    <color name="textMenuColor">#FFFFFF</color>
+    <color name="textColorPrimary">#BCAAA4</color>
+    <color name="textColorSecondary">#3E3532</color>
+    <color name="textColor">#EDE7E3</color>
+    <color name="textMenuColor">#D6D6D6</color>
 
-    <color name="backgroundImage">#48AE936E</color>
+    <color name="textColorChosenMenu">#D6D6D6</color>
+    <color name="backgroundColorChosenMenu">#432F28</color>
+    <color name="backgroundImage">#434343</color>
 
 </resources>
-
-
-    <!--    <color name="black">#FF000000</color>-->
-    <!--    <color name="white">#FFFFFFFF</color>-->
-    <!--    <color name="transparent">#00000000</color>-->
-
-    <!--    &lt;!&ndash; dark backgrounds &ndash;&gt;-->
-    <!--    <color name="background">#FF111f28</color>-->
-    <!--    <color name="inactive_background">#FF2C414E</color>-->
-
-    <!--    &lt;!&ndash; shadowy tints &ndash;&gt;-->
-    <!--    <color name="backgroundImage">#FF1A2F3C</color>-->
-
-    <!--    &lt;!&ndash; light texts &ndash;&gt;-->
-    <!--    <color name="text">#FFE3CDB3</color>-->
-    <!--    <color name="inactive_text">#FFFFEBD4</color>-->
-    <!--    <color name="hint">#80E3CDB3</color>-->

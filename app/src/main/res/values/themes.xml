@@ -15,18 +15,24 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
 
-        <item name="cardViewStyle">@style/Grimoire.CardView</item>
+        <item name="cardViewStyle">@style/Grimoire.CardViewStyle</item>
 
     </style>
 
     <style name="Theme.Grimoire" parent="Base.Theme.Grimoire">
         <item name="cardViewStyle">@style/Grimoire.CardView</item>
+        <item name="imageButtonStyle">@style/Grimoire.ImageButton</item>
+        <item name="navigationViewStyle">@style/Grimoire.NavigationView</item>
     </style>
 
 
 
     <!-- Card views -->
-    <style name="Theme.Grimoire.CharacterCardView" parent="Theme.Grimoire">
+    <style name="Grimoire.CardViewStyle" parent="Theme.Grimoire">
+        <item name="android:tint">@color/textColor</item>
+    </style>
+
+    <style name="Theme.Grimoire.CharacterCardView" parent="Grimoire.CardViewStyle">
         <item name="cardViewStyle">@style/Grimoire.CardView.Character</item>
     </style>
 
@@ -34,8 +40,9 @@
         <item name="cardBackgroundColor">@color/backgroundColorCard</item>
     </style>
 
-    <style name="Grimoire.CardView.Character" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/secondaryColor</item>
+    <style name="Grimoire.CardView.Character" parent="Grimoire.CardView">
+        <item name="cardBackgroundColor">@color/primaryColorLight</item>
+        <item name="android:textColorSecondary">@color/textMenuColor</item>
     </style>
 
 
@@ -69,10 +76,15 @@
         <item name="android:tint">@color/textMenuColor</item>
     </style>
 
-    <style name="Grimoire.NavigationView" parent="Theme.Grimoire">
-        <item name="android:background">@color/nav_item_background_color</item>
+    <style name="Grimoire.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemBackground">@color/nav_item_background_color</item>
         <item name="itemTextColor">@color/nav_item_color</item>
         <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="android:background">@color/textMenuColor</item>
+    </style>
+
+    <style name="Grimoire.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">@color/primaryColorDark</item>
     </style>
 
 </resources>

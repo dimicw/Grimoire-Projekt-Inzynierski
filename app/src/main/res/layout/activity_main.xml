@@ -33,8 +33,18 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu"
-        android:theme="@style/Grimoire.NavigationView">
+        app:menu="@menu/nav_menu">
+
+        <ImageButton
+            android:id="@+id/fabHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/menu_icon_help"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/help_fab" />
+
 
     </com.google.android.material.navigation.NavigationView>
 
