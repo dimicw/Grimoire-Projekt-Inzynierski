@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private final Context context;
     private static final String DATABASE_NAME = "grimoire.db";
-    private static final int DATABASE_VERSION = 85;
+    private static final int DATABASE_VERSION = 86;
     private static final String SOURCE_DATABASE = "source_database.db";
 
 
