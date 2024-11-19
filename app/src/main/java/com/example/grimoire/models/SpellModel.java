@@ -161,6 +161,9 @@ public class SpellModel implements Serializable {
 
         levelAndSchool += "-level " + schoolName;
 
+        if (isRitual())
+            levelAndSchool += " (Ritual)";
+
         return levelAndSchool;
     }
 
