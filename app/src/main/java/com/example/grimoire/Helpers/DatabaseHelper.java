@@ -28,8 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private final Context context;
     private static final String DATABASE_NAME = "grimoire.db";
-    private static final int DATABASE_VERSION = 82;
-    private static final String SOURCE_DATABASE = "sqlite5.db";
+    private static final int DATABASE_VERSION = 85;
+    private static final String SOURCE_DATABASE = "source_database.db";
 
 
     // table spells
@@ -253,7 +253,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 spellModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_ID)));
                 spellModel.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_NAME)));
                 spellModel.setLevel(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_LEVEL)));
-                spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SCHOOLS_ID)));
+                spellModel.setSchoolId(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_SCHOOL_ID)));
                 spellModel.setCastingTime(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_CASTING_TIME)));
                 spellModel.setRitual(cursor.getInt(cursor.getColumnIndex(COLUMN_SPELLS_RITUAL)) == 1);
                 spellModel.setRange(cursor.getString(cursor.getColumnIndex(COLUMN_SPELLS_RANGE)));
@@ -280,7 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 "INNER JOIN " + TABLE_CHOSEN_SPELLS + " cs " +
                 "ON s." + COLUMN_SPELLS_ID +" = cs." + COLUMN_CHOSEN_SPELL_ID +
                 " WHERE cs." + COLUMN_CHOSEN_CHARACTER_ID + " = ?" +
-                " ORDER BY " + COLUMN_SPELLS_LEVEL + ", " + COLUMN_SPELLS_NAME + " ASC";;
+                " ORDER BY " + COLUMN_SPELLS_LEVEL + ", " + COLUMN_SPELLS_NAME + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(characterId)});
 
