@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.grimoire.R;
-import com.example.grimoire.activities.License_Activity;
+import com.example.grimoire.activities.LicenseActivity;
 
 public class HelpDialog {
 
@@ -32,7 +32,7 @@ public class HelpDialog {
 
         TextView textView = dialogView.findViewById(R.id.license_information);
         textView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, License_Activity.class);
+            Intent intent = new Intent(context, LicenseActivity.class);
             context.startActivity(intent);
             dialog.dismiss();
         });

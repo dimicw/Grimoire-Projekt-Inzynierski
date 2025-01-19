@@ -18,19 +18,19 @@ import com.example.grimoire.interfaces.CharacterInteractionListener;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
-import com.example.grimoire.adapters.Character_RecyclerViewAdapter;
+import com.example.grimoire.adapters.CharacterRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
 
-public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewInterface {
+public class ChangeCharacterFragment extends Fragment implements RecyclerViewInterface {
 
     private CharacterInteractionListener characterInteractionListener;
 
     private ArrayList<CharacterModel> allCharacterModels;
 
-    public static ChangeCharacter_Fragment newInstance(CharacterInteractionListener listener) {
-        ChangeCharacter_Fragment fragment = new ChangeCharacter_Fragment();
+    public static ChangeCharacterFragment newInstance(CharacterInteractionListener listener) {
+        ChangeCharacterFragment fragment = new ChangeCharacterFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.characterInteractionListener = listener;
@@ -50,7 +50,7 @@ public class ChangeCharacter_Fragment extends Fragment implements RecyclerViewIn
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
-        Character_RecyclerViewAdapter adapter = new Character_RecyclerViewAdapter(
+        CharacterRecyclerViewAdapter adapter = new CharacterRecyclerViewAdapter(
                 getContext(), allCharacterModels, allClasses, this);
 
         recyclerView.setAdapter(adapter);

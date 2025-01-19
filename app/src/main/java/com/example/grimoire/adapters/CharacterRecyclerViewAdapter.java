@@ -17,7 +17,7 @@ import com.example.grimoire.interfaces.RecyclerViewInterface;
 
 import java.util.ArrayList;
 
-public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Character_RecyclerViewAdapter.MyViewHolder> {
+public class CharacterRecyclerViewAdapter extends RecyclerView.Adapter<CharacterRecyclerViewAdapter.MyViewHolder> {
 
 
 
@@ -27,9 +27,9 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
     ArrayList<CharacterModel> allCharacterModels;
     ArrayList<CasterClassModel> allClasses;
 
-    public Character_RecyclerViewAdapter (Context context, ArrayList<CharacterModel> allCharacterModels,
-                                      ArrayList<CasterClassModel> allClasses,
-                                      RecyclerViewInterface recyclerViewInterface) {
+    public CharacterRecyclerViewAdapter(Context context, ArrayList<CharacterModel> allCharacterModels,
+                                        ArrayList<CasterClassModel> allClasses,
+                                        RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.allCharacterModels = allCharacterModels;
         this.allClasses = allClasses;
@@ -38,15 +38,15 @@ public class Character_RecyclerViewAdapter extends RecyclerView.Adapter<Characte
 
     @NonNull
     @Override
-    public Character_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CharacterRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_view_row_character, parent, false);
 
-        return new Character_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        return new CharacterRecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Character_RecyclerViewAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CharacterRecyclerViewAdapter.MyViewHolder holder, int position) {
         CasterClassModel casterClassModel = new CasterClassModel();
         int classId = allCharacterModels.get(position).getClassId();
 

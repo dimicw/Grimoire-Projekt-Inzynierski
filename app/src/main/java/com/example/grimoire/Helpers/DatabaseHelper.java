@@ -161,9 +161,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             assert databaseFolder != null;
             if (!databaseFolder.exists()) {
                 if (databaseFolder.mkdirs())
-                    Log.d("DatabaseHelper", "Directory  created successfully");
+                    Log.d("DatabaseHelper", "Directory created successfully");
                 else
-                    Log.e("DatabaseHelper", "Error creating Directory ");
+                    Log.e("DatabaseHelper", "Error creating directory");
             }
 
             OutputStream output = Files.newOutputStream(Paths.get(outFileName));
@@ -187,7 +187,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         try {
             assert context != null;
             String sourceDBPath = context.getDatabasePath(SOURCE_DATABASE).getPath();
-            sourceDatabase = SQLiteDatabase.openDatabase(sourceDBPath, null, SQLiteDatabase.OPEN_READONLY);
+            sourceDatabase = SQLiteDatabase.openDatabase(
+                    sourceDBPath,
+                    null,
+                    SQLiteDatabase.OPEN_READONLY
+            );
 
             grimoireDb = this.getWritableDatabase();
 
@@ -198,7 +202,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             grimoireDb.execSQL("INSERT INTO schools SELECT * FROM sourceDb.schools");
             grimoireDb.execSQL("INSERT INTO classes SELECT * FROM sourceDb.classes");
             grimoireDb.execSQL("INSERT INTO characters SELECT * FROM sourceDb.characters");
-            grimoireDb.execSQL("INSERT INTO class_availabilities SELECT * FROM sourceDb.class_availabilities");
+            grimoireDb.execSQL("INSERT INTO class_availabilities SELECT * " +
+                               "FROM sourceDb.class_availabilities");
             grimoireDb.execSQL("INSERT INTO chosen_spells SELECT * FROM sourceDb.chosen_spells");
             grimoireDb.setTransactionSuccessful();
             grimoireDb.endTransaction();
@@ -527,15 +532,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         try {
             db.beginTransaction();
 
-            db.delete(TABLE_CHOSEN_SPELLS, COLUMN_CHOSEN_CHARACTER_ID + " = ?",
-                    new String[]{String.valueOf(characterId)});
+            db.delete(TABLE_CHOSEN_SPELLS,
+                    COLUMN_CHOSEN_CHARACTER_ID + " = ?",
+                    new String[]{String.valueOf(characterId)
+            });
 
-            db.delete(TABLE_CHARACTERS, COLUMN_CHARACTERS_ID + " = ?",
-                    new String[]{String.valueOf(characterId)});
+            db.delete(TABLE_CHARACTERS,
+                    COLUMN_CHARACTERS_ID + " = ?",
+                    new String[]{String.valueOf(characterId)
+            });
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e("DatabaseHelper", "Error deleting character and chosen spells", e);
+            Log.e("DatabaseHelper",
+                    "Error deleting character and chosen spells", e);
         } finally {
             db.endTransaction();
             db.close();
@@ -547,7 +557,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         String query = "SELECT * FROM " + TABLE_CHOSEN_SPELLS +
                 " WHERE " + COLUMN_CHOSEN_SPELL_ID + " = ?" +
                 " AND " + COLUMN_CHOSEN_CHARACTER_ID + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(chosenSpellModel.getSpellId()), String.valueOf(chosenSpellModel.getCharacterId())});
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(chosenSpellModel.getSpellId()),
+                String.valueOf(chosenSpellModel.getCharacterId())
+        });
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         db.close();

@@ -19,7 +19,7 @@ import com.example.grimoire.dialogs.FilterDialog;
 import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.SpellModel;
 import com.example.grimoire.interfaces.RecyclerViewInterface;
-import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
+import com.example.grimoire.adapters.SpellRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
 
     private DatabaseHelper dbHelper;
 
-    private Spell_RecyclerViewAdapter adapter;
+    private SpellRecyclerViewAdapter adapter;
     private ArrayList<SpellModel> spellModels;
     private SearchView searchView;
 
@@ -74,7 +74,7 @@ public class BrowseSpellsFragment extends Fragment implements RecyclerViewInterf
             spellModels = dbHelper.getSpellsByCharacterId(characterId);
 
 
-        adapter = new Spell_RecyclerViewAdapter(
+        adapter = new SpellRecyclerViewAdapter(
                 getContext(), dbHelper, spellModels, classImage, this);
 
         recyclerView.setAdapter(adapter);

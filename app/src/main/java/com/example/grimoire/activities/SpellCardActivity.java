@@ -15,7 +15,7 @@ import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.models.SpellModel;
 
-public class SpellCard_Activity extends AppCompatActivity {
+public class SpellCardActivity extends AppCompatActivity {
 
 
 

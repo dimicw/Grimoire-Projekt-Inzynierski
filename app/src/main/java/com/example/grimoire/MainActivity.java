@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grimoire.Helpers.DatabaseHelper;
-import com.example.grimoire.activities.SpellCard_Activity;
+import com.example.grimoire.activities.SpellCardActivity;
 import com.example.grimoire.dialogs.DeleteConfirmDialog;
 import com.example.grimoire.dialogs.HelpDialog;
 import com.example.grimoire.interfaces.CharacterInteractionListener;
@@ -25,9 +25,9 @@ import com.example.grimoire.interfaces.SpellClickListener;
 import com.example.grimoire.models.CasterClassModel;
 import com.example.grimoire.models.CharacterModel;
 import com.example.grimoire.models.ChosenSpellModel;
-import com.example.grimoire.fragments.AddCharacter_Fragment;
+import com.example.grimoire.fragments.AddCharacterFragment;
 import com.example.grimoire.fragments.BrowseSpellsFragment;
-import com.example.grimoire.fragments.ChangeCharacter_Fragment;
+import com.example.grimoire.fragments.ChangeCharacterFragment;
 import com.example.grimoire.models.SpellModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         CharacterInteractionListener,
         SpellClickListener,
-        AddCharacter_Fragment.SaveCharacterListener {
+        AddCharacterFragment.SaveCharacterListener {
 
     private int currentCharacterId;
 
@@ -147,12 +147,12 @@ public class MainActivity extends AppCompatActivity implements
 
     private void openAddCharacter() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                AddCharacter_Fragment.newInstance(this)).commit();
+                AddCharacterFragment.newInstance(this)).commit();
     }
 
     private void openChangeCharacter() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                ChangeCharacter_Fragment.newInstance(this)).commit();
+                ChangeCharacterFragment.newInstance(this)).commit();
     }
 
 
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onOpenSpellCardClick(int casterClassId, SpellModel spellModel) {
-        Intent intent = new Intent(this, SpellCard_Activity.class);
+        Intent intent = new Intent(this, SpellCardActivity.class);
         Bundle bundle = new Bundle();
 
         int classImage = (casterClassId >= 0) ? dbHelper.getClassById(casterClassId).getClassImage() : R.drawable.spell_book;
@@ -206,11 +206,14 @@ public class MainActivity extends AppCompatActivity implements
     public void onDeleteSpellClick(SpellModel spellModel) {
         String name = spellModel.getName();
 
-        DeleteConfirmDialog dialog = new DeleteConfirmDialog(this, name, true, confirmed -> {
+        DeleteConfirmDialog dialog = new DeleteConfirmDialog(
+                                    this, name, true, confirmed -> {
             if (confirmed) {
                 dbHelper.removeChosenSpell(currentCharacterId, spellModel.getId());
                 openBrowseSpells(false, false);
-                Toast.makeText(this, "Spell '" + name + "' removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Spell '" + name + "' removed",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

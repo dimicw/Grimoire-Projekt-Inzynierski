@@ -9,7 +9,7 @@ import androidx.core.text.HtmlCompat;
 
 import com.example.grimoire.R;
 
-public class License_Activity extends AppCompatActivity {
+public class LicenseActivity extends AppCompatActivity {
 
 
     @Override

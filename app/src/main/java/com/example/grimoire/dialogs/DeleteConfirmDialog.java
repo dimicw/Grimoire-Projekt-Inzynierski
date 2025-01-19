@@ -10,7 +10,8 @@ public class DeleteConfirmDialog {
     private final Context context;
     private final OnDeleteConfirmListener listener;
 
-    public DeleteConfirmDialog(Context context, String name, boolean isSpell, OnDeleteConfirmListener listener) {
+    public DeleteConfirmDialog(Context context, String name, boolean isSpell,
+                               OnDeleteConfirmListener listener) {
         this.context = context;
         this.title = "Delete " + ((isSpell) ? "Spell" : "Character");
         this.question = "Are you sure you want to delete the " +

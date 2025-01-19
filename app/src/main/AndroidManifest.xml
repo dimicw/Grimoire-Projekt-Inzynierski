@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Grimoire"
         tools:targetApi="31">
         <activity
-            android:name="com.example.grimoire.activities.SpellCard_Activity"
+            android:name="com.example.grimoire.activities.SpellCardActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.grimoire.activities.License_Activity"
+            android:name="com.example.grimoire.activities.LicenseActivity"
             android:exported="false" />
         <activity
             android:name="com.example.grimoire.MainActivity"

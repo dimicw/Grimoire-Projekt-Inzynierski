@@ -18,7 +18,7 @@ import com.example.grimoire.interfaces.RecyclerViewInterface;
 
 import java.util.ArrayList;
 
-public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_RecyclerViewAdapter.MyViewHolder> {
+public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecyclerViewAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
 
     private final Context context;
@@ -28,9 +28,9 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
     private final int classImage;
     private final DatabaseHelper dbHelper;
 
-    public Spell_RecyclerViewAdapter (Context context, DatabaseHelper dbHelper,
-                                      ArrayList<SpellModel> spellModels, int classImage,
-                                      RecyclerViewInterface recyclerViewInterface) {
+    public SpellRecyclerViewAdapter(Context context, DatabaseHelper dbHelper,
+                                    ArrayList<SpellModel> spellModels, int classImage,
+                                    RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.dbHelper = dbHelper;
         this.spellModels = spellModels;
@@ -42,15 +42,15 @@ public class Spell_RecyclerViewAdapter extends RecyclerView.Adapter<Spell_Recycl
 
     @NonNull
     @Override
-    public Spell_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SpellRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_view_row_spell, parent, false);
 
-        return new Spell_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        return new SpellRecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Spell_RecyclerViewAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SpellRecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.tvName.setText(spellModels.get(position).getName());
         holder.tvLevelAndSchool.setText(spellModels.get(position).getLevelAndSchool(dbHelper));
         holder.imageView.setImageResource(classImage);

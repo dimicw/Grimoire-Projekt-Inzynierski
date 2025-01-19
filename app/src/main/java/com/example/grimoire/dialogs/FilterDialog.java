@@ -18,7 +18,7 @@ import android.widget.SearchView;
 import com.example.grimoire.Helpers.DatabaseHelper;
 import com.example.grimoire.R;
 import com.example.grimoire.models.SchoolModel;
-import com.example.grimoire.adapters.Spell_RecyclerViewAdapter;
+import com.example.grimoire.adapters.SpellRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class FilterDialog {
 
     private final Context context;
     private final DatabaseHelper dbHelper;
-    private final Spell_RecyclerViewAdapter adapter;
+    private final SpellRecyclerViewAdapter adapter;
     private final SearchView searchView;
     private AlertDialog dialog;
 
@@ -42,7 +42,7 @@ public class FilterDialog {
 
     CheckBox[] checkBoxes;
 
-    public FilterDialog(Context context, DatabaseHelper dbHelper, Spell_RecyclerViewAdapter adapter, SearchView searchView) {
+    public FilterDialog(Context context, DatabaseHelper dbHelper, SpellRecyclerViewAdapter adapter, SearchView searchView) {
         this.context = context;
         this.dbHelper = dbHelper;
         this.adapter = adapter;

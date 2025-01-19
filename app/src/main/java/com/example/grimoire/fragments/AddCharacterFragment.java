@@ -21,7 +21,7 @@ import com.example.grimoire.models.CharacterModel;
 import java.util.ArrayList;
 
 
-public class AddCharacter_Fragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class AddCharacterFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public interface SaveCharacterListener {
         void onSaveButtonListener(CharacterModel characterModel);
@@ -35,8 +35,8 @@ public class AddCharacter_Fragment extends Fragment implements AdapterView.OnIte
 
     private int classId;
 
-    public static AddCharacter_Fragment newInstance(SaveCharacterListener listener) {
-        AddCharacter_Fragment fragment = new AddCharacter_Fragment();
+    public static AddCharacterFragment newInstance(SaveCharacterListener listener) {
+        AddCharacterFragment fragment = new AddCharacterFragment();
         fragment.saveCharacterListener = listener;
         return fragment;
     }
